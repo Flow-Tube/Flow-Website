@@ -1,0 +1,42 @@
+name: Update Stats
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Runs every hour
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Fetch Stats
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          STARS=$(gh api repos/A-EDev/Flow --jq .stargazers_count)
+          FORKS=$(gh api repos/A-EDev/Flow --jq .forks_count)
+          ISSUES=$(gh api repos/A-EDev/Flow --jq .open_issues_count)
+          WATCHERS=$(gh api repos/A-EDev/Flow --jq .subscribers_count)
+          # Count contributors using pagination
+          CONTRIBUTORS=$(gh api repos/A-EDev/Flow/contributors --paginate --jq length | awk '{s+=$1} END {print s}')
+          
+          # Create JSON content
+          echo "{ \"stars\": $STARS, \"forks\": $FORKS, \"issues\": $ISSUES, \"watchers\": $WATCHERS, \"contributors\": $CONTRIBUTORS }" > public/stats.json
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          
+          # Check if there are changes
+          if [[ -n $(git status -s public/stats.json) ]]; then
+            git add public/stats.json
+            git commit -m "Update stats [skip ci]"
+            git push
+          else
+            echo "No changes to stats"
+          fi
