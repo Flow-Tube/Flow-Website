@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Download, Github } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 
 const navItems = [
+    { label: 'Inside Flow', href: '/inside-flow', isRoute: true },
     { label: 'Features', href: '#features' },
     { label: 'How it Works', href: '#neuro-engine' },
     { label: 'Privacy', href: '#privacy' },
@@ -68,14 +70,24 @@ export function Header() {
                         {/* Desktop Navigation */}
                         <nav className="hidden md:flex items-center gap-8">
                             {navItems.map((item) => (
-                                <a
-                                    key={item.label}
-                                    href={item.href}
-                                    onClick={(e) => { e.preventDefault(); scrollToSection(item.href) }}
-                                    className="text-sm text-text-secondary hover:text-text-primary transition-colors"
-                                >
-                                    {item.label}
-                                </a>
+                                item.isRoute ? (
+                                    <Link
+                                        key={item.label}
+                                        to={item.href}
+                                        className="text-sm text-text-secondary hover:text-text-primary transition-colors"
+                                    >
+                                        {item.label}
+                                    </Link>
+                                ) : (
+                                    <a
+                                        key={item.label}
+                                        href={item.href}
+                                        onClick={(e) => { e.preventDefault(); scrollToSection(item.href) }}
+                                        className="text-sm text-text-secondary hover:text-text-primary transition-colors"
+                                    >
+                                        {item.label}
+                                    </a>
+                                )
                             ))}
                         </nav>
 
@@ -95,9 +107,9 @@ export function Header() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                            <Button variant="primary" size="sm" icon={<Download className="w-4 h-4" />}>
-                                Download
-                            </Button>
+                                <Button variant="primary" size="sm" icon={<Download className="w-4 h-4" />}>
+                                    Download
+                                </Button>
                             </a>
                         </div>
 
@@ -123,17 +135,30 @@ export function Header() {
                     >
                         <div className="flex flex-col items-center justify-center h-full gap-8">
                             {navItems.map((item, index) => (
-                                <motion.a
+                                <motion.div
                                     key={item.label}
-                                    href={item.href}
-                                    onClick={(e) => { e.preventDefault(); scrollToSection(item.href) }}
-                                    className="text-2xl font-medium text-text-primary"
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.1 }}
                                 >
-                                    {item.label}
-                                </motion.a>
+                                    {item.isRoute ? (
+                                        <Link
+                                            to={item.href}
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            className="text-2xl font-medium text-text-primary"
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    ) : (
+                                        <a
+                                            href={item.href}
+                                            onClick={(e) => { e.preventDefault(); scrollToSection(item.href) }}
+                                            className="text-2xl font-medium text-text-primary"
+                                        >
+                                            {item.label}
+                                        </a>
+                                    )}
+                                </motion.div>
                             ))}
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
@@ -141,12 +166,12 @@ export function Header() {
                                 transition={{ delay: navItems.length * 0.1 }}
                             >
                                 <a href="https://github.com/A-EDev/Flow/releases/latest"
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                 >
-                                <Button variant="primary" size="lg" icon={<Download className="w-5 h-5" />}>
-                                    Download Flow
-                                </Button>
+                                    <Button variant="primary" size="lg" icon={<Download className="w-5 h-5" />}>
+                                        Download Flow
+                                    </Button>
                                 </a>
                             </motion.div>
                         </div>

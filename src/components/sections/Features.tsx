@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-    Play,
     Music,
     Hand,
     Subtitles,
@@ -23,6 +22,32 @@ import { BentoGrid, BentoCard } from '@/components/ui/BentoGrid'
 import { TextReveal, FadeIn } from '@/components/ui/TextReveal'
 import { GlowOrb } from '@/components/effects/GlowOrb'
 import { useState } from 'react'
+import type { LucideIcon } from 'lucide-react'
+
+// --- CUSTOM ICONS ---
+
+function Shorts({ className }: { className?: string }) {
+    return (
+        <svg
+            viewBox="0 0 144 144"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={className}
+        >
+            <g transform="translate(8 8)">
+                <path
+                    d="M63.49 2.71c11.59-6.04 25.94-1.64 32.04 9.83 6.1 11.47 1.65 25.66-9.94 31.7l-9.53 5.01 c8.21.3 16.04 4.81 20.14 12.52 6.1 11.47 1.66 25.66-9.94 31.7 l-50.82 26.7c-11.59 6.04-25.94 1.64-32.04-9.83 -6.1-11.47-1.65-25.66 9.94-31.7 l9.53-5.01c-8.21-.3-16.04-4.81-20.14-12.52 -6.1-11.47-1.65-25.66 9.94-31.7 l50.82-26.7z M36.06 42.53l30.76 18.99-30.76 18.9V42.53z"
+                    stroke="currentColor"
+                    strokeWidth="8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    fill="none"
+                    fillRule="evenodd"
+                />
+            </g>
+        </svg>
+    )
+}
 
 // --- MOCK UI COMPONENTS ---
 
@@ -380,7 +405,7 @@ function PiPMockup() {
 
 const features = [
     {
-        icon: Play,
+        icon: Shorts as unknown as LucideIcon,
         title: 'Shorts-First Experience',
         description: 'Vertical swipe navigation with gesture controls — just like the real thing',
         color: 'from-red-500 to-orange-500',

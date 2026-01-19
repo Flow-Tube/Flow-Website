@@ -1,6 +1,7 @@
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { ArrowRight, Github, Download } from 'lucide-react'
+import { ArrowRight, Github, Download, Eye } from 'lucide-react'
 import { NeuralMesh } from '@/components/effects/NeuralMesh'
 import { GlowOrb } from '@/components/effects/GlowOrb'
 import { Button } from '@/components/ui/Button'
@@ -96,6 +97,16 @@ export function Hero() {
                         >
                             Explore Flow
                         </Button>
+
+                        <Link to="/inside-flow">
+                            <Button
+                                variant="secondary"
+                                size="lg"
+                                icon={<Eye className="w-5 h-5" />}
+                            >
+                                See Inside Flow
+                            </Button>
+                        </Link>
 
                         <a href="https://github.com/A-EDev/Flow/releases" target="_blank" rel="noopener noreferrer">
                             <Button
