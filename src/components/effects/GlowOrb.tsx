@@ -5,17 +5,16 @@ interface GlowOrbProps {
     className?: string
     color?: 'primary' | 'secondary' | 'light'
     size?: 'sm' | 'md' | 'lg' | 'xl'
-    blur?: number
     animate?: boolean
 }
 
-const colorMap = {
+const colorMap: Record<string, string> = {
     primary: 'from-accent-primary/25',
     secondary: 'from-accent-secondary/25',
     light: 'from-accent-glow/20',
 }
 
-const sizeMap = {
+const sizeMap: Record<string, string> = {
     sm: 'w-[300px] h-[300px]',
     md: 'w-[500px] h-[500px]',
     lg: 'w-[700px] h-[700px]',
@@ -26,7 +25,6 @@ export function GlowOrb({
     className,
     color = 'primary',
     size = 'md',
-    blur = 100,
     animate = true,
 }: GlowOrbProps) {
     const Comp = animate ? motion.div : 'div'
@@ -39,7 +37,6 @@ export function GlowOrb({
                 sizeMap[size],
                 className
             )}
-            style={{ filter: `blur(${blur}px)` }}
             {...(animate && {
                 animate: {
                     scale: [1, 1.1, 1],

@@ -11,7 +11,7 @@ export function Problem() {
         offset: ['start end', 'end start'],
     })
 
-    const blurAmount = useTransform(scrollYProgress, [0, 0.3, 0.6], [20, 5, 20])
+
     const chaosOpacity = useTransform(scrollYProgress, [0.3, 0.5], [0.8, 0.2])
 
     // Generate mock video thumbnails for the chaos effect
@@ -34,7 +34,6 @@ export function Problem() {
                 className="absolute inset-0 overflow-hidden"
                 style={{
                     opacity: chaosOpacity,
-                    filter: `blur(${blurAmount}px)`
                 }}
             >
                 <div className="absolute inset-0 bg-gradient-to-b from-bg-primary via-transparent to-bg-primary z-10" />

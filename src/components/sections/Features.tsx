@@ -160,9 +160,9 @@ function MusicPlayerMockup() {
                 {/* Progress Bar (Bottom) */}
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
                     <motion.div
-                        className="h-full bg-red-600"
-                        initial={{ width: "30%" }}
-                        whileInView={{ width: "100%" }}
+                        className="h-full bg-red-600 origin-left"
+                        initial={{ scaleX: 0.3 }}
+                        whileInView={{ scaleX: 1 }}
                         transition={{ duration: 30, ease: "linear" }}
                     />
                 </div>
@@ -233,8 +233,8 @@ function GestureMockup() {
                                     exit={{ opacity: 0 }}
                                 >
                                     <motion.div
-                                        className="absolute bottom-0 w-full bg-white"
-                                        animate={{ height: ["30%", "60%", "45%"] }}
+                                        className="absolute bottom-0 w-full bg-white origin-bottom"
+                                        animate={{ scaleY: [0.3, 0.6, 0.45] }}
                                         transition={{ duration: 2, repeat: Infinity }}
                                     />
                                 </motion.div>
@@ -266,8 +266,8 @@ function GestureMockup() {
                                     exit={{ opacity: 0 }}
                                 >
                                     <motion.div
-                                        className="absolute bottom-0 w-full bg-white"
-                                        animate={{ height: ["50%", "80%", "70%"] }}
+                                        className="absolute bottom-0 w-full bg-white origin-bottom"
+                                        animate={{ scaleY: [0.5, 0.8, 0.7] }}
                                         transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
                                     />
                                 </motion.div>
@@ -370,13 +370,11 @@ function PiPMockup() {
                     <motion.div
                         className="absolute bg-black rounded-md shadow-2xl overflow-hidden border border-white/10"
                         animate={{
-                            width: ["100%", "40%", "40%", "100%"],
-                            height: ["100%", "30%", "30%", "100%"],
-                            top: ["0px", "auto", "auto", "0px"],
-                            left: ["0px", "auto", "auto", "0px"],
-                            right: ["auto", "8px", "8px", "auto"],
-                            bottom: ["auto", "8px", "8px", "auto"],
+                            scale: [1, 0.4, 0.4, 1],
+                            x: ["0%", "75%", "75%", "0%"],
+                            y: ["0%", "115%", "115%", "0%"],
                         }}
+                        style={{ originX: 0, originY: 0 }}
                         transition={{
                             duration: 4,
                             ease: "easeInOut",
@@ -485,9 +483,9 @@ const features = [
                                 </div>
                                 <div className="h-1 bg-white/10 rounded-full overflow-hidden w-full">
                                     <motion.div
-                                        className={`h-full ${item.color} rounded-full`}
-                                        initial={{ width: 0 }}
-                                        whileInView={{ width: `${item.progress}%` }}
+                                        className={`h-full ${item.color} rounded-full origin-left`}
+                                        initial={{ scaleX: 0 }}
+                                        whileInView={{ scaleX: item.progress / 100 }}
                                         transition={{ duration: 1.5, delay: 0.2 + i * 0.2 }}
                                     />
                                 </div>

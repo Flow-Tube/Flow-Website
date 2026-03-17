@@ -100,7 +100,6 @@ export function ShowcaseSlider() {
                                 animate={{
                                     scale: isActive ? 1 : 0.85,
                                     opacity: isActive ? 1 : 0.4,
-                                    filter: isActive ? 'blur(0px)' : 'blur(4px)',
                                 }}
                                 transition={{ duration: 0.8, ease: "easeOut" }}
                             >
