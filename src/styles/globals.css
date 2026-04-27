@@ -3,31 +3,43 @@
 @tailwind utilities;
 
 /* ============================================
-   ROOT VARIABLES
+   ROOT VARIABLES (YouTube Light Theme)
    ============================================ */
 :root {
-    /* Colors - YouTube Dark Theme */
-    --bg-primary: #0f0f0f;
-    --bg-secondary: #1a1a1a;
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F9F9F9;
+    --bg-elevated: #F2F2F2;
+    --bg-card: #FFFFFF;
+
+    --accent-primary: #FF0000;
+    --accent-hover: #CC0000;
+
+    --text-primary: #0F0F0F;
+    --text-secondary: #606060;
+    --text-muted: #909090;
+
+    --border-subtle: #E5E5E5;
+
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================
+   DARK MODE VARIABLES (YouTube Dark Theme)
+   ============================================ */
+.dark {
+    --bg-primary: #0F0F0F;
+    --bg-secondary: #000000;
     --bg-elevated: #212121;
-    --bg-card: #181818;
+    --bg-card: #0F0F0F;
 
-    /* YouTube Red */
-    --accent-primary: #ff0000;
-    --accent-secondary: #cc0000;
-    --accent-glow: #ff4444;
-    --accent-light: #ff6b6b;
+    --accent-primary: #FF0000;
+    --accent-hover: #FF4444;
 
-    --text-primary: #ffffff;
-    --text-secondary: #aaaaaa;
+    --text-primary: #F1F1F1;
+    --text-secondary: #AAAAAA;
     --text-muted: #717171;
 
-    /* Effects */
-    --grain-opacity: 0.02;
-    --glow-spread: 120px;
-
-    /* Transitions */
-    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --border-subtle: #282828;
 }
 
 /* ============================================
@@ -43,14 +55,6 @@ html {
     scroll-behavior: smooth;
 }
 
-html.lenis {
-    height: auto;
-}
-
-.lenis.lenis-smooth {
-    scroll-behavior: auto;
-}
-
 body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background-color: var(--bg-primary);
@@ -58,14 +62,15 @@ body {
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* ============================================
    SELECTION STYLES
    ============================================ */
 ::selection {
-    background: var(--accent-primary);
-    color: white;
+    background: var(--text-primary);
+    color: var(--bg-primary);
 }
 
 /* ============================================
@@ -76,109 +81,25 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--bg-secondary);
+    background: var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--accent-primary);
+    background: var(--border-subtle);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-secondary);
+    background: var(--text-secondary);
 }
 
 /* ============================================
    LAYER UTILITIES
    ============================================ */
 @layer utilities {
-    .text-gradient {
-        @apply bg-clip-text text-transparent bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-glow;
-    }
-
-    .text-gradient-subtle {
-        @apply bg-clip-text text-transparent bg-gradient-to-r from-text-primary to-text-secondary;
-    }
-
     .glass {
-        @apply bg-bg-elevated/60 backdrop-blur-xl border border-white/5;
+        @apply bg-bg-card border border-border-subtle;
     }
-
-    .glass-dark {
-        @apply bg-bg-primary/80 backdrop-blur-xl border border-white/5;
-    }
-
-    .glow-box {
-        box-shadow:
-            0 0 20px rgba(99, 102, 241, 0.15),
-            0 0 40px rgba(99, 102, 241, 0.1),
-            inset 0 0 60px rgba(99, 102, 241, 0.05);
-    }
-
-    .glow-border {
-        position: relative;
-    }
-
-    .glow-border::before {
-        content: '';
-        position: absolute;
-        inset: -1px;
-        padding: 1px;
-        border-radius: inherit;
-        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary), var(--accent-glow));
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        opacity: 0.5;
-        transition: opacity 0.3s ease;
-    }
-
-    .glow-border:hover::before {
-        opacity: 1;
-    }
-}
-
-/* ============================================
-   GRAIN OVERLAY
-   ============================================ */
-.grain-overlay {
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    right: -50%;
-    bottom: -50%;
-    width: 200%;
-    height: 200%;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    opacity: var(--grain-opacity);
-    pointer-events: none;
-    z-index: 1000;
-    animation: grain 8s steps(10) infinite;
-}
-
-/* ============================================
-   NEURAL GLOW EFFECTS
-   ============================================ */
-.neural-glow {
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
-    opacity: 0.15;
-    filter: blur(100px);
-    pointer-events: none;
-}
-
-.neural-glow-secondary {
-    position: absolute;
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--accent-secondary) 0%, transparent 70%);
-    opacity: 0.1;
-    filter: blur(80px);
-    pointer-events: none;
 }
 
 /* ============================================
@@ -186,7 +107,7 @@ body {
    ============================================ */
 .section {
     position: relative;
-    min-height: 100vh;
+    padding: 6rem 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -197,54 +118,32 @@ body {
     position: relative;
     z-index: 10;
     width: 100%;
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
-}
-
-/* ============================================
-   BENTO GRID
-   ============================================ */
-.bento-grid {
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(12, 1fr);
-}
-
-.bento-item {
-    @apply glass rounded-2xl p-6 transition-all duration-500;
-    transform-style: preserve-3d;
-}
-
-.bento-item:hover {
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 /* ============================================
    BUTTON STYLES
    ============================================ */
 .btn {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold transition-all duration-200;
 }
 
 .btn-primary {
-    @apply bg-gradient-to-r from-accent-primary to-accent-secondary text-white;
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    @apply bg-accent-primary text-white;
 }
 
 .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+    @apply bg-accent-hover scale-[1.02];
 }
 
 .btn-secondary {
-    @apply glass text-text-primary;
+    @apply bg-bg-elevated text-text-primary border border-border-subtle;
 }
 
 .btn-secondary:hover {
-    @apply bg-bg-elevated/80;
-    transform: translateY(-2px);
+    @apply bg-bg-secondary border-text-secondary scale-[1.02];
 }
 
 .btn-ghost {
@@ -252,44 +151,13 @@ body {
 }
 
 /* ============================================
-   TEXT REVEAL ANIMATION
-   ============================================ */
-.text-reveal {
-    overflow: hidden;
-}
-
-.text-reveal-inner {
-    display: inline-block;
-}
-
-/* ============================================
    RESPONSIVE UTILITIES
    ============================================ */
 @media (max-width: 768px) {
+    .section {
+        padding: 4rem 0;
+    }
     .section-content {
         padding: 0 1rem;
-    }
-
-    .bento-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-}
-
-/* ============================================
-   REDUCED MOTION
-   ============================================ */
-@media (prefers-reduced-motion: reduce) {
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-
-    .grain-overlay {
-        display: none;
     }
 }

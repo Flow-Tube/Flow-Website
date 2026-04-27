@@ -14,10 +14,10 @@ interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'children' | 'ref'
 }
 
 const variantStyles = {
-    primary: 'bg-gradient-to-r from-accent-primary to-accent-secondary text-white shadow-glow-sm hover:shadow-glow-md',
-    secondary: 'glass text-text-primary hover:bg-bg-elevated/80',
-    ghost: 'text-text-secondary hover:text-text-primary hover:bg-white/5',
-    outline: 'border border-accent-primary/50 text-accent-primary hover:bg-accent-primary/10 hover:border-accent-primary',
+    primary: 'bg-accent-primary text-white hover:bg-accent-hover',
+    secondary: 'bg-bg-elevated text-text-primary border border-border-subtle hover:bg-bg-secondary hover:border-text-secondary',
+    ghost: 'text-text-secondary hover:text-text-primary hover:bg-black/5 dark:hover:bg-white/5',
+    outline: 'border border-border-subtle text-text-primary hover:border-text-primary',
 }
 
 const sizeStyles = {
@@ -42,7 +42,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
             <Component
                 ref={ref as any}
                 className={cn(
-                    'inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-300 cursor-pointer',
+                    'inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 cursor-pointer',
                     variantStyles[variant],
                     sizeStyles[size],
                     className

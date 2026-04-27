@@ -12,52 +12,52 @@ import { PhoneMockup } from './PhoneMockup'
 const slides = [
     {
         id: 'home',
-        image: '/screenshots/Home.jpeg',
+        image: '/screenshots/Home.webp',
         text: "A home feed shaped by how you actually watch."
     },
     {
         id: 'shorts',
-        image: '/screenshots/Shorts.jpeg',
+        image: '/screenshots/Shorts.webp',
         text: "Short-form content without noise or manipulation."
     },
     {
         id: 'music',
-        image: '/screenshots/Music.jpeg',
+        image: '/screenshots/Music.webp',
         text: "Music discovery that adapts to your listening patterns."
     },
     {
         id: 'subscriptions',
-        image: '/screenshots/Subscriptions.jpeg',
+        image: '/screenshots/Subscriptions.webp',
         text: "Your subscriptions, ordered by relevance — not algorithms."
     },
     {
         id: 'library',
-        image: '/screenshots/Library.jpeg',
+        image: '/screenshots/Library.webp',
         text: "Everything you save, organized around your habits."
     },
     {
         id: 'channel',
-        image: '/screenshots/Channel.jpeg',
+        image: '/screenshots/Channel.webp',
         text: "Explore creators without distractions or artificial boosts."
     },
     {
         id: 'artist',
-        image: '/screenshots/Artist.jpeg',
+        image: '/screenshots/Artist.webp',
         text: "An artist view focused on music, not metrics."
     },
     {
         id: 'videoplayer',
-        image: '/screenshots/VideoPlayer.jpeg',
+        image: '/screenshots/VideoPlayer.webp',
         text: "Full control over playback, without breaking immersion."
     },
     {
         id: 'musicplayer',
-        image: '/screenshots/MusicPlayer.jpeg',
+        image: '/screenshots/MusicPlayer.webp',
         text: "Designed for listening first — watching second."
     },
     {
         id: 'neuro',
-        image: '/screenshots/Personality.jpeg',
+        image: '/screenshots/Personality.webp',
         text: "A living profile that evolves with every interaction."
     }
 ]

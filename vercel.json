@@ -1,5 +1,5 @@
 {
-  "redirects": [
+  "maintenance_redirects": [
     {
       "source": "/((?!maintenance\\.html).*)",
       "destination": "/maintenance.html",

@@ -1,201 +1,145 @@
 import { motion } from 'framer-motion'
-import { Brain, Activity, Hash, Zap } from 'lucide-react'
+import { Brain, Lock, SlidersHorizontal, Activity } from 'lucide-react'
 import { Section } from '@/components/layout/Section'
-import { BentoGrid, BentoCard, BentoCardHeader } from '@/components/ui/BentoGrid'
-import { TextReveal, FadeIn } from '@/components/ui/TextReveal'
-import { Counter } from '@/components/ui/Counter'
-import { GlowOrb } from '@/components/effects/GlowOrb'
-
-// --- Radar Chart Component ---
-function RadarChart() {
-    return (
-        <div className="relative w-full aspect-square max-w-[300px] mx-auto flex items-center justify-center">
-            {/* Grid Circles */}
-            {[0.2, 0.4, 0.6, 0.8, 1].map((scale, i) => (
-                <div
-                    key={i}
-                    className="absolute inset-0 border border-white/5 rounded-full"
-                    style={{ transform: `scale(${scale})` }}
-                />
-            ))}
-
-            {/* Axis Lines */}
-            {[0, 60, 120, 180, 240, 300].map((deg, i) => (
-                <div
-                    key={i}
-                    className="absolute w-full h-px bg-white/5 top-1/2 left-0 origin-center"
-                    style={{ transform: `rotate(${deg}deg)` }}
-                />
-            ))}
-
-            {/* Data Polygon */}
-            <svg className="absolute inset-0 w-full h-full p-4 overflow-visible" viewBox="0 0 100 100">
-                <motion.path
-                    d="M 50 10 L 85 35 L 75 80 L 25 80 L 15 35 Z"
-                    fill="rgba(255, 0, 0, 0.2)"
-                    stroke="#FF0000"
-                    strokeWidth="2"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    whileInView={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 1.5, ease: "easeOut" }}
-                />
-
-                <motion.path
-                    d="M 50 25 L 70 45 L 60 70 L 40 70 L 30 45 Z"
-                    fill="rgba(255, 255, 255, 0.05)"
-                    stroke="rgba(255, 255, 255, 0.2)"
-                    strokeWidth="1"
-                    strokeDasharray="4 2"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    whileInView={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
-                />
-            </svg>
-
-            {/* Labels */}
-            <div className="absolute bottom-4 flex gap-4 text-[10px] text-text-muted font-medium uppercase tracking-wider">
-                <div className="flex items-center gap-1">
-                    <div className="w-2 h-2 rounded-full bg-red-600" />
-                    Current Mood
-                </div>
-                <div className="flex items-center gap-1">
-                    <div className="w-2 h-2 rounded-full bg-white/20" />
-                    Personality
-                </div>
-            </div>
-        </div>
-    )
-}
-
-// --- Bubble Chart Component ---
-function BubbleChart() {
-    const bubbles = [
-        { name: 'Open Source', size: 120, color: 'bg-red-600/20', x: '10%', y: '10%' },
-        { name: 'Trailers', size: 100, color: 'bg-red-500/20', x: '60%', y: '5%' },
-        { name: 'Gemini', size: 90, color: 'bg-red-700/20', x: '80%', y: '30%' },
-        { name: 'Tech News', size: 110, color: 'bg-red-600/10', x: '5%', y: '60%' },
-        { name: 'Gaming', size: 95, color: 'bg-red-800/20', x: '40%', y: '50%' },
-        { name: 'Lofi Girl', size: 85, color: 'bg-red-500/10', x: '75%', y: '70%' },
-        { name: 'Coding', size: 70, color: 'bg-red-900/20', x: '25%', y: '35%' },
-        { name: 'Music', size: 80, color: 'bg-red-600/15', x: '55%', y: '80%' },
-    ]
-
-    return (
-        <div className="relative h-full w-full min-h-[300px] mt-4 overflow-hidden rounded-xl bg-gradient-to-br from-neutral-900/50 to-neutral-900/10">
-            {bubbles.map((bubble, i) => (
-                <motion.div
-                    key={i}
-                    className={`absolute rounded-full ${bubble.color} flex items-center justify-center text-xs font-medium text-white/90 shadow-lg backdrop-blur-sm border border-white/5 cursor-pointer hover:bg-red-500/30 transition-colors`}
-                    style={{
-                        width: bubble.size,
-                        height: bubble.size,
-                        left: bubble.x,
-                        top: bubble.y,
-                    }}
-                    initial={{ scale: 0, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    whileHover={{ scale: 1.1 }}
-                    drag
-                    dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-                    transition={{
-                        type: "spring",
-                        damping: 15,
-                        stiffness: 100,
-                        delay: i * 0.05
-                    }}
-                >
-                    {bubble.name}
-                </motion.div>
-            ))}
-        </div>
-    )
-}
+import { FadeIn } from '@/components/ui/TextReveal'
 
 export function NeuroEngine() {
     return (
-        <Section id="neuro-engine" className="py-32 relative">
-            <GlowOrb
-                className="absolute top-1/3 left-1/4 -translate-x-1/2"
-                color="primary"
-                size="lg"
-            />
-
-            <div className="section-content">
-                {/* Section Header */}
-                <div className="text-center mb-16">
-                    <FadeIn>
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm text-accent-primary mb-6">
-                            <Brain className="w-4 h-4" />
-                            <span>Algorithm Tuning & Visualization</span>
-                        </div>
-                    </FadeIn>
-
-                    <h2 className="text-display font-bold mb-6">
-                        <TextReveal staggerWords>
-                            The Flow Engine
-                        </TextReveal>
-                    </h2>
-
-                    <FadeIn delay={0.3}>
-                        <p className="text-xl text-text-secondary max-w-2xl mx-auto">
-                            Visualize how Flow learns your preferences in real-time.
+        <Section id="neuro-engine" className="py-24 md:py-32 bg-bg-primary overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-accent-primary/5 via-bg-primary to-bg-primary pointer-events-none"></div>
+            
+            <div className="section-content relative z-10 max-w-6xl mx-auto">
+                <FadeIn>
+                    <div className="flex flex-col items-center text-center mb-20 md:mb-32">
+                        
+                        <h2 className="text-5xl md:text-6xl font-bold text-text-primary mb-6 tracking-tight">
+                            Intelligence without compromise.
+                        </h2>
+                        <p className="text-xl text-text-secondary max-w-3xl leading-relaxed">
+                            A recommendation algorithm that runs entirely on your device. 
+                            It learns your preferences without ever transmitting your data to a cloud server. 
+                            You have total control over what it knows and why it recommends what it does.
                         </p>
-                    </FadeIn>
-                </div>
+                    </div>
+                </FadeIn>
 
-                {/* Main Dashboard Grid */}
-                <BentoGrid className="grid-cols-12 gap-8">
+                <FadeIn delay={0.2}>
+                    <div className="bg-bg-card border border-border-subtle rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl relative">
+                        {/* Subtle background glow */}
+                        <div className="absolute top-0 right-0 w-96 h-96 bg-accent-primary/10 rounded-full blur-[100px] pointer-events-none transform translate-x-1/2 -translate-y-1/2"></div>
+                        
+                        <div className="flex flex-col lg:flex-row">
+                            {/* Text Content */}
+                            <div className="lg:w-5/12 p-10 md:p-16 lg:p-20 flex flex-col justify-center relative z-10 border-b lg:border-b-0 lg:border-r border-border-subtle bg-bg-card/50 backdrop-blur-sm">
+                                <h3 className="text-3xl font-bold text-text-primary mb-10 tracking-tight">
+                                    Algorithm Dashboard
+                                </h3>
+                                
+                                <div className="space-y-10 relative">
+                                    {/* Vertical connecting line */}
+                                    <div className="absolute left-6 top-10 bottom-10 w-px bg-gradient-to-b from-accent-primary via-border-subtle to-transparent hidden md:block"></div>
+                                    
+                                    <div className="flex items-start gap-6 relative">
+                                        <div className="w-12 h-12 rounded-2xl bg-bg-elevated border border-accent-primary/30 flex items-center justify-center flex-shrink-0 shadow-lg shadow-accent-primary/10 relative z-10">
+                                            <Brain className="w-6 h-6 text-accent-primary" />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xl font-semibold text-text-primary mb-2">Local Learning</h4>
+                                            <p className="text-text-secondary leading-relaxed">Analyzes your watch behavior locally to build a unique personality profile, breaking you out of algorithmic loops.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="flex items-start gap-6 relative">
+                                        <div className="w-12 h-12 rounded-2xl bg-bg-elevated border border-border-subtle flex items-center justify-center flex-shrink-0 relative z-10 transition-colors hover:border-accent-primary/50 group">
+                                            <SlidersHorizontal className="w-6 h-6 text-text-secondary group-hover:text-text-primary transition-colors" />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xl font-semibold text-text-primary mb-2">Inspect & Adjust</h4>
+                                            <p className="text-text-secondary leading-relaxed">See exactly what topics the algorithm associates with you. Manually adjust their weights or remove them entirely.</p>
+                                        </div>
+                                    </div>
 
-                    {/* Top Stats */}
-                    <BentoCard colSpan={12} delay={0.1} className="!p-0 overflow-hidden bg-transparent border-none shadow-none">
-                        <div className="grid grid-cols-3 gap-4">
-                            <div className="glass p-6 rounded-2xl flex flex-col items-center">
-                                <div className="text-4xl font-bold text-red-500 mb-1">
-                                    <Counter from={0} to={80} duration={2} />
-                                </div>
-                                <div className="text-sm text-text-muted flex items-center gap-2">
-                                    <Activity className="w-3 h-3" /> Interactions
+                                    <div className="flex items-start gap-6 relative">
+                                        <div className="w-12 h-12 rounded-2xl bg-bg-elevated border border-border-subtle flex items-center justify-center flex-shrink-0 relative z-10 transition-colors hover:border-accent-primary/50 group">
+                                            <Lock className="w-6 h-6 text-text-secondary group-hover:text-text-primary transition-colors" />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-xl font-semibold text-text-primary mb-2">Data Portability</h4>
+                                            <p className="text-text-secondary leading-relaxed">Your data belongs to you. Export your entire recommendation profile or wipe it clean at any time with a single tap.</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="glass p-6 rounded-2xl flex flex-col items-center">
-                                <div className="text-4xl font-bold text-text-primary mb-1">
-                                    <Counter from={0} to={88} duration={2} delay={0.2} />
-                                </div>
-                                <div className="text-sm text-text-muted flex items-center gap-2">
-                                    <Hash className="w-3 h-3" /> Topics
-                                </div>
-                            </div>
-                            <div className="glass p-6 rounded-2xl flex flex-col items-center">
-                                <div className="text-4xl font-bold text-pink-300 mb-1">
-                                    <Counter from={0} to={0.43} decimals={2} duration={2} delay={0.4} />
-                                </div>
-                                <div className="text-sm text-text-muted flex items-center gap-2">
-                                    <Zap className="w-3 h-3" /> Current Pace
+
+                            {/* UI Mockup Side - Highly detailed interactive map */}
+                            <div className="lg:w-7/12 bg-bg-secondary p-8 md:p-16 flex items-center justify-center relative overflow-hidden">
+                                {/* Grid background pattern */}
+                                <div className="absolute inset-0 opacity-[0.03] dark:opacity-10" style={{ backgroundImage: 'linear-gradient(to right, #888 1px, transparent 1px), linear-gradient(to bottom, #888 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
+                                
+                                <div className="w-full max-w-md bg-bg-primary/90 backdrop-blur-xl rounded-3xl border border-border-subtle p-8 shadow-2xl relative z-10 group">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+
+                                    {/* Nodes Visualization */}
+                                    <div className="relative aspect-square flex items-center justify-center mb-6">
+                                        {/* Center Node */}
+                                        <div className="absolute z-30 w-20 h-20 rounded-full bg-bg-card border-2 border-accent-primary flex items-center justify-center shadow-[0_0_30px_rgba(var(--accent-primary-rgb),0.3)]">
+                                            <img src="/flow-icon.svg" className="w-10 h-10 opacity-80" alt="Flow" />
+                                        </div>
+
+                                        {/* Pulsing rings */}
+                                        <div className="absolute w-full h-full rounded-full border border-border-subtle/50 scale-[0.6] opacity-50"></div>
+                                        <div className="absolute w-full h-full rounded-full border border-border-subtle/30 scale-[0.8] opacity-30"></div>
+                                        <div className="absolute w-full h-full rounded-full border border-border-subtle/10 scale-[1] opacity-10"></div>
+
+                                        {/* Orbiting Nodes */}
+                                        {[
+                                            { name: 'Programming', angle: 0, distance: 130, scale: 1.1, val: '92%' },
+                                            { name: 'Cinematography', angle: 72, distance: 100, scale: 0.9, val: '78%' },
+                                            { name: 'Architecture', angle: 144, distance: 140, scale: 0.8, val: '45%' },
+                                            { name: 'Neuroscience', angle: 216, distance: 110, scale: 1, val: '65%' },
+                                            { name: 'Jazz Music', angle: 288, distance: 120, scale: 0.85, val: '50%' },
+                                        ].map((node, i) => {
+                                            const rad = (node.angle * Math.PI) / 180;
+                                            const x = Math.cos(rad) * node.distance;
+                                            const y = Math.sin(rad) * node.distance;
+                                            
+                                            return (
+                                                <motion.div
+                                                    key={i}
+                                                    className="absolute z-20 flex flex-col items-center gap-2"
+                                                    initial={{ opacity: 0, scale: 0 }}
+                                                    whileInView={{ opacity: 1, x, y, scale: node.scale }}
+                                                    viewport={{ once: true }}
+                                                    transition={{ duration: 1.2, delay: 0.3 + i * 0.1, type: 'spring', bounce: 0.4 }}
+                                                >
+                                                    <div className="w-14 h-14 rounded-2xl bg-bg-card border border-border-subtle shadow-lg flex items-center justify-center relative hover:border-accent-primary hover:shadow-accent-primary/20 transition-all duration-300 cursor-default group/node overflow-hidden">
+                                                        <div className="absolute inset-0 bg-accent-primary/5 opacity-0 group-hover/node:opacity-100 transition-opacity"></div>
+                                                        <span className="text-sm font-bold text-text-primary relative z-10">{node.val}</span>
+                                                    </div>
+                                                    
+                                                    {/* Connecting Line to center */}
+                                                    <svg className="absolute top-1/2 left-1/2 -z-10 overflow-visible pointer-events-none" style={{ transform: `translate(-50%, -50%) rotate(${node.angle + 180}deg)` }}>
+                                                        <motion.line 
+                                                            x1="0" y1="0" x2={node.distance - 40} y2="0" 
+                                                            stroke="currentColor" 
+                                                            className="text-accent-primary/30" 
+                                                            strokeWidth="2" 
+                                                            strokeDasharray="4 4"
+                                                            initial={{ strokeDashoffset: 20 }}
+                                                            animate={{ strokeDashoffset: 0 }}
+                                                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                                        />
+                                                    </svg>
+                                                    <span className="text-xs font-semibold text-text-secondary whitespace-nowrap bg-bg-primary/80 px-2 py-0.5 rounded-md backdrop-blur-sm">{node.name}</span>
+                                                </motion.div>
+                                            )
+                                        })}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </BentoCard>
-
-                    {/* Cognitive Vector Map */}
-                    <BentoCard colSpan={12} rowSpan={2} delay={0.2} glow className="md:col-span-7">
-                        <BentoCardHeader
-                            title="Cognitive Vector Map"
-                            subtitle="Real-time personality mapping"
-                        />
-                        <div className="flex-1 flex items-center justify-center py-8">
-                            <RadarChart />
-                        </div>
-                    </BentoCard>
-
-                    {/* Dominant Interests */}
-                    <BentoCard colSpan={12} rowSpan={2} delay={0.3} className="md:col-span-5">
-                        <BentoCardHeader
-                            title="Dominant Interests"
-                            subtitle="Top content clusters"
-                        />
-                        <BubbleChart />
-                    </BentoCard>
-                </BentoGrid>
+                    </div>
+                </FadeIn>
             </div>
         </Section>
     )

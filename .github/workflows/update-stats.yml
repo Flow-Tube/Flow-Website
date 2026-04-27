@@ -1,4 +1,4 @@
-name: Update Stats
+name: Update Stats & Changelogs
 
 on:
   schedule:
@@ -24,19 +24,42 @@ jobs:
           # Count contributors using pagination
           CONTRIBUTORS=$(gh api repos/A-EDev/Flow/contributors --paginate --jq length | awk '{s+=$1} END {print s}')
           
+          # Count downloads from releases
+          DOWNLOADS=$(gh api repos/A-EDev/Flow/releases --paginate --jq '.[].assets[].download_count' | awk '{s+=$1} END {print s}')
+          DOWNLOADS=${DOWNLOADS:-0}
+          
           # Create JSON content
-          echo "{ \"stars\": $STARS, \"forks\": $FORKS, \"issues\": $ISSUES, \"watchers\": $WATCHERS, \"contributors\": $CONTRIBUTORS }" > public/stats.json
+          echo "{ \"stars\": $STARS, \"forks\": $FORKS, \"issues\": $ISSUES, \"watchers\": $WATCHERS, \"contributors\": $CONTRIBUTORS, \"downloads\": $DOWNLOADS }" > public/stats.json
+
+      - name: Fetch Changelogs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Fetch file download URLs from the changelog directory
+          gh api repos/A-EDev/Flow/contents/app/src/main/assets/changelog --jq '.[].download_url' > changelog_urls.txt || echo "" > changelog_urls.txt
+          
+          echo "[" > public/changelogs.json
+          first=1
+          while read url; do
+            [ -z "$url" ] && continue
+            
+            content=$(curl -s "$url")
+            
+            if [ $first -eq 0 ]; then echo "," >> public/changelogs.json; fi
+            jq -n --arg c "$content" '{"content": $c}' >> public/changelogs.json
+            first=0
+          done < changelog_urls.txt
+          echo "]" >> public/changelogs.json
 
       - name: Commit and Push
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           
-          # Check if there are changes
-          if [[ -n $(git status -s public/stats.json) ]]; then
-            git add public/stats.json
-            git commit -m "Update stats [skip ci]"
+          if [[ -n $(git status -s public/stats.json public/changelogs.json) ]]; then
+            git add public/stats.json public/changelogs.json
+            git commit -m "Update stats and changelogs [skip ci]"
             git push
           else
-            echo "No changes to stats"
+            echo "No changes"
           fi

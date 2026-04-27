@@ -1,34 +1,60 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Download, Github } from 'lucide-react'
+import { Menu, X, Download, Star, Sun, Moon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 
 const navItems = [
     { label: 'Inside Flow', href: '/inside-flow', isRoute: true },
-    { label: 'Features', href: '#features' },
-    { label: 'How it Works', href: '#neuro-engine' },
-    { label: 'Privacy', href: '#privacy' },
-    { label: 'Open Source', href: '#open-source' },
+    { label: 'Features', href: '/#features', isRoute: true },
+    { label: 'How it Works', href: '/#neuro-engine', isRoute: true },
+    { label: 'Changelog', href: '/changelog', isRoute: true },
+    { label: 'About', href: '/about', isRoute: true },
 ]
 
 export function Header() {
     const [isScrolled, setIsScrolled] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+    const [theme, setTheme] = useState(document.documentElement.classList.contains('dark') ? 'dark' : 'light')
+    const [stats, setStats] = useState({ stars: '0', downloads: '0' })
 
     useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50)
-        }
+        const handleScroll = () => setIsScrolled(window.scrollY > 20)
         window.addEventListener('scroll', handleScroll)
+        
+        fetch('/stats.json')
+            .then(res => res.json())
+            .then(data => {
+                if (data.stars) {
+                    setStats({
+                        stars: data.stars.toString(),
+                        downloads: data.downloads >= 1000 ? (data.downloads / 1000).toFixed(1) + 'k' : data.downloads.toString()
+                    })
+                }
+            })
+            .catch(() => {})
+
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
-    const scrollToSection = (href: string) => {
-        const element = document.querySelector(href)
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' })
+    const toggleTheme = () => {
+        if (theme === 'light') {
+            document.documentElement.classList.add('dark')
+            setTheme('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+            setTheme('light')
+        }
+    }
+
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        if (href.startsWith('/#')) {
+            if (window.location.pathname === '/') {
+                e.preventDefault()
+                const id = href.replace('/#', '#')
+                document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' })
+            }
         }
         setIsMobileMenuOpen(false)
     }
@@ -38,7 +64,7 @@ export function Header() {
             <motion.header
                 className={cn(
                     'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-                    isScrolled ? 'bg-bg-primary/80 backdrop-blur-xl border-b border-white/5' : ''
+                    isScrolled ? 'bg-bg-primary/80 backdrop-blur-md border-b border-border-subtle shadow-sm' : 'bg-transparent border-b border-transparent'
                 )}
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
@@ -47,79 +73,68 @@ export function Header() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16 md:h-20">
                         {/* Logo */}
-                        <a
-                            href="#hero"
-                            onClick={(e) => { e.preventDefault(); scrollToSection('#hero') }}
-                            className="flex items-center gap-2"
-                        >
-                            <div className="w-8 h-8 flex items-center justify-center">
-                                <svg viewBox="0 0 24 24" fill="none" className="w-full h-full">
-                                    <path
-                                        d="M21.58 7.16C21.33 6.22 20.59 5.48 19.65 5.23C17.96 4.77 12 4.77 12 4.77C12 4.77 6.04 4.77 4.35 5.23C3.41 5.48 2.67 6.22 2.42 7.16C1.96 8.85 1.96 12.38 1.96 12.38C1.96 12.38 1.96 15.91 2.42 17.6C2.67 18.54 3.41 19.28 4.35 19.53C6.04 19.99 12 19.99 12 19.99C12 19.99 17.96 19.99 19.65 19.53C20.59 19.28 21.33 18.54 21.58 17.6C22.04 15.91 22.04 12.38 22.04 12.38C22.04 12.38 22.04 8.85 21.58 7.16Z"
-                                        fill="#FF0000"
-                                    />
-                                    <path
-                                        d="M10 7L18 7L17.2 9.5H12.8L12.2 11.5H16L15.2 14H11.5L10.5 17H7.5L10 7Z"
-                                        fill="white"
-                                    />
-                                </svg>
-                            </div>
-                            <span className="text-xl font-bold text-text-primary">Flow</span>
-                        </a>
+                        <Link to="/" className="flex items-center gap-2 group">
+                            <img src="/flow-icon.svg" className="w-8 h-8 object-contain" alt="Flow Logo" />
+                            <span className="text-xl font-bold text-text-primary tracking-tight">Flow</span>
+                        </Link>
 
                         {/* Desktop Navigation */}
                         <nav className="hidden md:flex items-center gap-8">
                             {navItems.map((item) => (
                                 item.isRoute ? (
-                                    <Link
-                                        key={item.label}
-                                        to={item.href}
-                                        className="text-sm text-text-secondary hover:text-text-primary transition-colors"
-                                    >
+                                    <Link key={item.label} to={item.href} onClick={(e) => handleNavClick(e, item.href)} className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors">
                                         {item.label}
                                     </Link>
                                 ) : (
-                                    <a
-                                        key={item.label}
-                                        href={item.href}
-                                        onClick={(e) => { e.preventDefault(); scrollToSection(item.href) }}
-                                        className="text-sm text-text-secondary hover:text-text-primary transition-colors"
-                                    >
+                                    <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors">
                                         {item.label}
                                     </a>
                                 )
                             ))}
                         </nav>
 
-                        {/* Desktop CTAs */}
+                        {/* Desktop CTAs & Badges */}
                         <div className="hidden md:flex items-center gap-3">
-                            <a
-                                href="https://github.com/A-EDev/Flow"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <Button variant="ghost" size="sm">
-                                    <Github className="w-4 h-4" />
-                                </Button>
+                            {/* Theme Toggle */}
+                            <button onClick={toggleTheme} className="p-2 text-text-secondary hover:text-text-primary hover:bg-bg-elevated rounded-full transition-colors mr-2">
+                                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                            </button>
+
+                            {/* Stats Badges */}
+                            <a href="https://github.com/A-EDev/Flow/stargazers" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border-subtle bg-bg-elevated text-xs font-semibold text-text-primary hover:bg-bg-secondary transition-colors group">
+                                <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500 group-hover:scale-110 transition-transform" />
+                                <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" className="text-text-primary ml-0.5"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.46-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>
+                                <span>{stats.stars}</span>
                             </a>
-                            <a
-                                href="https://github.com/A-EDev/Flow/releases/latest"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <Button variant="primary" size="sm" icon={<Download className="w-4 h-4" />}>
-                                    Download
+                            <a href="https://github.com/A-EDev/Flow/releases" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border-subtle bg-bg-elevated text-xs font-semibold text-text-primary hover:bg-bg-secondary transition-colors group">
+                                <Download className="w-3.5 h-3.5 text-accent-primary group-hover:scale-110 transition-transform" />
+                                <span>{stats.downloads}</span>
+                            </a>
+
+                            <div className="w-px h-6 bg-border-subtle mx-1"></div>
+
+                            <a href="https://reddit.com/r/flow_official" target="_blank" rel="noopener noreferrer">
+                                <Button variant="secondary" size="sm" className="hidden lg:flex items-center gap-1.5 border-border-subtle bg-bg-card hover:bg-bg-elevated">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" className="text-[#FF4500]">
+                                        <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.508 1.183-.833 2.822-1.393 4.61-1.48l.84-3.922c.046-.216.257-.354.472-.313l3.05.642a1.24 1.24 0 0 1 1.049-.937zM16 11.23c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm-8 0c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm0 5.46c2.08 0 3.754-.925 3.968-1.077l-.608-.813c-.11.082-1.57.94-3.36.94-1.789 0-3.25-.858-3.36-.94l-.608.813c.214.152 1.888 1.077 3.968 1.077z"/>
+                                    </svg>
+                                    Join on Reddit
                                 </Button>
                             </a>
                         </div>
 
                         {/* Mobile Menu Button */}
-                        <button
-                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="md:hidden p-2 text-text-primary"
-                        >
-                            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-                        </button>
+                        <div className="md:hidden flex items-center gap-2">
+                            <button onClick={toggleTheme} className="p-2 text-text-secondary hover:text-text-primary rounded-full transition-colors">
+                                {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                            </button>
+                            <button
+                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                                className="p-2 text-text-primary"
+                            >
+                                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </motion.header>
@@ -128,49 +143,52 @@ export function Header() {
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        className="fixed inset-0 z-40 bg-bg-primary/95 backdrop-blur-xl md:hidden"
+                        className="fixed inset-0 z-40 bg-bg-primary md:hidden pt-20"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                     >
-                        <div className="flex flex-col items-center justify-center h-full gap-8">
+                        <div className="flex flex-col items-center justify-center h-full gap-8 pb-20">
                             {navItems.map((item, index) => (
                                 <motion.div
                                     key={item.label}
-                                    initial={{ opacity: 0, y: 20 }}
+                                    initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: index * 0.1 }}
+                                    transition={{ delay: index * 0.05 }}
                                 >
                                     {item.isRoute ? (
-                                        <Link
-                                            to={item.href}
-                                            onClick={() => setIsMobileMenuOpen(false)}
-                                            className="text-2xl font-medium text-text-primary"
-                                        >
+                                        <Link to={item.href} onClick={(e) => handleNavClick(e, item.href)} className="text-xl font-medium text-text-primary">
                                             {item.label}
                                         </Link>
                                     ) : (
-                                        <a
-                                            href={item.href}
-                                            onClick={(e) => { e.preventDefault(); scrollToSection(item.href) }}
-                                            className="text-2xl font-medium text-text-primary"
-                                        >
+                                        <a href={item.href} target="_blank" rel="noopener noreferrer" className="text-xl font-medium text-text-primary">
                                             {item.label}
                                         </a>
                                     )}
                                 </motion.div>
                             ))}
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: navItems.length * 0.1 }}
+                                transition={{ delay: navItems.length * 0.05 }}
+                                className="flex flex-col items-center gap-4 mt-4"
                             >
-                                <a href="https://github.com/A-EDev/Flow/releases/latest"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <Button variant="primary" size="lg" icon={<Download className="w-5 h-5" />}>
-                                        Download Flow
+                                <div className="flex items-center gap-3">
+                                    <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border-subtle bg-bg-elevated text-sm font-semibold text-text-primary">
+                                        <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                                        <span>{stats.stars}</span>
+                                    </span>
+                                    <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border-subtle bg-bg-elevated text-sm font-semibold text-text-primary">
+                                        <Download className="w-4 h-4 text-orange-500" />
+                                        <span>{stats.downloads}</span>
+                                    </span>
+                                </div>
+                                <a href="https://reddit.com/r/flow_official" target="_blank" rel="noopener noreferrer">
+                                    <Button variant="secondary" size="lg" className="w-full flex items-center justify-center gap-2">
+                                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" className="text-[#FF4500]">
+                                            <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.508 1.183-.833 2.822-1.393 4.61-1.48l.84-3.922c.046-.216.257-.354.472-.313l3.05.642a1.24 1.24 0 0 1 1.049-.937zM16 11.23c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm-8 0c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm0 5.46c2.08 0 3.754-.925 3.968-1.077l-.608-.813c-.11.082-1.57.94-3.36.94-1.789 0-3.25-.858-3.36-.94l-.608.813c.214.152 1.888 1.077 3.968 1.077z"/>
+                                        </svg>
+                                        Join on Reddit
                                     </Button>
                                 </a>
                             </motion.div>
