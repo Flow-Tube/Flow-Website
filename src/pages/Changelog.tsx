@@ -95,7 +95,22 @@ export function ChangelogPage() {
             .then(data => {
                 if (Array.isArray(data) && data.length > 0) {
                     const parsed = data.map(item => parseChangelogText(item.content))
-                    setChangelogs(parsed.filter(c => c.version))
+                    const validChangelogs = parsed.filter(c => c.version)
+                    
+                    // Sort descending by semantic version (newest first)
+                    validChangelogs.sort((a, b) => {
+                        const vA = a.version.replace(/[^0-9.]/g, '').split('.').map(Number);
+                        const vB = b.version.replace(/[^0-9.]/g, '').split('.').map(Number);
+                        for (let i = 0; i < Math.max(vA.length, vB.length); i++) {
+                            const numA = vA[i] || 0;
+                            const numB = vB[i] || 0;
+                            if (numA > numB) return -1;
+                            if (numA < numB) return 1;
+                        }
+                        return 0;
+                    })
+                    
+                    setChangelogs(validChangelogs)
                 } else {
                     throw new Error('No array data')
                 }
