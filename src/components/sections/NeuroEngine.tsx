@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Brain, Lock, SlidersHorizontal, Activity } from 'lucide-react'
+import { Brain, Lock, SlidersHorizontal } from 'lucide-react'
 import { Section } from '@/components/layout/Section'
 import { FadeIn } from '@/components/ui/TextReveal'
 

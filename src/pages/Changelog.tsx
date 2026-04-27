@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Header } from '@/components/layout/Header'
 import { FinalCTA } from '@/components/sections/FinalCTA'
-import { ChevronDown, ChevronUp, Info } from 'lucide-react'
+import { ChevronDown, ChevronUp } from 'lucide-react'
 
 // Enhanced parser for Antigravity-like structure
 function parseChangelogText(text: string) {

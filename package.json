@@ -11,6 +11,8 @@
     },
     "dependencies": {
         "@studio-freight/lenis": "^1.0.42",
+        "@tsparticles/react": "^3.0.0",
+        "@tsparticles/slim": "^3.9.1",
         "clsx": "^2.1.1",
         "framer-motion": "^12.24.10",
         "lucide-react": "^0.462.0",
