@@ -81,6 +81,26 @@ export function Support() {
                                         </div>
                                     </div>
                                 ))}
+
+                                <div className="pt-4 flex justify-center">
+                                    <a 
+                                        href="https://nowpayments.io/donation/aedev" 
+                                        target="_blank" 
+                                        rel="noreferrer noopener"
+                                        className="transition-transform hover:scale-105"
+                                    >
+                                        <img 
+                                            src="https://nowpayments.io/images/embeds/donation-button-black.svg" 
+                                            alt="Crypto donation button by NOWPayments" 
+                                            className="block dark:hidden h-16" 
+                                        />
+                                        <img 
+                                            src="https://nowpayments.io/images/embeds/donation-button-white.svg" 
+                                            alt="Cryptocurrency & Bitcoin donation button by NOWPayments" 
+                                            className="hidden dark:block h-16" 
+                                        />
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </FadeIn>
