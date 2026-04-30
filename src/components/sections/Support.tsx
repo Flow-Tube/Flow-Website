@@ -84,20 +84,14 @@ export function Support() {
 
                                 <div className="pt-4 flex justify-center">
                                     <a 
-                                        href="https://nowpayments.io/donation/aedev" 
+                                        href="https://patreon.com/A_EDev" 
                                         target="_blank" 
                                         rel="noreferrer noopener"
                                         className="transition-transform hover:scale-105"
                                     >
                                         <img 
-                                            src="https://nowpayments.io/images/embeds/donation-button-black.svg" 
-                                            alt="Crypto donation button by NOWPayments" 
-                                            className="block dark:hidden h-16" 
-                                        />
-                                        <img 
-                                            src="https://nowpayments.io/images/embeds/donation-button-white.svg" 
-                                            alt="Cryptocurrency & Bitcoin donation button by NOWPayments" 
-                                            className="hidden dark:block h-16" 
+                                            src="https://img.shields.io/badge/Patreon-Support_Flow-FF424D?style=for-the-badge&logo=patreon&logoColor=white" 
+                                            alt="Support Flow on Patreon"
                                         />
                                     </a>
                                 </div>
