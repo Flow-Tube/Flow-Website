@@ -48,6 +48,6 @@
 }
 ,
 {
-  "content": "FLOW CHANGE LOG\nVERSION: 2.1.5\nDATE: 2026-05-1\n\nFEATURES\n- Add new Proxy manager and routing #362\n- Add new App language selection in settings #376\n\nIMPROVEMENTS\n- Seekbar preview and slider optimization #360 #361\n- Improve media playback notification handling #347\n- Improve Monochrome app logo quality #336\n- Add paging to comment replies #369\n\nFIXES AND STABILITY\n- Fix play mode switch pop up #378\n- Fix Go to channel on home and related videos #370 #351\n- Fix comment loading in queue #352\n- Fix queue dock position by @ItsMe-95fx #371"
+  "content": "FLOW CHANGE LOG\nVERSION: 2.1.5\nDATE: 2026-05-1\n\nFEATURES\n- Add new Proxy manager and routing #362\n- Add new App language selection in settings #376\n- Add text highlight and selection for comments and description #374\n\nIMPROVEMENTS\n- Seekbar preview and slider optimization #360 #361\n- Improve media playback notification handling #347\n- Improve Monochrome app logo quality #336\n- Add paging to comment replies #369\n- Add master backup import to onboarding #365\n\nFIXES AND STABILITY\n- Fix play mode switch pop up #378\n- Fix Go to channel on home and related videos #370 #351\n- Fix comment loading in queue #352\n- Fix queue dock position by @ItsMe-95fx #371\n- Fix channel content rendering #366"
 }
 ]
