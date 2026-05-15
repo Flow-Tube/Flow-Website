@@ -23,7 +23,7 @@ export function Hero() {
                 className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
             >
                 {/* Left Column: Text Content */}
-                <motion.div 
+                <motion.div
                     className="flex flex-col items-start text-left"
                 >
                     {/* Trendshift Badge */}
@@ -34,26 +34,26 @@ export function Hero() {
                         className="mb-8"
                     >
                         <a href="https://trendshift.io/repositories/22545" target="_blank" rel="noopener noreferrer" className="inline-block transition-transform hover:scale-[1.02]">
-                            <img 
-                                src="https://trendshift.io/api/badge/repositories/22545" 
-                                alt="A-EDev/Flow | Trendshift" 
+                            <img
+                                src="https://trendshift.io/api/badge/repositories/22545"
+                                alt="A-EDev/Flow | Trendshift"
                                 className="w-[200px] h-[44px]"
                             />
                         </a>
                     </motion.div>
 
                     {/* Main Title */}
-                    <motion.h1 
+                    <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.5 }}
                         className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tighter text-text-primary mb-6"
                     >
-                        Local Recommendations.<br/>Privacy First.
+                        Local Recommendations.<br />Privacy First.
                     </motion.h1>
 
                     {/* Subtitle / Description */}
-                    <motion.p 
+                    <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3, duration: 0.5 }}
@@ -63,7 +63,7 @@ export function Hero() {
                     </motion.p>
 
                     {/* CTAs */}
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4, duration: 0.5 }}
@@ -87,7 +87,7 @@ export function Hero() {
                         >
                             Explore Features
                         </Button>
-                        
+
                         <a href="https://github.com/A-EDev/Flow" target="_blank" rel="noopener noreferrer">
                             <Button
                                 variant="ghost"
@@ -102,19 +102,19 @@ export function Hero() {
                 </motion.div>
 
                 {/* Right Column: High-fidelity Frame */}
-                <motion.div 
+                <motion.div
                     className="relative w-full flex justify-center lg:justify-end"
                 >
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.3, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                         className="relative w-[300px] sm:w-[340px] aspect-[1/2.16] bg-black rounded-[2.5rem] border-[8px] border-[#111] shadow-2xl overflow-hidden"
                     >
                         {/* Placeholder for Home.jpeg / VideoPlayer.jpeg */}
-                        <img 
-                            src="/screenshots/Home.webp" 
-                            alt="Flow App Home Feed" 
+                        <img
+                            src="/screenshots/Home.webp"
+                            alt="Flow App Home Feed"
                             className="w-full h-full object-cover"
                             onError={(e) => {
                                 e.currentTarget.style.display = 'none';

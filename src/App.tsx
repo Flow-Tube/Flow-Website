@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import { Home } from '@/pages/Home'
 import { Showcase } from '@/pages/Showcase'
 import { ChangelogPage } from '@/pages/Changelog'
+import { NotFound } from '@/pages/NotFound'
 
 import { PrivacyPolicy } from '@/pages/PrivacyPolicy'
 import { DMCA } from '@/pages/DMCA'
@@ -19,6 +20,7 @@ function App() {
                 <Route path="/privacy" element={<PrivacyPolicy />} />
                 <Route path="/dmca" element={<DMCA />} />
                 <Route path="/about" element={<About />} />
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </>
     )
