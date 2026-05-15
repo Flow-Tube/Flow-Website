@@ -13,20 +13,23 @@ function parseChangelogText(text: string) {
     let currentSection = ''
     let title = ''
     let description = ''
+    let status = ''
 
     for (const line of lines) {
         const trimmed = line.trim()
         if (!trimmed || trimmed === 'FLOW CHANGE LOG') continue
 
-        if (trimmed.startsWith('VERSION:')) {
-            version = trimmed.replace('VERSION:', '').trim()
+        if (trimmed.toUpperCase().startsWith('VERSION:')) {
+            version = trimmed.substring(8).trim()
             title = 'Flow Update'
-        } else if (trimmed.startsWith('DATE:')) {
-            date = trimmed.replace('DATE:', '').trim()
-        } else if (trimmed.startsWith('TITLE:')) {
-            title = trimmed.replace('TITLE:', '').trim()
-        } else if (trimmed.startsWith('DESCRIPTION:')) {
-            description = trimmed.replace('DESCRIPTION:', '').trim()
+        } else if (trimmed.toUpperCase().startsWith('DATE:')) {
+            date = trimmed.substring(5).trim()
+        } else if (trimmed.toUpperCase().startsWith('STATUS:')) {
+            status = trimmed.substring(7).trim()
+        } else if (trimmed.toUpperCase().startsWith('TITLE:')) {
+            title = trimmed.substring(6).trim()
+        } else if (trimmed.toUpperCase().startsWith('DESCRIPTION:')) {
+            description = trimmed.substring(12).trim()
         } else if (trimmed.match(/^[A-Z\s]+$/) && trimmed.length > 2) {
             currentSection = trimmed
             sections[currentSection] = []
@@ -43,7 +46,7 @@ function parseChangelogText(text: string) {
         description = 'Minor fixes and improvements.'
     }
 
-    return { version, date, title, description, sections }
+    return { version, date, title, description, sections, status }
 }
 
 const AccordionItem = ({ title, items, isOpen, onToggle }: { title: string, items: string[], isOpen: boolean, onToggle: () => void }) => {
@@ -121,6 +124,7 @@ export function ChangelogPage() {
                     {
                         version: '2.1.0',
                         date: 'Apr 26, 2026',
+                        status: 'PRE-RELEASE',
                         title: 'Playback Enhancements',
                         description: 'New playback speed options and customizable subtitle states.',
                         sections: {
@@ -181,7 +185,14 @@ export function ChangelogPage() {
                             <div key={idx} className="flex flex-col md:flex-row gap-6">
                                 {/* Left Column: Version & Date */}
                                 <div className="w-40 shrink-0 pt-2">
-                                    <div className="text-sm font-medium text-text-primary mb-1">{log.version}</div>
+                                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                                        <div className="text-sm font-medium text-text-primary">{log.version}</div>
+                                        {log.status?.toUpperCase() === 'PRE-RELEASE' && (
+                                            <span className="px-1.5 py-0.5 text-[10px] font-bold tracking-widest text-accent-primary bg-accent-primary/10 rounded border border-accent-primary/20">
+                                                PRE-RELEASE
+                                            </span>
+                                        )}
+                                    </div>
                                     <div className="text-sm text-text-muted">{log.date}</div>
                                 </div>
 

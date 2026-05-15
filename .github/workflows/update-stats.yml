@@ -44,9 +44,10 @@ jobs:
             [ -z "$url" ] && continue
             
             content=$(curl -s "$url")
+            status=$(echo "$content" | grep -i '^STATUS:' | sed -E 's/^STATUS:[[:space:]]*//i' | tr -d '\r' || echo "")
             
             if [ $first -eq 0 ]; then echo "," >> public/changelogs.json; fi
-            jq -n --arg c "$content" '{"content": $c}' >> public/changelogs.json
+            jq -n --arg c "$content" --arg s "$status" '{"content": $c, "status": $s}' >> public/changelogs.json
             first=0
           done < changelog_urls.txt
           echo "]" >> public/changelogs.json

@@ -1,18 +1,10 @@
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ArrowRight, Download, Github } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 
 export function Hero() {
     const containerRef = useRef<HTMLElement>(null)
-
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ['start start', 'end start'],
-    })
-
-    const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-    const y = useTransform(scrollYProgress, [0, 0.5], [0, -50])
 
     const scrollToSection = (href: string) => {
         const element = document.querySelector(href)
@@ -27,12 +19,13 @@ export function Hero() {
             id="hero"
             className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-bg-primary pt-24 pb-12"
         >
-            <motion.div
+            <div
                 className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-                style={{ opacity, y }}
             >
                 {/* Left Column: Text Content */}
-                <div className="flex flex-col items-start text-left">
+                <motion.div 
+                    className="flex flex-col items-start text-left"
+                >
                     {/* Trendshift Badge */}
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
@@ -106,16 +99,18 @@ export function Hero() {
                             </Button>
                         </a>
                     </motion.div>
-                </div>
+                </motion.div>
 
                 {/* Right Column: High-fidelity Frame */}
                 <motion.div 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.3, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                     className="relative w-full flex justify-center lg:justify-end"
                 >
-                    <div className="relative w-[300px] sm:w-[340px] aspect-[1/2.16] bg-black rounded-[2.5rem] border-[8px] border-[#111] shadow-2xl overflow-hidden">
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.3, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                        className="relative w-[300px] sm:w-[340px] aspect-[1/2.16] bg-black rounded-[2.5rem] border-[8px] border-[#111] shadow-2xl overflow-hidden"
+                    >
                         {/* Placeholder for Home.jpeg / VideoPlayer.jpeg */}
                         <img 
                             src="/screenshots/Home.webp" 
@@ -129,9 +124,9 @@ export function Hero() {
                         <div className="absolute inset-0 bg-bg-elevated -z-10 flex items-center justify-center text-text-secondary text-sm">
                             App Screen
                         </div>
-                    </div>
+                    </motion.div>
                 </motion.div>
-            </motion.div>
+            </div>
         </section>
     )
 }
