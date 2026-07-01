@@ -111,7 +111,7 @@ export function Features() {
                         <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-4 tracking-tight">
                             A New Standard for Discovery.
                         </h2>
-                        <p className="text-lg text-text-secondary max-w-2xl">
+                        <p className="text-lg text-text-secondary max-w-3xl">
                             Uncompromising features built for privacy, control, and a pure playback experience.
                         </p>
                     </FadeIn>

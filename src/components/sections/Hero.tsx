@@ -57,7 +57,7 @@ export function Hero() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3, duration: 0.5 }}
-                        className="text-lg md:text-xl text-text-secondary max-w-lg mb-10 font-normal leading-relaxed"
+                        className="text-lg md:text-xl text-text-secondary max-w-3xl mb-10 font-normal leading-relaxed"
                     >
                         Flow is a minimalist, open-source YouTube client for Android. No ads, no tracking. Just pure video playback and a neural engine that learns locally.
                     </motion.p>

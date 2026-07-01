@@ -4,7 +4,6 @@ import { Header } from '@/components/layout/Header'
 import { FinalCTA } from '@/components/sections/FinalCTA'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
-// Enhanced parser for Antigravity-like structure
 function parseChangelogText(text: string) {
     const lines = text.split('\n')
     let version = ''
@@ -30,7 +29,7 @@ function parseChangelogText(text: string) {
             title = trimmed.substring(6).trim()
         } else if (trimmed.toUpperCase().startsWith('DESCRIPTION:')) {
             description = trimmed.substring(12).trim()
-        } else if (trimmed.match(/^[A-Z\s]+$/) && trimmed.length > 2) {
+        } else if (!trimmed.startsWith('-') && trimmed.length > 2) {
             currentSection = trimmed
             sections[currentSection] = []
         } else if (trimmed.startsWith('-') && currentSection) {
@@ -40,13 +39,43 @@ function parseChangelogText(text: string) {
     
     // Fallback if title/desc are missing
     if (!title) title = 'Flow Update'
-    if (!description && sections['FEATURES'] && sections['FEATURES'].length > 0) {
+    if (!description && ((sections['FEATURES'] && sections['FEATURES'].length > 0) || (sections['NEW FEATURES'] && sections['NEW FEATURES'].length > 0))) {
         description = 'New features and improvements to the Flow experience.'
     } else if (!description) {
         description = 'Minor fixes and improvements.'
     }
 
     return { version, date, title, description, sections, status }
+}
+
+function formatSectionTitle(title: string): string {
+    const clean = title.trim().toUpperCase()
+    
+    if (clean === 'FEATURES' || clean === 'NEW FEATURES') return 'New Features'
+    if (clean === 'IMPROVEMENTS') return 'Improvements'
+    if (clean === 'FIXES' || clean === 'FIXES AND STABILITY' || clean === 'VIDEO PLAYER FIXES') return 'Fixes & Stability'
+    if (clean === 'ENGINE' || clean === 'RECOMMENDATION ENGINE' || clean.startsWith('RECOMMENDATION ENGINE') || clean.startsWith('FLOWNEURO ENGINE')) return 'Engine'
+    if (clean === 'PERFORMANCE' || clean === 'PERFORMANCE AND REFACTORING') return 'Performance & Refactoring'
+    if (clean === 'UI AND STYLE ENHANCEMENTS') return 'UI & Style Enhancements'
+    if (clean === 'IMPORTS AND ONBOARDING') return 'Imports & Onboarding'
+    if (clean === 'LIBRARIES') return 'Libraries'
+    if (clean === 'FLAVORS') return 'Flavors'
+    if (clean === 'CORE UPDATE [IMPORTANT]') return 'Core Update [Important]'
+    if (clean === '!IMPORTANT!') return 'Important!'
+    
+    // Fallback: title case
+    return title
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+}
+
+function formatChangelogItem(item: string): string {
+    let formatted = item.replace(/(https?:\/\/[^\s"'\)]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-accent-primary hover:underline">$1</a>')
+    formatted = formatted.replace(/#(\d+)/g, '<a href="https://github.com/A-EDev/Flow/issues/$1" target="_blank" rel="noopener noreferrer" class="text-accent-primary hover:underline">#$1</a>')
+    formatted = formatted.replace(/@([a-zA-Z0-9-]+)/g, '<a href="https://github.com/$1" target="_blank" rel="noopener noreferrer" class="text-text-primary font-medium hover:underline">@$1</a>')
+    return formatted
 }
 
 const AccordionItem = ({ title, items, isOpen, onToggle }: { title: string, items: string[], isOpen: boolean, onToggle: () => void }) => {
@@ -72,7 +101,7 @@ const AccordionItem = ({ title, items, isOpen, onToggle }: { title: string, item
                             {items.map((item, i) => (
                                 <li key={i} className="text-sm text-text-secondary flex items-start gap-2">
                                     <span className="text-text-muted mt-1 shrink-0">•</span>
-                                    <span dangerouslySetInnerHTML={{ __html: item.replace(/(#\d+)/g, '<span class="text-accent-primary">$1</span>').replace(/(@\w+)/g, '<span class="text-text-primary font-medium">$1</span>') }} />
+                                    <span dangerouslySetInnerHTML={{ __html: formatChangelogItem(item) }} />
                                 </li>
                             ))}
                         </ul>
@@ -209,12 +238,7 @@ export function ChangelogPage() {
                                         {Object.entries(log.sections).map(([sectionTitle, items]: any) => (
                                             <AccordionItem 
                                                 key={sectionTitle}
-                                                title={
-                                                    sectionTitle === 'FEATURES' ? 'Improvements' :
-                                                    sectionTitle === 'FIXES' ? 'Fixes' :
-                                                    sectionTitle === 'LIBRARIES' ? 'Patches' :
-                                                    sectionTitle
-                                                }
+                                                title={formatSectionTitle(sectionTitle)}
                                                 items={items}
                                                 isOpen={openAccordions[`${idx}-${sectionTitle}`] || false}
                                                 onToggle={() => toggleAccordion(idx, sectionTitle)}

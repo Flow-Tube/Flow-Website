@@ -32,7 +32,7 @@ export function Section({
             ref={ref}
             id={id}
             className={cn(
-                'relative overflow-hidden',
+                'relative overflow-hidden w-full',
                 fullHeight && 'min-h-screen',
                 className
             )}
