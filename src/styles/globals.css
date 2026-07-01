@@ -123,32 +123,6 @@ body {
     padding: 0 2rem;
 }
 
-/* ============================================
-   BUTTON STYLES
-   ============================================ */
-.btn {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold transition-all duration-200;
-}
-
-.btn-primary {
-    @apply bg-accent-primary text-white;
-}
-
-.btn-primary:hover {
-    @apply bg-accent-hover scale-[1.02];
-}
-
-.btn-secondary {
-    @apply bg-bg-elevated text-text-primary border border-border-subtle;
-}
-
-.btn-secondary:hover {
-    @apply bg-bg-secondary border-text-secondary scale-[1.02];
-}
-
-.btn-ghost {
-    @apply text-text-secondary hover:text-text-primary;
-}
 
 /* ============================================
    RESPONSIVE UTILITIES
