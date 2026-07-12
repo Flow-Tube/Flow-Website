@@ -1,0 +1,90 @@
+{
+  "_note": "HOW TO UPDATE: Find the right tier below and add an entry to its \"patrons\" array, e.g. { \"name\": \"TheirName\", \"note\": \"optional small label\" }. A person can appear in more than one tier. Avatar colors, ordering, initials and counts are all handled automatically from each tier's \"color\" field and its position in this list — you only ever need to edit names. Set a tier's \"hidden\" field to true to keep it off the page. Supported colors: amber, violet, sky, emerald, slate.",
+  "tiers": [
+    {
+      "id": "open-source-hero",
+      "name": "Open Source Hero",
+      "price": "$20",
+      "cadence": "One-time",
+      "kind": "Store purchase",
+      "description": "Backed Flow with a one-time store purchase. Legends who paid it forward, no strings attached.",
+      "color": "amber",
+      "hidden": false,
+      "patrons": [
+        {
+          "name": "NoSaguaro"
+        },
+        {
+          "name": "nino_sandzak"
+        }
+      ]
+    },
+    {
+      "id": "flow-sponsor",
+      "name": "Flow Sponsor",
+      "price": "$10",
+      "cadence": "per month",
+      "kind": "Recurring",
+      "description": "The top recurring tier — sponsors keep the lights on month after month.",
+      "color": "violet",
+      "hidden": false,
+      "patrons": [
+        {
+          "name": "Zirikoi",
+          "note": "Recurring"
+        },
+        {
+          "name": "Eike"
+        }
+      ]
+    },
+    {
+      "id": "flow-backer",
+      "name": "Flow Backer",
+      "price": "$5",
+      "cadence": "per month",
+      "kind": "Recurring",
+      "description": "Backers who chip in every month to move the project forward.",
+      "color": "sky",
+      "hidden": false,
+      "patrons": [
+        {
+          "name": "KeyofSing",
+          "note": "Past member"
+        }
+      ]
+    },
+    {
+      "id": "flow-supporter",
+      "name": "Flow Supporter",
+      "price": "$3",
+      "cadence": "per month",
+      "kind": "Recurring",
+      "description": "The entry recurring tier for anyone who wants to help out regularly.",
+      "color": "emerald",
+      "hidden": true,
+      "patrons": []
+    },
+    {
+      "id": "community",
+      "name": "Community",
+      "price": "Free",
+      "cadence": "",
+      "kind": "Free tier",
+      "description": "Free-tier members who follow along and cheer the project on. Every bit of support counts.",
+      "color": "slate",
+      "hidden": false,
+      "patrons": [
+        {
+          "name": "NoSaguaro"
+        },
+        {
+          "name": "NQM Gaming"
+        },
+        {
+          "name": "KeyofSing"
+        }
+      ]
+    }
+  ]
+}

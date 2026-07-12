@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Header } from '@/components/layout/Header'
 import { FinalCTA } from '@/components/sections/FinalCTA'
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronDown, ChevronUp, Smartphone, Monitor } from 'lucide-react'
+
+type Platform = 'android' | 'desktop'
 
 function parseChangelogText(text: string) {
     const lines = text.split('\n')
@@ -36,7 +38,7 @@ function parseChangelogText(text: string) {
             sections[currentSection].push(trimmed.substring(1).trim())
         }
     }
-    
+
     // Fallback if title/desc are missing
     if (!title) title = 'Flow Update'
     if (!description && ((sections['FEATURES'] && sections['FEATURES'].length > 0) || (sections['NEW FEATURES'] && sections['NEW FEATURES'].length > 0))) {
@@ -50,7 +52,7 @@ function parseChangelogText(text: string) {
 
 function formatSectionTitle(title: string): string {
     const clean = title.trim().toUpperCase()
-    
+
     if (clean === 'FEATURES' || clean === 'NEW FEATURES') return 'New Features'
     if (clean === 'IMPROVEMENTS') return 'Improvements'
     if (clean === 'FIXES' || clean === 'FIXES AND STABILITY' || clean === 'VIDEO PLAYER FIXES') return 'Fixes & Stability'
@@ -62,7 +64,7 @@ function formatSectionTitle(title: string): string {
     if (clean === 'FLAVORS') return 'Flavors'
     if (clean === 'CORE UPDATE [IMPORTANT]') return 'Core Update [Important]'
     if (clean === '!IMPORTANT!') return 'Important!'
-    
+
     // Fallback: title case
     return title
         .toLowerCase()
@@ -81,11 +83,14 @@ function formatChangelogItem(item: string): string {
 const AccordionItem = ({ title, items, isOpen, onToggle }: { title: string, items: string[], isOpen: boolean, onToggle: () => void }) => {
     return (
         <div className="border-b border-border-subtle last:border-0">
-            <button 
+            <button
                 onClick={onToggle}
                 className="w-full flex items-center justify-between py-4 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"
             >
-                <span>{title} ({items.length})</span>
+                <span className="flex items-baseline gap-2">
+                    {title}
+                    <span className="kicker">{items.length}</span>
+                </span>
                 {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </button>
             <AnimatePresence>
@@ -112,12 +117,24 @@ const AccordionItem = ({ title, items, isOpen, onToggle }: { title: string, item
     )
 }
 
+function StatusTag({ children, accent = false }: { children: React.ReactNode; accent?: boolean }) {
+    return (
+        <span className={`px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase rounded-full border ${accent
+            ? 'text-bg-primary bg-text-primary border-text-primary'
+            : 'text-text-secondary bg-bg-elevated border-border-subtle'
+            }`}>
+            {children}
+        </span>
+    )
+}
+
 export function ChangelogPage() {
     const [changelogs, setChangelogs] = useState<any[]>([])
+    const [platform, setPlatform] = useState<Platform>('android')
     const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({})
 
-    const toggleAccordion = (logIndex: number, sectionTitle: string) => {
-        const key = `${logIndex}-${sectionTitle}`
+    const toggleAccordion = (logKey: string, sectionTitle: string) => {
+        const key = `${logKey}-${sectionTitle}`
         setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }))
     }
 
@@ -126,9 +143,12 @@ export function ChangelogPage() {
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data) && data.length > 0) {
-                    const parsed = data.map(item => parseChangelogText(item.content))
+                    const parsed = data.map(item => ({
+                        ...parseChangelogText(item.content),
+                        platform: (item.platform === 'desktop' ? 'desktop' : 'android') as Platform
+                    }))
                     const validChangelogs = parsed.filter(c => c.version)
-                    
+
                     // Sort descending by semantic version (newest first)
                     validChangelogs.sort((a, b) => {
                         const vA = a.version.replace(/[^0-9.]/g, '').split('.').map(Number);
@@ -141,114 +161,150 @@ export function ChangelogPage() {
                         }
                         return 0;
                     })
-                    
+
                     setChangelogs(validChangelogs)
-                } else {
-                    throw new Error('No array data')
                 }
             })
-            .catch(() => {
-                // Mock data
-                setChangelogs([
-                    {
-                        version: '2.1.0',
-                        date: 'Apr 26, 2026',
-                        status: 'PRE-RELEASE',
-                        title: 'Playback Enhancements',
-                        description: 'New playback speed options and customizable subtitle states.',
-                        sections: {
-                            'FEATURES': [
-                                'Add new save state for subscriptions feed display settings #221',
-                                'Add new remember playback speed toggle #229',
-                                'Russian localization #230 provided by @vazinoc',
-                                'New playback speed options up to 4x #235',
-                                'New gesture: Swipe down to exit full screen mode'
-                            ],
-                            'LIBRARIES': ['Bump NewpipeExtractor to latest version (v0.26.1)']
-                        }
-                    },
-                    {
-                        version: '2.0.0',
-                        date: 'Mar 15, 2026',
-                        title: 'Neuro Engine 2.0',
-                        description: 'A complete rewrite of the local recommendation engine.',
-                        sections: {
-                            'FEATURES': [
-                                'Introduced fully local Vector Math models',
-                                'Added transparent dashboard for engine insights',
-                                'Support for user topic whitelisting'
-                            ],
-                            'FIXES': [
-                                'Fixed background playback resuming issue',
-                                'Optimized battery usage during sync'
-                            ]
-                        }
-                    }
-                ])
-            })
+            .catch(() => { })
     }, [])
+
+    const visibleLogs = changelogs.filter(log => log.platform === platform)
+
+    const tabs: { id: Platform; label: string; icon: typeof Smartphone }[] = [
+        { id: 'android', label: 'Android', icon: Smartphone },
+        { id: 'desktop', label: 'Desktop', icon: Monitor },
+    ]
 
     return (
         <div className="relative min-h-screen bg-bg-primary text-text-primary flex flex-col">
             <Header />
-            
+
             <main className="flex-1 w-full pt-32 pb-24">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                    
-                    {/* Header */}
-                    <div className="mb-12">
-                        <h1 className="text-4xl md:text-5xl font-medium tracking-tight mb-8">
-                            Flow <br /> Changelog
+
+                    {/* Page Header */}
+                    <div className="mb-10">
+                        <p className="kicker mb-4">Release Notes</p>
+                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+                            Changelog
                         </h1>
+                        <p className="text-lg text-text-secondary max-w-2xl">
+                            Every release, in detail. Development happens in the open —
+                            each entry links back to the issues and contributors behind it.
+                        </p>
                     </div>
 
-                    {/* Table Header */}
-                    <div className="flex items-center text-sm font-medium text-text-muted border-b border-border-subtle pb-4 mb-8">
-                        <div className="w-40 shrink-0 hidden md:block">Version</div>
-                        <div className="flex-1">Description</div>
+                    {/* Platform Switcher */}
+                    <div className="flex items-center justify-between gap-4 border-b border-border-subtle pb-6 mb-12">
+                        <div className="inline-flex rounded-full border border-border-subtle p-1">
+                            {tabs.map((tab) => (
+                                <button
+                                    key={tab.id}
+                                    onClick={() => setPlatform(tab.id)}
+                                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-colors ${platform === tab.id
+                                        ? 'bg-text-primary text-bg-primary'
+                                        : 'text-text-secondary hover:text-text-primary'
+                                        }`}
+                                    aria-pressed={platform === tab.id}
+                                >
+                                    <tab.icon className="w-4 h-4" strokeWidth={1.75} />
+                                    {tab.label}
+                                </button>
+                            ))}
+                        </div>
+                        <span className="kicker hidden sm:block">
+                            {platform === 'android' ? `${visibleLogs.length} Releases` : 'Rust + Tauri 2'}
+                        </span>
                     </div>
 
-                    {/* Changelog Entries */}
-                    <div className="space-y-16">
-                        {changelogs.map((log, idx) => (
-                            <div key={idx} className="flex flex-col md:flex-row gap-6">
-                                {/* Left Column: Version & Date */}
-                                <div className="w-40 shrink-0 pt-2">
-                                    <div className="flex flex-wrap items-center gap-2 mb-1">
-                                        <div className="text-sm font-medium text-text-primary">{log.version}</div>
-                                        {log.status?.toUpperCase() === 'PRE-RELEASE' && (
-                                            <span className="px-1.5 py-0.5 text-[10px] font-bold tracking-widest text-accent-primary bg-accent-primary/10 rounded border border-accent-primary/20">
-                                                PRE-RELEASE
-                                            </span>
-                                        )}
+                    {/* Entries */}
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={platform}
+                            initial={{ opacity: 0, y: 12 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -8 }}
+                            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                        >
+                            {visibleLogs.length === 0 ? (
+                                platform === 'desktop' ? (
+                                    /* Desktop empty state (until the first public build ships) */
+                                    <div className="rounded-2xl border border-border-subtle bg-bg-secondary px-8 py-16 text-center">
+                                        <Monitor className="w-8 h-8 text-text-muted mx-auto mb-5" strokeWidth={1.5} />
+                                        <h2 className="text-xl font-bold text-text-primary mb-3">
+                                            The desktop story starts here.
+                                        </h2>
+                                        <p className="text-text-secondary max-w-md mx-auto leading-relaxed mb-6">
+                                            Flow for Windows, Linux, and macOS — written in Rust on Tauri 2 —
+                                            is in active development. Its first release notes will land on this page.
+                                        </p>
+                                        <p className="kicker">Windows &middot; Linux &middot; macOS</p>
                                     </div>
-                                    <div className="text-sm text-text-muted">{log.date}</div>
-                                </div>
-
-                                {/* Right Column: Content Card */}
-                                <div className="flex-1 bg-[#f8fafc] dark:bg-[#111111] rounded-2xl p-6 md:p-8">
-                                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8">
-                                        <h2 className="text-xl font-medium text-text-primary">{log.title}</h2>
-                                        <p className="text-sm text-text-secondary md:max-w-sm md:text-right">
-                                            {log.description}
+                                ) : (
+                                    <div className="rounded-2xl border border-border-subtle bg-bg-secondary px-8 py-16 text-center">
+                                        <p className="text-text-secondary">
+                                            Release notes couldn't be loaded. Check the{' '}
+                                            <a href="https://github.com/A-EDev/Flow/releases" target="_blank" rel="noopener noreferrer" className="text-text-primary font-medium hover:underline">
+                                                GitHub releases
+                                            </a>{' '}
+                                            in the meantime.
                                         </p>
                                     </div>
+                                )
+                            ) : (
+                                <div className="relative">
+                                    {/* Timeline rail */}
+                                    <div className="absolute left-[7px] top-2 bottom-2 w-px bg-border-subtle hidden md:block" aria-hidden="true" />
 
-                                    <div className="flex flex-col">
-                                        {Object.entries(log.sections).map(([sectionTitle, items]: any) => (
-                                            <AccordionItem 
-                                                key={sectionTitle}
-                                                title={formatSectionTitle(sectionTitle)}
-                                                items={items}
-                                                isOpen={openAccordions[`${idx}-${sectionTitle}`] || false}
-                                                onToggle={() => toggleAccordion(idx, sectionTitle)}
-                                            />
-                                        ))}
+                                    <div className="space-y-14">
+                                        {visibleLogs.map((log, idx) => {
+                                            const logKey = `${log.platform}-${log.version}`
+                                            return (
+                                                <div key={logKey} className="relative md:pl-12">
+                                                    {/* Timeline marker */}
+                                                    <div className={`absolute left-0 top-2.5 w-[15px] h-[15px] rounded-full border-2 bg-bg-primary hidden md:block ${idx === 0 ? 'border-accent-primary' : 'border-border-subtle'}`} aria-hidden="true" />
+
+                                                    {/* Version Row */}
+                                                    <div className="flex flex-wrap items-center gap-3 mb-4">
+                                                        <span className="text-lg font-bold tracking-tight text-text-primary tabular-nums">
+                                                            v{log.version}
+                                                        </span>
+                                                        <span className="kicker">{log.date}</span>
+                                                        {idx === 0 && <StatusTag accent>Latest</StatusTag>}
+                                                        {log.status?.toUpperCase() === 'PRE-RELEASE' && (
+                                                            <StatusTag>Pre-Release</StatusTag>
+                                                        )}
+                                                    </div>
+
+                                                    {/* Content Panel */}
+                                                    <div className="rounded-2xl border border-border-subtle bg-bg-secondary p-6 md:p-8">
+                                                        <div className="flex flex-col md:flex-row md:items-start justify-between gap-3 mb-6">
+                                                            <h2 className="text-xl font-bold text-text-primary">{log.title}</h2>
+                                                            <p className="text-sm text-text-secondary md:max-w-sm md:text-right">
+                                                                {log.description}
+                                                            </p>
+                                                        </div>
+
+                                                        <div className="flex flex-col">
+                                                            {Object.entries(log.sections).map(([sectionTitle, items]: any) => (
+                                                                <AccordionItem
+                                                                    key={sectionTitle}
+                                                                    title={formatSectionTitle(sectionTitle)}
+                                                                    items={items}
+                                                                    isOpen={openAccordions[`${logKey}-${sectionTitle}`] || false}
+                                                                    onToggle={() => toggleAccordion(logKey, sectionTitle)}
+                                                                />
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })}
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            )}
+                        </motion.div>
+                    </AnimatePresence>
 
                 </div>
             </main>

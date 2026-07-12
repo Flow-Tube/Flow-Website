@@ -9,6 +9,7 @@ const footerLinks = {
         { label: 'Features', href: '/#features', isRoute: true },
         { label: 'How it Works', href: '/#neuro-engine', isRoute: true },
         { label: 'Changelog', href: '/changelog', isRoute: true },
+        { label: 'Patrons', href: '/patrons', isRoute: true },
         { label: 'About', href: '/about', isRoute: true },
     ],
     community: [

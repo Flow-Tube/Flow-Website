@@ -6,19 +6,20 @@
    ROOT VARIABLES (YouTube Light Theme)
    ============================================ */
 :root {
-    --bg-primary: #ffffff;
-    --bg-secondary: #F9F9F9;
-    --bg-elevated: #F2F2F2;
-    --bg-card: #FFFFFF;
+    --bg-primary: #fffbfa;
+    --bg-secondary: #FAF5F3;
+    --bg-elevated: #F4EDEB;
+    --bg-card: #FFFDFC;
 
     --accent-primary: #FF0000;
+    --accent-primary-rgb: 255, 0, 0;
     --accent-hover: #CC0000;
 
-    --text-primary: #0F0F0F;
-    --text-secondary: #606060;
-    --text-muted: #909090;
+    --text-primary: #171010;
+    --text-secondary: #635C5A;
+    --text-muted: #948C8A;
 
-    --border-subtle: #E5E5E5;
+    --border-subtle: #EBE2DF;
 
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -33,6 +34,7 @@
     --bg-card: #0F0F0F;
 
     --accent-primary: #FF0000;
+    --accent-primary-rgb: 255, 0, 0;
     --accent-hover: #FF4444;
 
     --text-primary: #F1F1F1;
@@ -123,6 +125,55 @@ body {
     padding: 0 2rem;
 }
 
+
+.kicker {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.hero-glow {
+    background: radial-gradient(circle farthest-side at 50% 42%,
+            rgba(var(--accent-primary-rgb), 0.055) 0%,
+            rgba(var(--accent-primary-rgb), 0.025) 45%,
+            transparent 100%);
+}
+
+.dark .hero-glow {
+    background: radial-gradient(circle farthest-side at 50% 42%,
+            rgba(var(--accent-primary-rgb), 0.09) 0%,
+            rgba(var(--accent-primary-rgb), 0.035) 45%,
+            transparent 100%);
+}
+
+/* ============================================
+   MARQUEE
+   ============================================ */
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+    animation: marquee 50s linear infinite;
+}
+
+.marquee-track-reverse {
+    animation-direction: reverse;
+}
+
+.marquee:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+        animation: none;
+    }
+}
 
 /* ============================================
    RESPONSIVE UTILITIES
