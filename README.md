@@ -67,3 +67,7 @@ which fetches the latest numbers and commits them back.
 ## License
 
 GPL-3.0. See [LICENSE](LICENSE).
+
+## Note
+
+The website was built with the assisstance of claude code
