@@ -70,7 +70,7 @@
 }
 ,
 {
-  "content": "FLOW CHANGE LOG\nVERSION: 2.2.1\nDATE: 2026-07-21\nSTATUS: PRE-RELEASE\n\nIMPROVEMENTS\n- Slimmer player seekbar segment gaps #786\n- Improve restricted content filtering #783\n\nFIXES AND STABILITY\n- Fix crash issues",
+  "content": "FLOW CHANGE LOG\nVERSION: 2.2.1\nDATE: 2026-07-21\nSTATUS: PRE-RELEASE\n\nIMPROVEMENTS\n- Slimmer player seekbar segment gaps #786\n- Improve restricted content filtering #783\n- Improve EQ and add it for video player #781\n- Improve playback speed \n\nFIXES AND STABILITY\n- Fix crash issues",
   "status": "PRE-RELEASE"
 }
 ]
