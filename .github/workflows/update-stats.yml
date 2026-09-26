@@ -35,22 +35,24 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Fetch file download URLs from the changelog directory
-          gh api repos/A-EDev/Flow/contents/app/src/main/assets/changelog --jq '.[].download_url' > changelog_urls.txt || echo "" > changelog_urls.txt
-          
-          echo "[" > public/changelogs.json
-          first=1
-          while read url; do
-            [ -z "$url" ] && continue
-            
-            content=$(curl -s "$url")
-            status=$(echo "$content" | grep -i '^STATUS:' | sed -E 's/^STATUS:[[:space:]]*//i' | tr -d '\r' || echo "")
-            
-            if [ $first -eq 0 ]; then echo "," >> public/changelogs.json; fi
-            jq -n --arg c "$content" --arg s "$status" '{"content": $c, "status": $s}' >> public/changelogs.json
-            first=0
-          done < changelog_urls.txt
-          echo "]" >> public/changelogs.json
+          # Fetch every changelog file in a repo folder and tag it with its platform.
+          # A missing folder yields no entries, so the Desktop tab stays empty until it exists.
+          fetch_changelogs() {
+            local repo=$1 path=$2 platform=$3
+            gh api "repos/$repo/contents/$path" --jq '.[] | select(.type == "file") | .download_url' 2>/dev/null |
+            while read -r url; do
+              [ -z "$url" ] && continue
+              content=$(curl -s "$url")
+              status=$(echo "$content" | grep -i '^STATUS:' | sed -E 's/^STATUS:[[:space:]]*//i' | tr -d '\r' || echo "")
+              jq -n --arg c "$content" --arg s "$status" --arg p "$platform" \
+                '{"content": $c, "status": $s, "platform": $p}'
+            done
+          }
+
+          {
+            fetch_changelogs A-EDev/Flow app/src/main/assets/changelog android
+            fetch_changelogs Flow-Tube/Flow-Desktop changelog desktop
+          } | jq -s '.' > public/changelogs.json
 
       - name: Commit and Push
         run: |

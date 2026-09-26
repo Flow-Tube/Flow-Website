@@ -6,6 +6,11 @@ import { ChevronDown, ChevronUp, Smartphone, Monitor } from 'lucide-react'
 
 type Platform = 'android' | 'desktop'
 
+const PLATFORM_REPOS: Record<Platform, string> = {
+    android: 'A-EDev/Flow',
+    desktop: 'Flow-Tube/Flow-Desktop',
+}
+
 function parseChangelogText(text: string) {
     const lines = text.split('\n')
     let version = ''
@@ -73,14 +78,14 @@ function formatSectionTitle(title: string): string {
         .join(' ')
 }
 
-function formatChangelogItem(item: string): string {
+function formatChangelogItem(item: string, platform: Platform): string {
     let formatted = item.replace(/(https?:\/\/[^\s"'\)]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-accent-primary hover:underline">$1</a>')
-    formatted = formatted.replace(/#(\d+)/g, '<a href="https://github.com/A-EDev/Flow/issues/$1" target="_blank" rel="noopener noreferrer" class="text-accent-primary hover:underline">#$1</a>')
+    formatted = formatted.replace(/#(\d+)/g, `<a href="https://github.com/${PLATFORM_REPOS[platform]}/issues/$1" target="_blank" rel="noopener noreferrer" class="text-accent-primary hover:underline">#$1</a>`)
     formatted = formatted.replace(/@([a-zA-Z0-9-]+)/g, '<a href="https://github.com/$1" target="_blank" rel="noopener noreferrer" class="text-text-primary font-medium hover:underline">@$1</a>')
     return formatted
 }
 
-const AccordionItem = ({ title, items, isOpen, onToggle }: { title: string, items: string[], isOpen: boolean, onToggle: () => void }) => {
+const AccordionItem = ({ title, items, platform, isOpen, onToggle }: { title: string, items: string[], platform: Platform, isOpen: boolean, onToggle: () => void }) => {
     return (
         <div className="border-b border-border-subtle last:border-0">
             <button
@@ -106,7 +111,7 @@ const AccordionItem = ({ title, items, isOpen, onToggle }: { title: string, item
                             {items.map((item, i) => (
                                 <li key={i} className="text-sm text-text-secondary flex items-start gap-2">
                                     <span className="text-text-muted mt-1 shrink-0">•</span>
-                                    <span dangerouslySetInnerHTML={{ __html: formatChangelogItem(item) }} />
+                                    <span dangerouslySetInnerHTML={{ __html: formatChangelogItem(item, platform) }} />
                                 </li>
                             ))}
                         </ul>
@@ -213,7 +218,7 @@ export function ChangelogPage() {
                             ))}
                         </div>
                         <span className="kicker hidden sm:block">
-                            {platform === 'android' ? `${visibleLogs.length} Releases` : 'Rust + Tauri 2'}
+                            {platform === 'desktop' && visibleLogs.length === 0 ? 'Rust + Tauri 2' : `${visibleLogs.length} Releases`}
                         </span>
                     </div>
 
@@ -291,6 +296,7 @@ export function ChangelogPage() {
                                                                     key={sectionTitle}
                                                                     title={formatSectionTitle(sectionTitle)}
                                                                     items={items}
+                                                                    platform={log.platform}
                                                                     isOpen={openAccordions[`${logKey}-${sectionTitle}`] || false}
                                                                     onToggle={() => toggleAccordion(logKey, sectionTitle)}
                                                                 />
