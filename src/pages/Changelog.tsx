@@ -1,13 +1,20 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Header } from '@/components/layout/Header'
-import { FinalCTA } from '@/components/sections/FinalCTA'
+import { Footer } from '@/components/layout/Footer'
 import { ChevronDown, ChevronUp, Smartphone, Monitor } from 'lucide-react'
 
 type Platform = 'android' | 'desktop'
 
+function replaceEmDashes(line: string): string {
+    const parts = line.split(/\s*\u2014\s*/)
+    if (parts.length === 1) return line
+    if (parts.length > 2) return parts.join(', ')
+    return parts[0] + (parts[0].includes(':') ? '; ' : ': ') + parts[1]
+}
+
 function parseChangelogText(text: string) {
-    const lines = text.split('\n')
+    const lines = text.split('\n').map(replaceEmDashes)
     let version = ''
     let date = ''
     const sections: Record<string, string[]> = {}
@@ -39,7 +46,6 @@ function parseChangelogText(text: string) {
         }
     }
 
-    // Fallback if title/desc are missing
     if (!title) title = 'Flow Update'
     if (!description && ((sections['FEATURES'] && sections['FEATURES'].length > 0) || (sections['NEW FEATURES'] && sections['NEW FEATURES'].length > 0))) {
         description = 'New features and improvements to the Flow experience.'
@@ -65,7 +71,6 @@ function formatSectionTitle(title: string): string {
     if (clean === 'CORE UPDATE [IMPORTANT]') return 'Core Update [Important]'
     if (clean === '!IMPORTANT!') return 'Important!'
 
-    // Fallback: title case
     return title
         .toLowerCase()
         .split(' ')
@@ -149,7 +154,6 @@ export function ChangelogPage() {
                     }))
                     const validChangelogs = parsed.filter(c => c.version)
 
-                    // Sort descending by semantic version (newest first)
                     validChangelogs.sort((a, b) => {
                         const vA = a.version.replace(/[^0-9.]/g, '').split('.').map(Number);
                         const vB = b.version.replace(/[^0-9.]/g, '').split('.').map(Number);
@@ -182,19 +186,17 @@ export function ChangelogPage() {
             <main className="flex-1 w-full pt-32 pb-24">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                    {/* Page Header */}
                     <div className="mb-10">
                         <p className="kicker mb-4">Release Notes</p>
                         <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
                             Changelog
                         </h1>
                         <p className="text-lg text-text-secondary max-w-2xl">
-                            Every release, in detail. Development happens in the open —
+                            Every release, in detail. Development happens in the open, and
                             each entry links back to the issues and contributors behind it.
                         </p>
                     </div>
 
-                    {/* Platform Switcher */}
                     <div className="flex items-center justify-between gap-4 border-b border-border-subtle pb-6 mb-12">
                         <div className="inline-flex rounded-full border border-border-subtle p-1">
                             {tabs.map((tab) => (
@@ -217,7 +219,6 @@ export function ChangelogPage() {
                         </span>
                     </div>
 
-                    {/* Entries */}
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={platform}
@@ -228,14 +229,13 @@ export function ChangelogPage() {
                         >
                             {visibleLogs.length === 0 ? (
                                 platform === 'desktop' ? (
-                                    /* Desktop empty state (until the first public build ships) */
                                     <div className="rounded-2xl border border-border-subtle bg-bg-secondary px-8 py-16 text-center">
                                         <Monitor className="w-8 h-8 text-text-muted mx-auto mb-5" strokeWidth={1.5} />
                                         <h2 className="text-xl font-bold text-text-primary mb-3">
                                             The desktop story starts here.
                                         </h2>
                                         <p className="text-text-secondary max-w-md mx-auto leading-relaxed mb-6">
-                                            Flow for Windows, Linux, and macOS — written in Rust on Tauri 2 —
+                                            Flow for Windows, Linux, and macOS, written in Rust on Tauri 2,
                                             is in active development. Its first release notes will land on this page.
                                         </p>
                                         <p className="kicker">Windows &middot; Linux &middot; macOS</p>
@@ -253,7 +253,6 @@ export function ChangelogPage() {
                                 )
                             ) : (
                                 <div className="relative">
-                                    {/* Timeline rail */}
                                     <div className="absolute left-[7px] top-2 bottom-2 w-px bg-border-subtle hidden md:block" aria-hidden="true" />
 
                                     <div className="space-y-14">
@@ -261,10 +260,8 @@ export function ChangelogPage() {
                                             const logKey = `${log.platform}-${log.version}`
                                             return (
                                                 <div key={logKey} className="relative md:pl-12">
-                                                    {/* Timeline marker */}
                                                     <div className={`absolute left-0 top-2.5 w-[15px] h-[15px] rounded-full border-2 bg-bg-primary hidden md:block ${idx === 0 ? 'border-accent-primary' : 'border-border-subtle'}`} aria-hidden="true" />
 
-                                                    {/* Version Row */}
                                                     <div className="flex flex-wrap items-center gap-3 mb-4">
                                                         <span className="text-lg font-bold tracking-tight text-text-primary tabular-nums">
                                                             v{log.version}
@@ -276,7 +273,6 @@ export function ChangelogPage() {
                                                         )}
                                                     </div>
 
-                                                    {/* Content Panel */}
                                                     <div className="rounded-2xl border border-border-subtle bg-bg-secondary p-6 md:p-8">
                                                         <div className="flex flex-col md:flex-row md:items-start justify-between gap-3 mb-6">
                                                             <h2 className="text-xl font-bold text-text-primary">{log.title}</h2>
@@ -309,7 +305,7 @@ export function ChangelogPage() {
                 </div>
             </main>
 
-            <FinalCTA />
+            <Footer />
         </div>
     )
 }

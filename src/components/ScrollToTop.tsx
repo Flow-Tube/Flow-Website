@@ -6,7 +6,6 @@ export function ScrollToTop() {
 
     useEffect(() => {
         if (hash) {
-            // Give the new page time to render before scrolling to hash
             setTimeout(() => {
                 const element = document.querySelector(hash)
                 if (element) {

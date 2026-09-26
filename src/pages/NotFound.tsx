@@ -2,21 +2,18 @@ import { Header } from '@/components/layout/Header'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Home } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
-import { Link } from 'react-router-dom'
 
 export function NotFound() {
     return (
         <div className="relative min-h-screen bg-bg-primary text-text-primary flex flex-col overflow-hidden selection:bg-accent-primary/20">
             <Header />
             
-            {/* Ambient Background Glows */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl pointer-events-none z-0">
                 <div className="absolute inset-0 bg-accent-primary/5 md:bg-accent-primary/10 blur-[100px] md:blur-[120px] rounded-full mix-blend-screen animate-pulse duration-1000" />
             </div>
 
             <main className="flex-1 w-full pt-20 pb-12 flex flex-col items-center justify-center relative z-10">
                 
-                {/* Floating Huge Image */}
                 <motion.div 
                     initial={{ opacity: 0, y: 40, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -32,7 +29,6 @@ export function NotFound() {
                     />
                 </motion.div>
 
-                {/* Typography and CTAs */}
                 <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -47,15 +43,13 @@ export function NotFound() {
                     </p>
                     
                     <div className="flex flex-wrap justify-center items-center gap-4">
-                        <Link to="/">
-                            <Button variant="primary" size="lg" className="rounded-full px-8 py-6 text-base shadow-xl shadow-accent-primary/20 hover:shadow-accent-primary/30 transition-all" icon={<Home className="w-5 h-5" />}>
-                                Return Home
-                            </Button>
-                        </Link>
+                        <Button to="/" variant="primary" size="lg" className="px-8 py-5 text-base" icon={<Home className="w-5 h-5" />}>
+                            Return Home
+                        </Button>
                         <Button 
                             variant="secondary" 
                             size="lg" 
-                            className="rounded-full px-8 py-6 text-base bg-bg-elevated border-border-subtle hover:bg-bg-secondary"
+                            className="px-8 py-5 text-base"
                             icon={<ArrowLeft className="w-5 h-5" />} 
                             iconPosition="left"
                             onClick={() => window.history.back()}

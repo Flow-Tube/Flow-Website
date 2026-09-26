@@ -88,3 +88,9 @@ GPL-3.0. See [LICENSE](LICENSE).
 ## Note
 
 The website was built with the assisstance of claude code
+
+## Credits
+
+Parts of this website's redesign (the two-tone sections, tone-aware buttons,
+navigation dropdowns and footer layout) were inspired by the design of
+[Zen Browser's website](https://zen-browser.app).

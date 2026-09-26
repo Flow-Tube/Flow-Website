@@ -1,5 +1,5 @@
 import { Header } from '@/components/layout/Header'
-import { FinalCTA } from '@/components/sections/FinalCTA'
+import { Footer } from '@/components/layout/Footer'
 
 export function DMCA() {
     return (
@@ -23,7 +23,7 @@ export function DMCA() {
                     </div>
                 </div>
             </main>
-            <FinalCTA />
+            <Footer />
         </div>
     )
 }

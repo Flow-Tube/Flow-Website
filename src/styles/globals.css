@@ -2,51 +2,81 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ============================================
-   ROOT VARIABLES (YouTube Light Theme)
-   ============================================ */
 :root {
-    --bg-primary: #fffbfa;
-    --bg-secondary: #FAF5F3;
-    --bg-elevated: #F4EDEB;
-    --bg-card: #FFFDFC;
+    --bg-primary: #F7F6F3;
+    --bg-secondary: #F0EEEA;
+    --bg-elevated: #E7E4DF;
+    --bg-card: #FCFBF9;
 
     --accent-primary: #FF0000;
     --accent-primary-rgb: 255, 0, 0;
     --accent-hover: #CC0000;
 
-    --text-primary: #171010;
-    --text-secondary: #635C5A;
-    --text-muted: #948C8A;
+    --text-primary: #161413;
+    --text-secondary: #5C5752;
+    --text-muted: #8C8680;
 
-    --border-subtle: #EBE2DF;
+    --border-subtle: #E2DED8;
+
+    --inverse-bg-primary: #1D1B1A;
+    --inverse-bg-secondary: #232120;
+    --inverse-bg-elevated: #2B2826;
+    --inverse-bg-card: #211F1E;
+    --inverse-text-primary: #F2F0EC;
+    --inverse-text-secondary: #B5AFA9;
+    --inverse-text-muted: #86807A;
+    --inverse-border-subtle: #353230;
+
+    --font-display: 'Instrument Sans', 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ============================================
-   DARK MODE VARIABLES (YouTube Dark Theme)
-   ============================================ */
 .dark {
-    --bg-primary: #0F0F0F;
-    --bg-secondary: #000000;
-    --bg-elevated: #212121;
-    --bg-card: #0F0F0F;
+    --bg-primary: #131211;
+    --bg-secondary: #191817;
+    --bg-elevated: #242220;
+    --bg-card: #1B1A19;
 
     --accent-primary: #FF0000;
     --accent-primary-rgb: 255, 0, 0;
     --accent-hover: #FF4444;
 
-    --text-primary: #F1F1F1;
-    --text-secondary: #AAAAAA;
-    --text-muted: #717171;
+    --text-primary: #F1EFEC;
+    --text-secondary: #ABA6A1;
+    --text-muted: #77726D;
 
-    --border-subtle: #282828;
+    --border-subtle: #2C2A28;
+
+    --inverse-bg-primary: #DCD8D1;
+    --inverse-bg-secondary: #D5D1C9;
+    --inverse-bg-elevated: #CFCAC2;
+    --inverse-bg-card: #E3E0DA;
+    --inverse-text-primary: #161413;
+    --inverse-text-secondary: #4E4944;
+    --inverse-text-muted: #6E6963;
+    --inverse-border-subtle: #C4BFB7;
 }
 
-/* ============================================
-   BASE STYLES
-   ============================================ */
+.tone-inverse {
+    --bg-primary: var(--inverse-bg-primary);
+    --bg-secondary: var(--inverse-bg-secondary);
+    --bg-elevated: var(--inverse-bg-elevated);
+    --bg-card: var(--inverse-bg-card);
+    --text-primary: var(--inverse-text-primary);
+    --text-secondary: var(--inverse-text-secondary);
+    --text-muted: var(--inverse-text-muted);
+    --border-subtle: var(--inverse-border-subtle);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.dark .tone-inverse {
+    --accent-primary: #C8100A;
+    --accent-hover: #A00D08;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -67,17 +97,17 @@ body {
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* ============================================
-   SELECTION STYLES
-   ============================================ */
+@layer base {
+    h1, h2, h3 {
+        font-family: var(--font-display);
+    }
+}
+
 ::selection {
     background: var(--text-primary);
     color: var(--bg-primary);
 }
 
-/* ============================================
-   SCROLLBAR STYLES
-   ============================================ */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -95,18 +125,12 @@ body {
     background: var(--text-secondary);
 }
 
-/* ============================================
-   LAYER UTILITIES
-   ============================================ */
 @layer utilities {
     .glass {
         @apply bg-bg-card border border-border-subtle;
     }
 }
 
-/* ============================================
-   SECTION STYLES
-   ============================================ */
 .section {
     position: relative;
     padding: 6rem 0;
@@ -125,9 +149,8 @@ body {
     padding: 0 2rem;
 }
 
-
 .kicker {
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-family: var(--font-mono);
     font-size: 0.6875rem;
     font-weight: 500;
     letter-spacing: 0.2em;
@@ -149,9 +172,6 @@ body {
             transparent 100%);
 }
 
-/* ============================================
-   MARQUEE
-   ============================================ */
 @keyframes marquee {
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
@@ -175,9 +195,6 @@ body {
     }
 }
 
-/* ============================================
-   RESPONSIVE UTILITIES
-   ============================================ */
 @media (max-width: 768px) {
     .section {
         padding: 4rem 0;

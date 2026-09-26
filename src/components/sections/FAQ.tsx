@@ -19,11 +19,11 @@ const faqs = [
     },
     {
         question: 'Is there a desktop version?',
-        answer: 'It\'s being built right now. The desktop app targets Windows, Linux, and macOS, written in Rust on Tauri 2 — the same Flow, sized for a bigger screen.'
+        answer: 'It\'s being built right now. The desktop app targets Windows, Linux, and macOS, written in Rust on Tauri 2. It\'s the same Flow, sized for a bigger screen.'
     },
     {
         question: 'How do I install it?',
-        answer: 'Grab the latest APK from GitHub Releases, or get automatic updates through IzzyOnDroid and Obtainium. No store account required for any of them.'
+        answer: 'Grab the latest APK from GitHub Releases, or get automatic updates through IzzyOnDroid and Obtainium. No store account required for any of them. Flow runs on Android 8.0 and newer, and you can verify any APK against the signing fingerprint published in the README.'
     },
     {
         question: 'Does Flow host videos?',
@@ -42,17 +42,15 @@ export function FAQ() {
         <Section id="faq" fullHeight={false} className="bg-bg-primary border-b border-border-subtle py-24 md:py-32">
             <div className="max-w-7xl mx-auto px-4 md:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-                    {/* Header */}
                     <FadeIn className="lg:col-span-4">
                         <div className="lg:sticky lg:top-32">
-                            <p className="kicker mb-4">04 &mdash; FAQ</p>
+                            <p className="kicker mb-4">04 &middot; FAQ</p>
                             <h2 className="text-4xl md:text-5xl font-bold text-text-primary tracking-tight">
                                 Asked and answered.
                             </h2>
                         </div>
                     </FadeIn>
 
-                    {/* Accordion */}
                     <div className="lg:col-span-8">
                         {faqs.map((faq, i) => {
                             const isOpen = openIndex === i

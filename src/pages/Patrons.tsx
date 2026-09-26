@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Heart, ArrowUpRight } from 'lucide-react'
 import { Header } from '@/components/layout/Header'
-import { FinalCTA } from '@/components/sections/FinalCTA'
+import { Footer } from '@/components/layout/Footer'
 import { FadeIn } from '@/components/ui/TextReveal'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
@@ -110,7 +110,6 @@ export function Patrons() {
 
     const visibleTiers = tiers.filter(t => !t.hidden && t.patrons.length > 0)
 
-
     const seen = new Set<string>()
     const uniquePatrons: { name: string; color: ColorKey }[] = []
     for (const tier of visibleTiers) {
@@ -130,7 +129,6 @@ export function Patrons() {
             <main className="flex-1 w-full pt-32 pb-24">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                    {/* Page Header */}
                     <div className="mb-14">
                         <FadeIn>
                             <p className="kicker mb-4">Supporters</p>
@@ -138,13 +136,12 @@ export function Patrons() {
                                 The people behind Flow
                             </h1>
                             <p className="text-lg text-text-secondary max-w-2xl leading-relaxed">
-                                Flow is free, open-source, and funded entirely by the people who use it —
-                                no ads, no telemetry, no paywall. A standing thank-you to everyone below
+                                Flow is free, open-source, and funded entirely by the people who use it.
+                                No ads, no telemetry, no paywall. A standing thank-you to everyone below
                                 for keeping it independent.
                             </p>
                         </FadeIn>
 
-                        {/* Summary strip: avatar stack + count */}
                         {uniquePatrons.length > 0 && (
                             <FadeIn delay={0.1}>
                                 <div className="mt-9 flex items-center gap-4">
@@ -175,13 +172,12 @@ export function Patrons() {
                         )}
                     </div>
 
-                    {/* Tier sections */}
                     {loaded && visibleTiers.length === 0 ? (
                         <div className="rounded-2xl border border-border-subtle bg-bg-secondary px-8 py-16 text-center">
                             <Heart className="w-8 h-8 text-text-muted mx-auto mb-5" strokeWidth={1.5} />
                             <h2 className="text-xl font-bold text-text-primary mb-3">Be the first.</h2>
                             <p className="text-text-secondary max-w-md mx-auto leading-relaxed">
-                                No patrons to show just yet — support Flow on Patreon and your name
+                                No patrons to show just yet. Support Flow on Patreon and your name
                                 will land right here.
                             </p>
                         </div>
@@ -195,7 +191,6 @@ export function Patrons() {
                                             'grid gap-x-10 gap-y-6 pb-11 md:grid-cols-[8.5rem_1fr]',
                                             tierIdx > 0 ? 'border-t border-border-subtle pt-11' : 'pt-0',
                                         )}>
-                                            {/* Left rail — price as the anchor */}
                                             <div className="flex flex-row items-baseline gap-x-3 gap-y-1 md:flex-col md:items-end md:text-right md:pt-0.5">
                                                 <div className={cn('text-3xl font-bold tracking-tight leading-none', styles.price)}>
                                                     {tier.price}
@@ -206,7 +201,6 @@ export function Patrons() {
                                                 {tier.kind && <span className="kicker">{tier.kind}</span>}
                                             </div>
 
-                                            {/* Right — tier meta + patrons */}
                                             <div className="min-w-0">
                                                 <div className="flex items-baseline justify-between gap-4 mb-1.5">
                                                     <h2 className="flex items-center gap-2.5 text-lg font-bold text-text-primary">
@@ -261,7 +255,6 @@ export function Patrons() {
                         </div>
                     )}
 
-                    {/* Closing CTA */}
                     <FadeIn delay={0.1}>
                         <div className="mt-16 rounded-2xl border border-border-subtle bg-bg-secondary p-7 md:p-9 flex flex-col sm:flex-row sm:items-center gap-6">
                             <div className="flex-1">
@@ -271,24 +264,24 @@ export function Patrons() {
                                     Every bit keeps Flow ad-free, private, and moving.
                                 </p>
                             </div>
-                            <a
+                            <Button
                                 href="https://patreon.com/A_EDev"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="shrink-0"
+                                variant="primary"
+                                size="md"
+                                className="shrink-0 gap-1.5"
                             >
-                                <Button variant="primary" size="md" className="gap-1.5">
-                                    Support on Patreon
-                                    <ArrowUpRight className="w-4 h-4" strokeWidth={2} />
-                                </Button>
-                            </a>
+                                Support on Patreon
+                                <ArrowUpRight className="w-4 h-4" strokeWidth={2} />
+                            </Button>
                         </div>
                     </FadeIn>
 
                 </div>
             </main>
 
-            <FinalCTA />
+            <Footer />
         </div>
     )
 }

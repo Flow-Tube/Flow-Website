@@ -1,5 +1,5 @@
 import { Header } from '@/components/layout/Header'
-import { FinalCTA } from '@/components/sections/FinalCTA'
+import { Footer } from '@/components/layout/Footer'
 import { Section } from '@/components/layout/Section'
 import { FadeIn } from '@/components/ui/TextReveal'
 
@@ -35,7 +35,7 @@ export function About() {
                     </FadeIn>
                 </Section>
             </main>
-            <FinalCTA />
+            <Footer />
         </div>
     )
 }

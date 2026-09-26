@@ -13,7 +13,7 @@ const cryptoAddresses = [
 const contributions = [
     { icon: GitPullRequest, label: 'Code', text: 'New features, refactors, and the desktop port all welcome pull requests.' },
     { icon: Bug, label: 'Bug Reports', text: 'A well-written issue is often worth as much as the fix itself.' },
-    { icon: Languages, label: 'Translations', text: 'Help Flow speak your language — localization lives in simple string files.' },
+    { icon: Languages, label: 'Translations', text: 'Help Flow speak your language. Localization lives in simple string files.' },
 ]
 
 export function Support() {
@@ -28,15 +28,14 @@ export function Support() {
     return (
         <Section id="support" fullHeight={false} className="py-24 md:py-32 bg-bg-secondary border-b border-border-subtle">
             <div className="max-w-7xl mx-auto px-4 md:px-8">
-                {/* Header */}
                 <div className="mb-16">
                     <FadeIn>
-                        <p className="kicker mb-4">05 &mdash; Support</p>
+                        <p className="kicker mb-4">05 &middot; Support</p>
                         <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6 tracking-tight">
                             Free, Open, and Community Driven.
                         </h2>
                         <p className="text-lg text-text-secondary max-w-2xl">
-                            Flow has no ads, no telemetry, and no paid tier — which means no revenue
+                            Flow has no ads, no telemetry, and no paid tier, which means no revenue
                             except what the community chooses to give back. Time or money, both move
                             the project forward.
                         </p>
@@ -44,7 +43,6 @@ export function Support() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    {/* Contribute Panel */}
                     <FadeIn delay={0.15} className="lg:col-span-6">
                         <div className="bg-bg-card border border-border-subtle rounded-2xl h-full flex flex-col overflow-hidden">
                             <div className="flex items-center justify-between px-6 md:px-8 py-5 border-b border-border-subtle">
@@ -70,24 +68,19 @@ export function Support() {
                                 </div>
 
                                 <div className="flex flex-wrap gap-3">
-                                    <a href="https://github.com/A-EDev/Flow" target="_blank" rel="noopener noreferrer" className="flex-1 min-w-[160px]">
-                                        <Button variant="secondary" className="w-full" size="sm">
-                                            <ExternalLink className="w-4 h-4 mr-2" />
-                                            View Repository
-                                        </Button>
-                                    </a>
-                                    <a href="https://github.com/A-EDev/Flow/issues" target="_blank" rel="noopener noreferrer" className="flex-1 min-w-[160px]">
-                                        <Button variant="outline" className="w-full" size="sm">
-                                            <Bug className="w-4 h-4 mr-2" />
-                                            Open Issues
-                                        </Button>
-                                    </a>
+                                    <Button href="https://github.com/A-EDev/Flow" target="_blank" rel="noopener noreferrer" variant="secondary" className="flex-1 min-w-[160px]" size="sm">
+                                        <ExternalLink className="w-4 h-4" />
+                                        View Repository
+                                    </Button>
+                                    <Button href="https://github.com/A-EDev/Flow/issues" target="_blank" rel="noopener noreferrer" variant="outline" className="flex-1 min-w-[160px]" size="sm">
+                                        <Bug className="w-4 h-4" />
+                                        Open Issues
+                                    </Button>
                                 </div>
                             </div>
                         </div>
                     </FadeIn>
 
-                    {/* Donate Panel */}
                     <FadeIn delay={0.25} className="lg:col-span-6">
                         <div className="bg-bg-card border border-border-subtle rounded-2xl h-full flex flex-col overflow-hidden">
                             <div className="flex items-center justify-between px-6 md:px-8 py-5 border-b border-border-subtle">

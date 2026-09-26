@@ -1,5 +1,5 @@
 import { Header } from '@/components/layout/Header'
-import { FinalCTA } from '@/components/sections/FinalCTA'
+import { Footer } from '@/components/layout/Footer'
 
 export function PrivacyPolicy() {
     return (
@@ -33,7 +33,7 @@ export function PrivacyPolicy() {
                     </div>
                 </div>
             </main>
-            <FinalCTA />
+            <Footer />
         </div>
     )
 }
