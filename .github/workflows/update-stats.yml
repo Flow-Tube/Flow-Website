@@ -13,6 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Fetch Contributors
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash .github/scripts/fetch-contributors.sh public/contributors.json
+
       - name: Fetch Stats
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -21,8 +26,7 @@ jobs:
           FORKS=$(gh api repos/A-EDev/Flow --jq .forks_count)
           ISSUES=$(gh api repos/A-EDev/Flow --jq .open_issues_count)
           WATCHERS=$(gh api repos/A-EDev/Flow --jq .subscribers_count)
-          # Count contributors using pagination
-          CONTRIBUTORS=$(gh api repos/A-EDev/Flow/contributors --paginate --jq length | awk '{s+=$1} END {print s}')
+          CONTRIBUTORS=$(jq '.contributors | length' public/contributors.json)
           
           # Count downloads from releases
           DOWNLOADS=$(gh api repos/A-EDev/Flow/releases --paginate --jq '.[].assets[].download_count' | awk '{s+=$1} END {print s}')
@@ -57,8 +61,8 @@ jobs:
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           
-          if [[ -n $(git status -s public/stats.json public/changelogs.json) ]]; then
-            git add public/stats.json public/changelogs.json
+          if [[ -n $(git status -s public/stats.json public/changelogs.json public/contributors.json) ]]; then
+            git add public/stats.json public/changelogs.json public/contributors.json
             git commit -m "Update stats and changelogs [skip ci]"
             git push
           else
