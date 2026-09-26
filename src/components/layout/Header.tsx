@@ -1,33 +1,24 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
-    Menu, X, Download, Sun, Moon, ChevronDown, Sparkles, Brain, Smartphone,
-    HelpCircle, Github, Heart, Info, Bug, type LucideIcon,
-} from 'lucide-react'
+import { Menu, X, Download, Sun, Moon, ChevronDown, ArrowRight, ArrowUpRight, Heart } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import { useStats, formatCompact } from '@/lib/useStats'
-
-function RedditIcon({ className }: { className?: string; strokeWidth?: number }) {
-    return (
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
-            <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.508 1.183-.833 2.822-1.393 4.61-1.48l.84-3.922c.046-.216.257-.354.472-.313l3.05.642a1.24 1.24 0 0 1 1.049-.937zM16 11.23c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm-8 0c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm0 5.46c2.08 0 3.754-.925 3.968-1.077l-.608-.813c-.11.082-1.57.94-3.36.94-1.789 0-3.25-.858-3.36-.94l-.608.813c.214.152 1.888 1.077 3.968 1.077z" />
-        </svg>
-    )
-}
 
 interface NavLinkItem {
     label: string
     description: string
     href: string
-    icon: LucideIcon | typeof RedditIcon
     external?: boolean
+    meta?: string
+    heart?: boolean
 }
 
 interface NavGroup {
     id: string
     label: string
+    featured?: NavLinkItem & { kicker: string; cta: string }
     items: NavLinkItem[]
 }
 
@@ -37,28 +28,34 @@ function useNavGroups(): NavGroup[] {
         {
             id: 'explore',
             label: 'Explore',
+            featured: {
+                kicker: 'FlowNeuro',
+                label: 'How it Works',
+                description: 'A recommendation engine that learns what you like on your phone, and nowhere else. See what it knows and why it picked each video.',
+                href: '/#neuro-engine',
+                cta: 'See how it learns',
+            },
             items: [
-                { label: 'Features', description: 'Everything Flow can do', href: '/#features', icon: Sparkles },
-                { label: 'How it Works', description: 'The on-device recommendation engine', href: '/#neuro-engine', icon: Brain },
-                { label: 'Every Screen', description: 'Tour Flow on Android and desktop', href: '/#showcase', icon: Smartphone },
-                { label: 'FAQ', description: 'Answers to common questions', href: '/#faq', icon: HelpCircle },
+                { label: 'Features', description: 'Everything Flow can do, from SponsorBlock to song recognition.', href: '/#features' },
+                { label: 'Every Screen', description: 'Tour Flow on Android, Android TV and desktop.', href: '/#showcase' },
+                { label: 'FAQ', description: 'Straight answers on cost, privacy and installing.', href: '/#faq' },
             ],
         },
         {
             id: 'community',
             label: 'Community',
             items: [
+                { label: 'Support Flow', description: 'No ads and no paid tier. Donations keep Flow going.', href: '/#support', heart: true },
+                { label: 'Patrons', description: 'The people who keep Flow free.', href: '/patrons' },
                 {
                     label: 'GitHub',
-                    description: stats ? `Source code · ${formatCompact(stats.stars)} stars` : 'Source code and releases',
+                    description: 'Star the source and follow development.',
                     href: 'https://github.com/A-EDev/Flow',
-                    icon: Github,
                     external: true,
+                    meta: stats ? `${formatCompact(stats.stars)} stars` : undefined,
                 },
-                { label: 'Reddit', description: 'Discuss and get help on r/Flow_Official', href: 'https://reddit.com/r/flow_official', icon: RedditIcon, external: true },
-                { label: 'Patrons', description: 'The people who keep Flow free', href: '/patrons', icon: Heart },
-                { label: 'About', description: 'Why Flow exists', href: '/about', icon: Info },
-                { label: 'Report an Issue', description: 'Found a bug? Let us know', href: 'https://github.com/A-EDev/Flow/issues', icon: Bug, external: true },
+                { label: 'Reddit', description: 'Chat with other Flow users on r/Flow_Official.', href: 'https://reddit.com/r/flow_official', external: true },
+                { label: 'About', description: 'Why Flow exists and who builds it.', href: '/about' },
             ],
         },
     ]
@@ -138,6 +135,17 @@ export function Header() {
     const isGroupActive = (group: NavGroup) =>
         group.items.some(item => !item.external && !item.href.includes('#') && location.pathname === item.href)
 
+    const itemTitle = (item: NavLinkItem) => (
+        <span className="flex items-baseline justify-between gap-3">
+            <span className="flex items-center gap-1.5 font-display text-[17px] font-semibold tracking-[-0.01em] text-text-primary">
+                {item.label}
+                {item.heart && <Heart className="w-3.5 h-3.5 text-accent-primary fill-accent-primary" aria-hidden="true" />}
+                {item.external && <ArrowUpRight className="w-3.5 h-3.5 text-text-muted opacity-0 -translate-x-1 transition-all duration-200 group-hover/item:opacity-100 group-hover/item:translate-x-0" aria-hidden="true" />}
+            </span>
+            {item.meta && <span className="kicker shrink-0">{item.meta}</span>}
+        </span>
+    )
+
     const renderItemLink = (item: NavLinkItem, children: React.ReactNode, className: string) =>
         item.external ? (
             <a href={item.href} target="_blank" rel="noopener noreferrer" className={className} onClick={() => { setOpenGroup(null); setIsMobileMenuOpen(false) }}>
@@ -199,8 +207,8 @@ export function Header() {
                                             aria-controls={`nav-${group.id}`}
                                             onClick={() => setOpenGroup(isOpen ? null : group.id)}
                                             className={cn(
-                                                'flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-[15px] font-medium transition-colors',
-                                                isOpen || active ? 'text-text-primary bg-bg-elevated' : 'text-text-secondary hover:text-text-primary hover:bg-bg-elevated'
+                                                'flex items-center gap-1 px-3.5 py-2 text-[15px] font-medium transition-colors',
+                                                isOpen || active ? 'text-text-primary' : 'text-text-secondary hover:text-text-primary'
                                             )}
                                         >
                                             {group.label}
@@ -211,27 +219,44 @@ export function Header() {
                                             {isOpen && (
                                                 <motion.div
                                                     id={`nav-${group.id}`}
-                                                    initial={{ opacity: 0, y: -6 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    exit={{ opacity: 0, y: -6 }}
-                                                    transition={{ duration: 0.16, ease: 'easeOut' }}
-                                                    className="absolute left-1/2 -translate-x-1/2 top-full pt-3"
+                                                    initial={{ opacity: 0, x: '-50%', y: -4 }}
+                                                    animate={{ opacity: 1, x: '-50%', y: 0 }}
+                                                    exit={{ opacity: 0, x: '-50%', y: -4 }}
+                                                    transition={{ duration: 0.15, ease: 'easeOut' }}
+                                                    className="absolute left-1/2 top-full pt-2"
                                                 >
-                                                    <ul className="w-[340px] rounded-2xl border border-border-subtle bg-bg-card p-2 shadow-[0_24px_48px_-24px_rgba(0,0,0,0.35)]">
+                                                    <ul
+                                                        className={cn(
+                                                            'grid gap-1 rounded-2xl border-2 border-text-primary bg-bg-primary p-2.5 shadow-sm',
+                                                            group.featured ? 'w-[480px] lg:w-[600px] grid-cols-2' : 'w-[340px] grid-cols-1'
+                                                        )}
+                                                    >
+                                                        {group.featured && (
+                                                            <li className="row-span-3">
+                                                                {renderItemLink(
+                                                                    group.featured,
+                                                                    <>
+                                                                        <span className="kicker">{group.featured.kicker}</span>
+                                                                        {itemTitle(group.featured)}
+                                                                        <span className="text-sm leading-relaxed text-text-secondary">{group.featured.description}</span>
+                                                                        <span className="mt-auto pt-4 self-start inline-flex items-center gap-2 rounded-xl bg-text-primary text-bg-primary px-4 py-2.5 text-sm font-semibold shadow-[0_8px_18px_-10px_rgba(0,0,0,0.55)] transition-transform duration-150 group-hover/item:scale-[1.02]">
+                                                                            {group.featured.cta}
+                                                                            <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                                                                        </span>
+                                                                    </>,
+                                                                    'group/item h-full flex flex-col gap-2 rounded-xl bg-bg-secondary p-5 hover:bg-bg-elevated transition-colors'
+                                                                )}
+                                                            </li>
+                                                        )}
                                                         {group.items.map(item => (
                                                             <li key={item.label}>
                                                                 {renderItemLink(
                                                                     item,
                                                                     <>
-                                                                        <span className="w-9 h-9 rounded-lg bg-bg-elevated grid place-items-center shrink-0 text-text-primary">
-                                                                            <item.icon className="w-[18px] h-[18px]" strokeWidth={1.75} />
-                                                                        </span>
-                                                                        <span className="min-w-0">
-                                                                            <span className="block text-sm font-semibold text-text-primary">{item.label}</span>
-                                                                            <span className="block text-[13px] leading-snug text-text-secondary">{item.description}</span>
-                                                                        </span>
+                                                                        {itemTitle(item)}
+                                                                        <span className="text-sm leading-snug text-text-secondary">{item.description}</span>
                                                                     </>,
-                                                                    'flex items-center gap-3 p-2.5 rounded-xl hover:bg-bg-secondary transition-colors'
+                                                                    'group/item flex flex-col gap-1 rounded-xl px-4 py-3.5 hover:bg-bg-secondary transition-colors'
                                                                 )}
                                                             </li>
                                                         ))}
@@ -247,8 +272,8 @@ export function Header() {
                                 to="/changelog"
                                 aria-current={location.pathname === '/changelog' ? 'page' : undefined}
                                 className={cn(
-                                    'px-3.5 py-2 rounded-xl text-[15px] font-medium transition-colors',
-                                    location.pathname === '/changelog' ? 'text-text-primary bg-bg-elevated' : 'text-text-secondary hover:text-text-primary hover:bg-bg-elevated'
+                                    'px-3.5 py-2 text-[15px] font-medium transition-colors',
+                                    location.pathname === '/changelog' ? 'text-text-primary' : 'text-text-secondary hover:text-text-primary'
                                 )}
                             >
                                 Changelog
@@ -325,15 +350,15 @@ export function Header() {
                                     <div key={group.id} className="py-4 border-t border-border-subtle first:border-t-0">
                                         <p className="kicker mb-2">{group.label}</p>
                                         <ul>
-                                            {group.items.map(item => (
+                                            {(group.featured ? [group.featured, ...group.items] : group.items).map(item => (
                                                 <li key={item.label}>
                                                     {renderItemLink(
                                                         item,
                                                         <>
-                                                            <item.icon className="w-[18px] h-[18px] text-text-muted" strokeWidth={1.75} />
-                                                            <span>{item.label}</span>
+                                                            {item.label}
+                                                            {item.heart && <Heart className="w-4 h-4 text-accent-primary fill-accent-primary" aria-hidden="true" />}
                                                         </>,
-                                                        'flex items-center gap-3 py-2.5 text-lg font-medium text-text-primary'
+                                                        'flex items-center gap-2 py-2 font-display text-xl font-semibold tracking-[-0.01em] text-text-primary'
                                                     )}
                                                 </li>
                                             ))}
@@ -341,7 +366,7 @@ export function Header() {
                                     </div>
                                 ))}
                                 <div className="py-4 border-t border-border-subtle">
-                                    <Link to="/changelog" onClick={() => setIsMobileMenuOpen(false)} className="block py-2.5 text-lg font-medium text-text-primary">
+                                    <Link to="/changelog" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 font-display text-xl font-semibold tracking-[-0.01em] text-text-primary">
                                         Changelog
                                     </Link>
                                 </div>
