@@ -23,7 +23,7 @@ const columns: { title: string; links: FooterLink[] }[] = [
         title: 'Learn',
         links: [
             { label: 'Features', href: '/#features' },
-            { label: 'How it Works', href: '/#neuro-engine' },
+            { label: 'How it Works', href: '/how-it-works' },
             { label: 'Every Screen', href: '/#showcase' },
             { label: 'Changelog', href: '/changelog' },
         ],

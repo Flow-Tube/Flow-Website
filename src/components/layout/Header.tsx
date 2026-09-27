@@ -31,8 +31,8 @@ function useNavGroups(): NavGroup[] {
             featured: {
                 kicker: 'FlowNeuro',
                 label: 'How it Works',
-                description: 'A recommendation engine that learns what you like on your phone, and nowhere else. See what it knows and why it picked each video.',
-                href: '/#neuro-engine',
+                description: 'A recommendation engine that learns what you like on your phone, and nowhere else. See what it knows and how it builds your feed.',
+                href: '/how-it-works',
                 cta: 'See how it learns',
             },
             items: [

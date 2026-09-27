@@ -39,15 +39,16 @@ const featuresList = [
     },
     {
         id: 'neuro',
-        title: 'Neuro Engine',
+        title: 'FlowNeuro',
         icon: Brain,
         items: [
             { title: 'Local Intelligence', description: 'An algorithm that runs entirely on your device. It learns what you like without tracking you.' },
             { title: 'Topic Mixing', description: 'Detects when you are bored and naturally mixes in fresh, relevant content to break loops.' },
-            { title: 'Full Transparency Dashboard', description: 'See exactly what the algorithm knows about you and why it recommended specific videos.' },
+            { title: 'Your Taste Screen', description: 'See your persona, top interests and channels, and the searches it ran for you. Boost or block anything.' },
             { title: 'Prevents Topic Collapse', description: 'Actively prevents your feed from shrinking into the same 2-3 repetitive topics.' },
             { title: 'Viewer Personas', description: 'Ten personas, from The Explorer to The Night Owl, describe how you watch as the engine learns.' },
-            { title: 'Flow Recap', description: 'Your time per day, time per month, and daily viewing clock, told as a story.' }
+            { title: 'Flow Recap', description: 'Your time per day, time per month, and daily viewing clock, told as a story.' },
+            { title: 'Pause Learning', description: 'Long-press the Flow logo and nothing you watch teaches the engine until you turn it back on.' }
         ]
     },
     {

@@ -27,6 +27,12 @@
     --inverse-text-muted: #86807A;
     --inverse-border-subtle: #353230;
 
+    --viz-1: #2a78d6;
+    --viz-2: #eb6834;
+    --viz-3: #1baf7a;
+    --viz-negative: #e34948;
+    --viz-neutral: #D6D2CC;
+
     --font-display: 'Instrument Sans', 'Inter', system-ui, sans-serif;
     --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
@@ -57,6 +63,12 @@
     --inverse-text-secondary: #4E4944;
     --inverse-text-muted: #6E6963;
     --inverse-border-subtle: #C4BFB7;
+
+    --viz-1: #3987e5;
+    --viz-2: #d95926;
+    --viz-3: #199e70;
+    --viz-negative: #e66767;
+    --viz-neutral: #3A3735;
 }
 
 .tone-inverse {

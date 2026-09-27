@@ -15,7 +15,7 @@ const faqs = [
     },
     {
         question: 'How is the recommendation engine private?',
-        answer: 'The Neuro Engine is a piece of local software, not a cloud service. It builds its picture of your taste on your phone, and the transparency dashboard lets you inspect, reweight, or erase everything it has learned.'
+        answer: 'FlowNeuro is local software, not a cloud service. It builds its picture of your taste on your phone, and the Your taste screen lets you see it, boost or block topics, or erase everything. To fetch videos, Flow sends YouTube short search phrases and video IDs, never your profile or scores.'
     },
     {
         question: 'Is there a desktop version?',
