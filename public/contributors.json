@@ -33,7 +33,7 @@
       "login": "my-live-is-a-lie",
       "avatar_url": "https://avatars.githubusercontent.com/u/204233948?v=4",
       "html_url": "https://github.com/my-live-is-a-lie",
-      "contributions": 104,
+      "contributions": 105,
       "repos": [
         "android"
       ]
@@ -78,7 +78,7 @@
       "login": "MattSolo451",
       "avatar_url": "https://avatars.githubusercontent.com/u/70535762?v=4",
       "html_url": "https://github.com/MattSolo451",
-      "contributions": 36,
+      "contributions": 37,
       "repos": [
         "android"
       ]
@@ -96,7 +96,7 @@
       "login": "restlessSangoLeelo",
       "avatar_url": "https://avatars.githubusercontent.com/u/264833262?v=4",
       "html_url": "https://github.com/restlessSangoLeelo",
-      "contributions": 20,
+      "contributions": 21,
       "repos": [
         "android"
       ]
@@ -201,6 +201,15 @@
       ]
     },
     {
+      "login": "Sup-25498",
+      "avatar_url": "https://avatars.githubusercontent.com/u/298766255?v=4",
+      "html_url": "https://github.com/Sup-25498",
+      "contributions": 5,
+      "repos": [
+        "android"
+      ]
+    },
+    {
       "login": "JonatasVi",
       "avatar_url": "https://avatars.githubusercontent.com/u/86968994?v=4",
       "html_url": "https://github.com/JonatasVi",
@@ -213,15 +222,6 @@
       "login": "mrqubic",
       "avatar_url": "https://avatars.githubusercontent.com/u/284610477?v=4",
       "html_url": "https://github.com/mrqubic",
-      "contributions": 4,
-      "repos": [
-        "android"
-      ]
-    },
-    {
-      "login": "Sup-25498",
-      "avatar_url": "https://avatars.githubusercontent.com/u/298766255?v=4",
-      "html_url": "https://github.com/Sup-25498",
       "contributions": 4,
       "repos": [
         "android"
@@ -249,6 +249,15 @@
       "login": "DiegoLpVn",
       "avatar_url": "https://avatars.githubusercontent.com/u/32961620?v=4",
       "html_url": "https://github.com/DiegoLpVn",
+      "contributions": 3,
+      "repos": [
+        "android"
+      ]
+    },
+    {
+      "login": "Hallo5000",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59452026?v=4",
+      "html_url": "https://github.com/Hallo5000",
       "contributions": 3,
       "repos": [
         "android"
@@ -331,15 +340,6 @@
       "login": "Gh0zd",
       "avatar_url": "https://avatars.githubusercontent.com/u/89618330?v=4",
       "html_url": "https://github.com/Gh0zd",
-      "contributions": 2,
-      "repos": [
-        "android"
-      ]
-    },
-    {
-      "login": "Hallo5000",
-      "avatar_url": "https://avatars.githubusercontent.com/u/59452026?v=4",
-      "html_url": "https://github.com/Hallo5000",
       "contributions": 2,
       "repos": [
         "android"
