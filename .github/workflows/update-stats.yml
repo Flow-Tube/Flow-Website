@@ -38,23 +38,7 @@ jobs:
       - name: Fetch Changelogs
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Fetch file download URLs from the changelog directory
-          gh api repos/A-EDev/Flow/contents/app/src/main/assets/changelog --jq '.[].download_url' > changelog_urls.txt || echo "" > changelog_urls.txt
-          
-          echo "[" > public/changelogs.json
-          first=1
-          while read url; do
-            [ -z "$url" ] && continue
-            
-            content=$(curl -s "$url")
-            status=$(echo "$content" | grep -i '^STATUS:' | sed -E 's/^STATUS:[[:space:]]*//i' | tr -d '\r' || echo "")
-            
-            if [ $first -eq 0 ]; then echo "," >> public/changelogs.json; fi
-            jq -n --arg c "$content" --arg s "$status" '{"content": $c, "status": $s}' >> public/changelogs.json
-            first=0
-          done < changelog_urls.txt
-          echo "]" >> public/changelogs.json
+        run: bash .github/scripts/fetch-changelogs.sh public/changelogs.json
 
       - name: Commit and Push
         run: |

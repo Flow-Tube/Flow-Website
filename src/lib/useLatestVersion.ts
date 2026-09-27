@@ -13,13 +13,19 @@ function compareVersions(a: string, b: string) {
     return 0
 }
 
+function isPreRelease(entry: { content: string; status?: string }) {
+    const status = entry.status || entry.content.match(/^STATUS:\s*(.+)$/im)?.[1] || ''
+    return status.trim().toUpperCase() === 'PRE-RELEASE'
+}
+
 function load(): Promise<string | null> {
     if (!pending) {
         pending = fetch('/changelogs.json')
             .then(res => res.json())
-            .then((entries: { content: string; platform?: string }[]) => {
+            .then((entries: { content: string; platform?: string; status?: string }[]) => {
                 const versions = entries
                     .filter(entry => entry.platform !== 'desktop')
+                    .filter(entry => !isPreRelease(entry))
                     .map(entry => entry.content.match(/^VERSION:\s*([\d.]+)/im)?.[1])
                     .filter((v): v is string => Boolean(v))
                 cache = versions.sort(compareVersions).pop() ?? null
