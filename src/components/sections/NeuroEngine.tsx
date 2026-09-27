@@ -1,106 +1,72 @@
-import { motion } from 'framer-motion'
-import { Brain, Lock, SlidersHorizontal } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Section } from '@/components/layout/Section'
 import { FadeIn } from '@/components/ui/TextReveal'
+import { Button } from '@/components/ui/Button'
 
-const pillars = [
+const points = [
     {
-        icon: Brain,
-        title: 'Local Learning',
-        description: 'Analyzes your watch behavior locally to build a unique personality profile, breaking you out of algorithmic loops.'
+        title: 'Learns from how you watch',
+        description: 'A like counts ten times as much as a click. Finishing a video teaches it more than sampling one, and skips push back.',
     },
     {
-        icon: SlidersHorizontal,
-        title: 'Inspect & Adjust',
-        description: 'See exactly what topics the algorithm associates with you. Manually adjust their weights or remove them entirely.'
+        title: 'Builds a feed that doesn\'t loop',
+        description: 'Your subscriptions, videos related to what you finished, and searches from your interests. What you\'ve finished drops out, and your top three interests share the feed with smaller ones that rotate in.',
     },
     {
-        icon: Lock,
-        title: 'Data Portability',
-        description: 'Your data belongs to you. Export your entire recommendation profile or wipe it clean at any time with a single tap.'
-    }
-]
-
-const interests = [
-    { name: 'Programming', weight: 92 },
-    { name: 'Cinematography', weight: 78 },
-    { name: 'Science', weight: 65 },
-    { name: 'Jazz Music', weight: 50 },
-    { name: 'Architecture', weight: 45 },
+        title: 'Shows you everything',
+        description: 'The Your taste screen shows your persona, top interests and channels, and the searches it ran for you. Boost or block anything, pause learning, or export it as a file.',
+    },
 ]
 
 export function NeuroEngine() {
     return (
         <Section id="neuro-engine" fullHeight={false} className="bg-bg-secondary border-b border-border-subtle py-24 md:py-32">
             <div className="max-w-7xl mx-auto px-4 md:px-8">
-                {/* Header */}
                 <FadeIn>
-                    <div className="mb-16 md:mb-24 max-w-3xl">
-                        <p className="kicker mb-4">03 &mdash; The Engine</p>
-                        <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6 tracking-tight">
-                            Intelligence without compromise.
+                    <div className="mb-16 md:mb-20 max-w-3xl">
+                        <p className="kicker mb-4">03 &middot; The Engine</p>
+                        <h2 className="text-4xl md:text-5xl font-semibold tracking-[-0.035em] leading-[1.02] text-text-primary mb-6">
+                            It learns what you like.{' '}
+                            <span className="whitespace-nowrap font-serif italic font-normal tracking-[-0.01em] text-text-muted">It tells no one.</span>
                         </h2>
                         <p className="text-lg text-text-secondary leading-relaxed">
-                            A recommendation algorithm that runs entirely on your device.
-                            It learns your preferences without ever transmitting your data to a cloud server —
-                            and you have total control over what it knows.
+                            FlowNeuro builds your feed from what you watch, skip and search. It keeps what it learns
+                            in one file on your phone, and you can see all of it, change it, or erase it.
                         </p>
                     </div>
                 </FadeIn>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-                    {/* Pillars */}
-                    <div className="lg:col-span-6">
-                        {pillars.map((pillar, i) => (
-                            <FadeIn key={pillar.title} delay={i * 0.1}>
-                                <div className={`flex items-start gap-6 py-8 ${i > 0 ? 'border-t border-border-subtle' : ''}`}>
-                                    <div className="w-12 h-12 rounded-xl bg-bg-elevated flex items-center justify-center flex-shrink-0">
-                                        <pillar.icon className="w-5 h-5 text-text-primary" strokeWidth={1.75} />
-                                    </div>
-                                    <div>
-                                        <h4 className="text-lg font-semibold text-text-primary mb-1.5">{pillar.title}</h4>
-                                        <p className="text-text-secondary text-sm leading-relaxed">{pillar.description}</p>
-                                    </div>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                    <div className="lg:col-span-7">
+                        {points.map((point, i) => (
+                            <FadeIn key={point.title} delay={i * 0.08}>
+                                <div className={`py-7 ${i > 0 ? 'border-t border-border-subtle' : 'pt-0'}`}>
+                                    <h3 className="text-xl md:text-2xl font-semibold tracking-[-0.02em] text-text-primary mb-2">{point.title}</h3>
+                                    <p className="text-text-secondary leading-relaxed max-w-xl">{point.description}</p>
                                 </div>
                             </FadeIn>
                         ))}
+                        <FadeIn delay={0.25}>
+                            <Button to="/how-it-works" variant="primary" size="md" className="mt-6" icon={<ArrowRight className="w-4 h-4" />}>
+                                How FlowNeuro works
+                            </Button>
+                        </FadeIn>
                     </div>
 
-                    {/* Interest Profile Readout */}
-                    <FadeIn delay={0.15} className="lg:col-span-6">
-                        <div className="rounded-2xl border border-border-subtle bg-bg-primary overflow-hidden">
-                            {/* Panel Header */}
-                            <div className="flex items-center justify-between px-6 md:px-8 py-5 border-b border-border-subtle">
-                                <span className="kicker">Interest Profile</span>
-                                
+                    <FadeIn delay={0.15} className="lg:col-span-5 flex justify-center">
+                        <figure className="w-[min(72vw,300px)]">
+                            <div className="rounded-[36px] bg-[#1a1716] p-[7px] border border-border-subtle shadow-[0_30px_60px_-30px_rgba(0,0,0,0.45)]">
+                                <img
+                                    src="/screenshots/YourTaste.jpg"
+                                    alt="The Your taste screen in Flow: The Explorer persona, profile maturity, and the taste shape chart comparing the whole profile with right now"
+                                    width={575}
+                                    height={1237}
+                                    loading="lazy"
+                                    className="block w-full h-auto rounded-[29px]"
+                                />
                             </div>
-
-                            {/* Topic Rows */}
-                            <div className="px-6 md:px-8 py-6 space-y-5">
-                                {interests.map((topic, i) => (
-                                    <div key={topic.name}>
-                                        <div className="flex items-baseline justify-between mb-2">
-                                            <span className="text-sm font-medium text-text-primary">{topic.name}</span>
-                                            <span className="text-xs font-semibold text-text-secondary tabular-nums">{topic.weight}%</span>
-                                        </div>
-                                        <div className="h-1.5 rounded-full bg-bg-elevated overflow-hidden">
-                                            <motion.div
-                                                className="h-full rounded-full bg-accent-primary"
-                                                initial={{ width: 0 }}
-                                                whileInView={{ width: `${topic.weight}%` }}
-                                                viewport={{ once: true }}
-                                                transition={{ duration: 1, delay: 0.2 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                                            />
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-
-                            {/* Panel Footer */}
-                            <div className="flex items-baseline justify-between px-6 md:px-8 py-4 border-t border-border-subtle">
-                                <p className="kicker">Nothing leaves this device</p>
-                            </div>
-                        </div>
+                            <figcaption className="kicker mt-4 text-center">Settings &rsaquo; Your taste</figcaption>
+                        </figure>
                     </FadeIn>
                 </div>
             </div>

@@ -5,31 +5,25 @@
     <link rel="icon" type="image/svg+xml" href="/flow-icon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- SEO Meta Tags -->
     <title>Flow - A YouTube Client That Learns With You</title>
-    <meta name="description" content="Flow is a modern, privacy-first Android YouTube client with a local Neural Recommendation Engine. No ads, no tracking, just personalized content discovery." />
+    <meta name="description" content="Flow is a modern, privacy-first Android YouTube client with an on-device recommendation engine. No ads, no tracking, just personalized content discovery." />
     <meta name="keywords" content="YouTube client, Android, privacy, neural engine, recommendations, open source, no ads" />
     <meta name="author" content="A-EDev" />
     
-    <!-- Open Graph -->
     <meta property="og:title" content="Flow - A YouTube Client That Learns With You" />
-    <meta property="og:description" content="A modern, privacy-first Android YouTube client with a local Neural Recommendation Engine." />
+    <meta property="og:description" content="A modern, privacy-first Android YouTube client with an on-device recommendation engine." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://flow.aedev.me" />
     <meta property="og:image" content="https://flow.aedev.me/og-image.png" />
     
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Flow - A YouTube Client That Learns With You" />
-    <meta name="twitter:description" content="A modern, privacy-first Android YouTube client with a local Neural Recommendation Engine." />
+    <meta name="twitter:description" content="A modern, privacy-first Android YouTube client with an on-device recommendation engine." />
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Theme Color -->
-    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="theme-color" content="#F7F6F3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131211" media="(prefers-color-scheme: dark)" />
 
     <script>
       (function () {
@@ -41,6 +35,19 @@
           }
         } catch (e) {}
       })();
+
+      window.addEventListener('error', function (event) {
+        var el = event.target;
+        var url = el && (el.src || el.href);
+        if (!url || url.indexOf('/assets/') === -1) return;
+        try {
+          if (sessionStorage.getItem('flow-asset-retry')) return;
+          sessionStorage.setItem('flow-asset-retry', '1');
+        } catch (e) {
+          return;
+        }
+        location.reload();
+      }, true);
     </script>
   </head>
   <body>

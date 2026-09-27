@@ -1,152 +1,178 @@
-import { useState } from 'react'
-import { Github, Heart, Bitcoin, Wallet, Check, Copy, ExternalLink, Bug, Languages, GitPullRequest } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { ArrowRight, ArrowUpRight, Check, Copy } from 'lucide-react'
 import { Section } from '@/components/layout/Section'
 import { FadeIn } from '@/components/ui/TextReveal'
 import { Button } from '@/components/ui/Button'
+import { cn } from '@/lib/utils'
 
 const cryptoAddresses = [
-    { coin: 'Bitcoin', network: 'BTC', address: 'bc1qgmkkxxvzvsymtpfazqfl93jw6k4jgy0xmrtnv8', icon: Bitcoin },
-    { coin: 'USDT', network: 'TRC20', address: 'TRz7VDrTWwCLCfQmYBEJakqcZgbFNWfUMP', icon: Wallet },
-    { coin: 'Monero', network: 'XMR', address: '8AgaxZnpEvT8VXJpczpL7BQejwSEw97saJmKYqq4zKErbe9bkYSwUhJ813msPPbdYhF11oz4N7tfEj4Zi6k27fKD83ca1if', icon: Wallet },
+    { label: 'Bitcoin', address: 'bc1qgmkkxxvzvsymtpfazqfl93jw6k4jgy0xmrtnv8' },
+    { label: 'USDT · TRC20', address: 'TRz7VDrTWwCLCfQmYBEJakqcZgbFNWfUMP' },
+    { label: 'Monero', address: '8AgaxZnpEvT8VXJpczpL7BQejwSEw97saJmKYqq4zKErbe9bkYSwUhJ813msPPbdYhF11oz4N7tfEj4Zi6k27fKD83ca1if' },
 ]
 
-const contributions = [
-    { icon: GitPullRequest, label: 'Code', text: 'New features, refactors, and the desktop port all welcome pull requests.' },
-    { icon: Bug, label: 'Bug Reports', text: 'A well-written issue is often worth as much as the fix itself.' },
-    { icon: Languages, label: 'Translations', text: 'Help Flow speak your language — localization lives in simple string files.' },
+const timeLinks = [
+    { title: 'Report a bug', description: 'Opens the bug report form on GitHub.', href: 'https://github.com/A-EDev/Flow/issues/new?template=bug_report.yml' },
+    { title: 'Suggest a feature', description: 'Opens the feature request form.', href: 'https://github.com/A-EDev/Flow/issues/new?template=feature_request.yml' },
+    { title: 'Translate Flow', description: 'Help Flow speak your language on Weblate.', href: 'https://hosted.weblate.org/engage/flow/' },
+    { title: 'Contribute code', description: 'Read the contributing guide and send a pull request.', href: 'https://github.com/A-EDev/Flow/blob/main/CONTRIBUTING.md' },
 ]
+
+function useCommunityCounts() {
+    const [counts, setCounts] = useState<{ supporters: number | null; contributors: number | null }>({ supporters: null, contributors: null })
+
+    useEffect(() => {
+        let active = true
+        fetch('/patrons.json')
+            .then(res => res.json())
+            .then(data => {
+                const tiers: { hidden?: boolean; patrons: { name: string }[] }[] = Array.isArray(data?.tiers) ? data.tiers : []
+                const names = new Set(tiers.filter(t => !t.hidden).flatMap(t => t.patrons.map(p => p.name.toLowerCase())))
+                if (active) setCounts(c => ({ ...c, supporters: names.size }))
+            })
+            .catch(() => { })
+        fetch('/contributors.json')
+            .then(res => res.json())
+            .then(data => {
+                if (active && Array.isArray(data?.contributors)) setCounts(c => ({ ...c, contributors: data.contributors.length }))
+            })
+            .catch(() => { })
+        return () => { active = false }
+    }, [])
+
+    return counts
+}
 
 export function Support() {
-    const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
+    const [coin, setCoin] = useState(0)
+    const [copied, setCopied] = useState(false)
+    const addressRef = useRef<HTMLElement>(null)
+    const counts = useCommunityCounts()
 
-    const copyAddress = (address: string, index: number) => {
-        navigator.clipboard.writeText(address)
-        setCopiedIndex(index)
-        setTimeout(() => setCopiedIndex(prev => (prev === index ? null : prev)), 2000)
+    useEffect(() => setCopied(false), [coin])
+
+    const copyAddress = async () => {
+        try {
+            await navigator.clipboard.writeText(cryptoAddresses[coin].address)
+            setCopied(true)
+            window.setTimeout(() => setCopied(false), 2000)
+        } catch {
+            const node = addressRef.current
+            if (!node) return
+            const range = document.createRange()
+            range.selectNodeContents(node)
+            const selection = window.getSelection()
+            selection?.removeAllRanges()
+            selection?.addRange(range)
+        }
     }
 
     return (
         <Section id="support" fullHeight={false} className="py-24 md:py-32 bg-bg-secondary border-b border-border-subtle">
-            <div className="max-w-7xl mx-auto px-4 md:px-8">
-                {/* Header */}
-                <div className="mb-16">
-                    <FadeIn>
-                        <p className="kicker mb-4">05 &mdash; Support</p>
-                        <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6 tracking-tight">
-                            Free, Open, and Community Driven.
-                        </h2>
-                        <p className="text-lg text-text-secondary max-w-2xl">
-                            Flow has no ads, no telemetry, and no paid tier — which means no revenue
-                            except what the community chooses to give back. Time or money, both move
-                            the project forward.
+            <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+                <FadeIn className="lg:col-span-5">
+                    <p className="kicker mb-4">05 &middot; Support</p>
+                    <h2 className="text-4xl md:text-5xl font-semibold tracking-[-0.035em] leading-[1.02] text-text-primary mb-6">
+                        Free forever.{' '}
+                        <span className="whitespace-nowrap font-serif italic font-normal tracking-[-0.01em] text-text-muted">Funded by you.</span>
+                    </h2>
+                    <p className="text-lg text-text-secondary leading-relaxed">
+                        Flow has no ads, no telemetry and no paid tier, so there's no revenue except what the
+                        community chooses to give back. Time or money, both move it forward.
+                    </p>
+                    {(counts.supporters !== null || counts.contributors !== null) && (
+                        <p className="kicker mt-6 flex flex-wrap gap-x-5 gap-y-1">
+                            {counts.supporters !== null && (
+                                <span><span className="text-text-primary">{counts.supporters}</span> {counts.supporters === 1 ? 'supporter' : 'supporters'}</span>
+                            )}
+                            {counts.contributors !== null && (
+                                <span><span className="text-text-primary">{counts.contributors}</span> contributors</span>
+                            )}
                         </p>
-                    </FadeIn>
-                </div>
+                    )}
+                    <Link
+                        to="/patrons"
+                        className="mt-4 inline-flex items-center gap-1.5 text-[15px] font-semibold text-text-primary underline underline-offset-4 decoration-text-muted hover:decoration-text-primary"
+                    >
+                        Meet the patrons
+                        <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </Link>
+                </FadeIn>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    {/* Contribute Panel */}
-                    <FadeIn delay={0.15} className="lg:col-span-6">
-                        <div className="bg-bg-card border border-border-subtle rounded-2xl h-full flex flex-col overflow-hidden">
-                            <div className="flex items-center justify-between px-6 md:px-8 py-5 border-b border-border-subtle">
-                                <span className="kicker">Give Time</span>
-                                <Github className="w-4 h-4 text-text-muted" />
-                            </div>
+                <FadeIn delay={0.1} className="lg:col-span-7 flex flex-col gap-4">
+                    <div className="rounded-2xl border-2 border-text-primary bg-bg-primary p-6 md:p-8">
+                        <p className="kicker mb-3">Give money</p>
+                        <h3 className="text-2xl font-semibold tracking-[-0.02em] text-text-primary mb-2">Support on Patreon</h3>
+                        <p className="text-text-secondary leading-relaxed">
+                            Monthly from $3, or a one-time tip in the shop. Card, Apple Pay or PayPal.
+                        </p>
+                        <Button
+                            href="https://patreon.com/A_EDev"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            variant="primary"
+                            size="md"
+                            className="mt-5"
+                            icon={<ArrowUpRight className="w-4 h-4" />}
+                        >
+                            Support on Patreon
+                        </Button>
 
-                            <div className="p-6 md:p-8 flex flex-col flex-1">
-                                <h3 className="text-2xl font-bold text-text-primary mb-6">Contribute</h3>
-
-                                <div className="space-y-5 flex-1 mb-8">
-                                    {contributions.map((item) => (
-                                        <div key={item.label} className="flex items-start gap-4">
-                                            <div className="w-9 h-9 rounded-lg bg-bg-elevated flex items-center justify-center flex-shrink-0">
-                                                <item.icon className="w-4 h-4 text-text-primary" strokeWidth={1.75} />
-                                            </div>
-                                            <div>
-                                                <h4 className="text-sm font-semibold text-text-primary mb-0.5">{item.label}</h4>
-                                                <p className="text-sm text-text-secondary leading-relaxed">{item.text}</p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <div className="flex flex-wrap gap-3">
-                                    <a href="https://github.com/A-EDev/Flow" target="_blank" rel="noopener noreferrer" className="flex-1 min-w-[160px]">
-                                        <Button variant="secondary" className="w-full" size="sm">
-                                            <ExternalLink className="w-4 h-4 mr-2" />
-                                            View Repository
-                                        </Button>
-                                    </a>
-                                    <a href="https://github.com/A-EDev/Flow/issues" target="_blank" rel="noopener noreferrer" className="flex-1 min-w-[160px]">
-                                        <Button variant="outline" className="w-full" size="sm">
-                                            <Bug className="w-4 h-4 mr-2" />
-                                            Open Issues
-                                        </Button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </FadeIn>
-
-                    {/* Donate Panel */}
-                    <FadeIn delay={0.25} className="lg:col-span-6">
-                        <div className="bg-bg-card border border-border-subtle rounded-2xl h-full flex flex-col overflow-hidden">
-                            <div className="flex items-center justify-between px-6 md:px-8 py-5 border-b border-border-subtle">
-                                <span className="kicker">Give Support</span>
-                                <Heart className="w-4 h-4 text-accent-primary" />
-                            </div>
-
-                            <div className="p-6 md:p-8 flex flex-col flex-1">
-                                <h3 className="text-2xl font-bold text-text-primary mb-6">Donate</h3>
-
-                                <div className="space-y-3 flex-1">
-                                    {cryptoAddresses.map((crypto, i) => (
-                                        <button
-                                            key={crypto.coin}
-                                            onClick={() => copyAddress(crypto.address, i)}
-                                            className="w-full text-left flex flex-col gap-1.5 p-4 rounded-xl bg-bg-secondary border border-border-subtle hover:bg-bg-elevated transition-colors group"
-                                        >
-                                            <div className="flex justify-between items-center">
-                                                <div className="flex items-center gap-2">
-                                                    <crypto.icon className="w-4 h-4 text-text-primary" strokeWidth={1.75} />
-                                                    <span className="font-semibold text-text-primary text-sm">{crypto.coin}</span>
-                                                    <span className="kicker">{crypto.network}</span>
-                                                </div>
-                                                <span className={`flex items-center gap-1 text-xs font-medium transition-opacity ${copiedIndex === i
-                                                    ? 'text-text-primary opacity-100'
-                                                    : 'text-text-secondary opacity-0 group-hover:opacity-100'
-                                                    }`}>
-                                                    {copiedIndex === i
-                                                        ? <><Check className="w-3.5 h-3.5" /> Copied</>
-                                                        : <><Copy className="w-3.5 h-3.5" /> Copy</>}
-                                                </span>
-                                            </div>
-                                            <div className="text-xs text-text-secondary font-mono truncate">
-                                                {crypto.address}
-                                            </div>
-                                        </button>
-                                    ))}
-                                </div>
-
-                                <div className="pt-6 mt-6 border-t border-border-subtle flex items-center justify-between gap-4">
-                                    <p className="text-sm text-text-secondary">
-                                        Prefer a recurring option?
-                                    </p>
-                                    <a
-                                        href="https://patreon.com/A_EDev"
-                                        target="_blank"
-                                        rel="noreferrer noopener"
-                                        className="transition-transform hover:scale-[1.03]"
+                        <div className="mt-7 pt-6 border-t border-border-subtle">
+                            <p className="kicker mb-3">Or send crypto</p>
+                            <div className="inline-flex flex-wrap gap-1 rounded-xl border border-border-subtle p-1" role="group" aria-label="Currency">
+                                {cryptoAddresses.map((c, i) => (
+                                    <button
+                                        key={c.label}
+                                        type="button"
+                                        aria-pressed={coin === i}
+                                        onClick={() => setCoin(i)}
+                                        className={cn(
+                                            'rounded-lg px-3.5 py-1.5 text-sm font-medium transition-colors',
+                                            coin === i ? 'bg-text-primary text-bg-primary' : 'text-text-secondary hover:text-text-primary'
+                                        )}
                                     >
-                                        <img
-                                            src="https://img.shields.io/badge/Patreon-Support_Flow-FF424D?style=for-the-badge&logo=patreon&logoColor=white"
-                                            alt="Support Flow on Patreon"
-                                        />
-                                    </a>
-                                </div>
+                                        {c.label}
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-xl border border-border-subtle bg-bg-card py-2.5 pl-4 pr-2.5">
+                                <code ref={addressRef} className="font-mono text-[13px] leading-relaxed text-text-primary break-all select-all" aria-label={`${cryptoAddresses[coin].label} address`}>
+                                    {cryptoAddresses[coin].address}
+                                </code>
+                                <button
+                                    type="button"
+                                    onClick={copyAddress}
+                                    className="inline-flex items-center gap-1.5 rounded-lg border border-border-subtle bg-bg-primary px-3 py-2 text-[13px] font-semibold text-text-primary hover:border-text-primary transition-colors"
+                                >
+                                    {copied ? <Check className="w-3.5 h-3.5" aria-hidden="true" /> : <Copy className="w-3.5 h-3.5" aria-hidden="true" />}
+                                    {copied ? 'Copied' : 'Copy'}
+                                </button>
                             </div>
                         </div>
-                    </FadeIn>
-                </div>
+                    </div>
+
+                    <div className="rounded-2xl border border-border-subtle bg-bg-primary p-2">
+                        <p className="kicker px-4 pt-3 pb-1">Give time</p>
+                        <ul>
+                            {timeLinks.map(link => (
+                                <li key={link.title}>
+                                    <a
+                                        href={link.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-0.5 rounded-xl px-4 py-3.5 hover:bg-bg-secondary transition-colors"
+                                    >
+                                        <span className="font-display text-[17px] font-semibold tracking-[-0.01em] text-text-primary">{link.title}</span>
+                                        <ArrowUpRight className="row-span-2 w-4 h-4 text-text-muted group-hover:text-text-primary transition-colors" aria-hidden="true" />
+                                        <span className="text-sm text-text-secondary">{link.description}</span>
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </FadeIn>
             </div>
         </Section>
     )

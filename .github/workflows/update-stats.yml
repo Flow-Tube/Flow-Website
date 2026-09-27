@@ -13,6 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Fetch Contributors
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash .github/scripts/fetch-contributors.sh public/contributors.json
+
       - name: Fetch Stats
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -21,8 +26,7 @@ jobs:
           FORKS=$(gh api repos/A-EDev/Flow --jq .forks_count)
           ISSUES=$(gh api repos/A-EDev/Flow --jq .open_issues_count)
           WATCHERS=$(gh api repos/A-EDev/Flow --jq .subscribers_count)
-          # Count contributors using pagination
-          CONTRIBUTORS=$(gh api repos/A-EDev/Flow/contributors --paginate --jq length | awk '{s+=$1} END {print s}')
+          CONTRIBUTORS=$(jq '.contributors | length' public/contributors.json)
           
           # Count downloads from releases
           DOWNLOADS=$(gh api repos/A-EDev/Flow/releases --paginate --jq '.[].assets[].download_count' | awk '{s+=$1} END {print s}')
@@ -34,31 +38,20 @@ jobs:
       - name: Fetch Changelogs
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Fetch file download URLs from the changelog directory
-          gh api repos/A-EDev/Flow/contents/app/src/main/assets/changelog --jq '.[].download_url' > changelog_urls.txt || echo "" > changelog_urls.txt
-          
-          echo "[" > public/changelogs.json
-          first=1
-          while read url; do
-            [ -z "$url" ] && continue
-            
-            content=$(curl -s "$url")
-            status=$(echo "$content" | grep -i '^STATUS:' | sed -E 's/^STATUS:[[:space:]]*//i' | tr -d '\r' || echo "")
-            
-            if [ $first -eq 0 ]; then echo "," >> public/changelogs.json; fi
-            jq -n --arg c "$content" --arg s "$status" '{"content": $c, "status": $s}' >> public/changelogs.json
-            first=0
-          done < changelog_urls.txt
-          echo "]" >> public/changelogs.json
+        run: bash .github/scripts/fetch-changelogs.sh public/changelogs.json
+
+      - name: Fetch Downloads
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash .github/scripts/fetch-downloads.sh public/downloads.json
 
       - name: Commit and Push
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           
-          if [[ -n $(git status -s public/stats.json public/changelogs.json) ]]; then
-            git add public/stats.json public/changelogs.json
+          if [[ -n $(git status -s public/stats.json public/changelogs.json public/contributors.json public/downloads.json) ]]; then
+            git add public/stats.json public/changelogs.json public/contributors.json public/downloads.json
             git commit -m "Update stats and changelogs [skip ci]"
             git push
           else

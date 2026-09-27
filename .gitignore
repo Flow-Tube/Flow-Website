@@ -27,3 +27,4 @@ app.md
 maintenance-mode.json
 doc.md
 sync-doc.md
+.claude/settings.local.json

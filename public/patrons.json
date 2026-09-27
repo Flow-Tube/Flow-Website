@@ -1,5 +1,5 @@
 {
-  "_note": "HOW TO UPDATE: Find the right tier below and add an entry to its \"patrons\" array, e.g. { \"name\": \"TheirName\", \"note\": \"optional small label\" }. A person can appear in more than one tier. Avatar colors, ordering, initials and counts are all handled automatically from each tier's \"color\" field and its position in this list — you only ever need to edit names. Set a tier's \"hidden\" field to true to keep it off the page. Supported colors: amber, violet, sky, emerald, slate.",
+  "_note": "HOW TO UPDATE: Find the right tier below and add an entry to its \"patrons\" array, e.g. { \"name\": \"TheirName\", \"note\": \"optional small label\" }. A person can appear in more than one tier. Ordering, initials and counts are handled automatically from each tier's position in this list, and its \"color\" sets the small dot beside the tier name, so you only ever need to edit names. Set a tier's \"hidden\" field to true to keep it off the page. Supported colors: amber, violet, sky, emerald, slate.",
   "tiers": [
     {
       "id": "open-source-hero",
@@ -25,7 +25,7 @@
       "price": "$10",
       "cadence": "per month",
       "kind": "Recurring",
-      "description": "The top recurring tier — sponsors keep the lights on month after month.",
+      "description": "The top recurring tier. Sponsors keep the lights on month after month.",
       "color": "violet",
       "hidden": false,
       "patrons": [

@@ -9,27 +9,25 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
-                // Background colors
                 'bg-primary': 'var(--bg-primary)',
                 'bg-secondary': 'var(--bg-secondary)',
                 'bg-elevated': 'var(--bg-elevated)',
                 'bg-card': 'var(--bg-card)',
 
-                // Accent colors
                 'accent-primary': 'var(--accent-primary)',
                 'accent-hover': 'var(--accent-hover)',
 
-                // Text colors
                 'text-primary': 'var(--text-primary)',
                 'text-secondary': 'var(--text-secondary)',
                 'text-muted': 'var(--text-muted)',
                 
-                // Border colors
                 'border-subtle': 'var(--border-subtle)',
             },
             fontFamily: {
                 sans: ['Inter', 'system-ui', 'sans-serif'],
-                display: ['Inter', 'system-ui', 'sans-serif'],
+                display: ['"Instrument Sans"', 'Inter', 'system-ui', 'sans-serif'],
+                serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+                mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
             },
             fontSize: {
                 'hero': ['clamp(3rem, 10vw, 8rem)', { lineHeight: '1', letterSpacing: '-0.04em' }],

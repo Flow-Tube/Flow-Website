@@ -6,11 +6,12 @@ import { NeuroEngine } from '@/components/sections/NeuroEngine'
 import { FAQ } from '@/components/sections/FAQ'
 import { Support } from '@/components/sections/Support'
 import { FinalCTA } from '@/components/sections/FinalCTA'
+import { Footer } from '@/components/layout/Footer'
 
 export function Home() {
     return (
         <div className="relative min-h-screen bg-bg-primary text-text-primary">
-            <Header hideUntilScroll />
+            <Header />
 
             <main className="w-full relative z-0">
                 <Hero />
@@ -21,6 +22,8 @@ export function Home() {
                 <Support />
                 <FinalCTA />
             </main>
+
+            <Footer />
         </div>
     )
 }

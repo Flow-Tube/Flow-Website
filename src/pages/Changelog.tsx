@@ -1,315 +1,454 @@
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect, useMemo, useState } from 'react'
+import { ArrowUpRight, Search } from 'lucide-react'
 import { Header } from '@/components/layout/Header'
-import { FinalCTA } from '@/components/sections/FinalCTA'
-import { ChevronDown, ChevronUp, Smartphone, Monitor } from 'lucide-react'
+import { Footer } from '@/components/layout/Footer'
+import { cn } from '@/lib/utils'
 
 type Platform = 'android' | 'desktop'
 
-function parseChangelogText(text: string) {
-    const lines = text.split('\n')
+interface RawEntry {
+    content: string
+    status?: string
+    platform?: string
+    release_url?: string | null
+}
+
+interface Section {
+    title: string
+    items: string[]
+}
+
+interface Release {
+    key: string
+    platform: Platform
+    version: string
+    date: string
+    status: string
+    intro: string
+    sections: Section[]
+    releaseUrl: string | null
+}
+
+const REPOS: Record<Platform, string> = {
+    android: 'A-EDev/Flow',
+    desktop: 'Flow-Tube/Flow-Desktop',
+}
+
+const PREVIEW_ITEMS = 8
+
+function replaceEmDashes(line: string): string {
+    const parts = line.split(/\s*\u2014\s*/)
+    if (parts.length === 1) return line
+    if (parts.length > 2) return parts.join(', ')
+    return parts[0] + (parts[0].includes(':') ? '; ' : ': ') + parts[1]
+}
+
+function isAllCaps(line: string) {
+    return /[A-Z]/.test(line) && line === line.toUpperCase()
+}
+
+function parseEntry(entry: RawEntry): Release | null {
+    const platform: Platform = entry.platform === 'desktop' ? 'desktop' : 'android'
     let version = ''
     let date = ''
-    const sections: Record<string, string[]> = {}
-    let currentSection = ''
-    let title = ''
-    let description = ''
-    let status = ''
+    let status = (entry.status || '').trim().toUpperCase()
+    const intro: string[] = []
+    const sections: Section[] = []
+    let current: Section | null = null
 
-    for (const line of lines) {
-        const trimmed = line.trim()
-        if (!trimmed || trimmed === 'FLOW CHANGE LOG') continue
+    for (const raw of entry.content.split('\n')) {
+        const line = replaceEmDashes(raw.trim())
+        if (!line || /^FLOW( DESKTOP)? CHANGE LOG$/i.test(line)) continue
 
-        if (trimmed.toUpperCase().startsWith('VERSION:')) {
-            version = trimmed.substring(8).trim()
-            title = 'Flow Update'
-        } else if (trimmed.toUpperCase().startsWith('DATE:')) {
-            date = trimmed.substring(5).trim()
-        } else if (trimmed.toUpperCase().startsWith('STATUS:')) {
-            status = trimmed.substring(7).trim()
-        } else if (trimmed.toUpperCase().startsWith('TITLE:')) {
-            title = trimmed.substring(6).trim()
-        } else if (trimmed.toUpperCase().startsWith('DESCRIPTION:')) {
-            description = trimmed.substring(12).trim()
-        } else if (!trimmed.startsWith('-') && trimmed.length > 2) {
-            currentSection = trimmed
-            sections[currentSection] = []
-        } else if (trimmed.startsWith('-') && currentSection) {
-            sections[currentSection].push(trimmed.substring(1).trim())
+        const field = line.match(/^(VERSION|DATE|STATUS|TITLE|DESCRIPTION):\s*(.*)$/i)
+        if (field) {
+            const key = field[1].toUpperCase()
+            if (key === 'VERSION') version = field[2].trim()
+            if (key === 'DATE') date = field[2].trim()
+            if (key === 'STATUS' && !status) status = field[2].trim().toUpperCase()
+            continue
+        }
+
+        if (line.startsWith('-')) {
+            if (!current) {
+                current = { title: 'Changes', items: [] }
+                sections.push(current)
+            }
+            current.items.push(line.slice(1).trim())
+        } else if (current?.title === 'ABOUT' && !isAllCaps(line)) {
+            intro.push(line)
+        } else {
+            current = { title: line.replace(/:$/, ''), items: [] }
+            sections.push(current)
         }
     }
 
-    // Fallback if title/desc are missing
-    if (!title) title = 'Flow Update'
-    if (!description && ((sections['FEATURES'] && sections['FEATURES'].length > 0) || (sections['NEW FEATURES'] && sections['NEW FEATURES'].length > 0))) {
-        description = 'New features and improvements to the Flow experience.'
-    } else if (!description) {
-        description = 'Minor fixes and improvements.'
+    if (!version) return null
+    return {
+        key: `${platform}-${version}`,
+        platform,
+        version,
+        date,
+        status,
+        intro: intro.join(' '),
+        sections: sections.filter(s => s.title !== 'ABOUT' && s.items.length > 0),
+        releaseUrl: entry.release_url ?? null,
     }
-
-    return { version, date, title, description, sections, status }
 }
 
-function formatSectionTitle(title: string): string {
-    const clean = title.trim().toUpperCase()
-
-    if (clean === 'FEATURES' || clean === 'NEW FEATURES') return 'New Features'
-    if (clean === 'IMPROVEMENTS') return 'Improvements'
-    if (clean === 'FIXES' || clean === 'FIXES AND STABILITY' || clean === 'VIDEO PLAYER FIXES') return 'Fixes & Stability'
-    if (clean === 'ENGINE' || clean === 'RECOMMENDATION ENGINE' || clean.startsWith('RECOMMENDATION ENGINE') || clean.startsWith('FLOWNEURO ENGINE')) return 'Engine'
-    if (clean === 'PERFORMANCE' || clean === 'PERFORMANCE AND REFACTORING') return 'Performance & Refactoring'
-    if (clean === 'UI AND STYLE ENHANCEMENTS') return 'UI & Style Enhancements'
-    if (clean === 'IMPORTS AND ONBOARDING') return 'Imports & Onboarding'
-    if (clean === 'LIBRARIES') return 'Libraries'
-    if (clean === 'FLAVORS') return 'Flavors'
-    if (clean === 'CORE UPDATE [IMPORTANT]') return 'Core Update [Important]'
-    if (clean === '!IMPORTANT!') return 'Important!'
-
-    // Fallback: title case
-    return title
-        .toLowerCase()
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
+function dateKey(date: string) {
+    const m = date.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/)
+    return m ? Number(m[1]) * 10000 + Number(m[2]) * 100 + Number(m[3]) : 0
 }
 
-function formatChangelogItem(item: string): string {
-    let formatted = item.replace(/(https?:\/\/[^\s"'\)]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-accent-primary hover:underline">$1</a>')
-    formatted = formatted.replace(/#(\d+)/g, '<a href="https://github.com/A-EDev/Flow/issues/$1" target="_blank" rel="noopener noreferrer" class="text-accent-primary hover:underline">#$1</a>')
-    formatted = formatted.replace(/@([a-zA-Z0-9-]+)/g, '<a href="https://github.com/$1" target="_blank" rel="noopener noreferrer" class="text-text-primary font-medium hover:underline">@$1</a>')
-    return formatted
+function versionKey(version: string): number[] {
+    const m = version.match(/^(\d+)\.(\d+)\.(\d+)(?:-([a-z]+)(\d*))?/i)
+    if (!m) return [0, 0, 0, 0, 0]
+    return [Number(m[1]), Number(m[2]), Number(m[3]), m[4] ? 0 : 1, m[4] ? Number(m[5] || 1) : 0]
 }
 
-const AccordionItem = ({ title, items, isOpen, onToggle }: { title: string, items: string[], isOpen: boolean, onToggle: () => void }) => {
-    return (
-        <div className="border-b border-border-subtle last:border-0">
-            <button
-                onClick={onToggle}
-                className="w-full flex items-center justify-between py-4 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"
-            >
-                <span className="flex items-baseline gap-2">
-                    {title}
-                    <span className="kicker">{items.length}</span>
-                </span>
-                {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden"
-                    >
-                        <ul className="pb-4 space-y-2 pl-2">
-                            {items.map((item, i) => (
-                                <li key={i} className="text-sm text-text-secondary flex items-start gap-2">
-                                    <span className="text-text-muted mt-1 shrink-0">•</span>
-                                    <span dangerouslySetInnerHTML={{ __html: formatChangelogItem(item) }} />
-                                </li>
-                            ))}
-                        </ul>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
+function compareReleases(a: Release, b: Release) {
+    const byDate = dateKey(b.date) - dateKey(a.date)
+    if (byDate !== 0) return byDate
+    const va = versionKey(a.version)
+    const vb = versionKey(b.version)
+    for (let i = 0; i < va.length; i++) {
+        if (va[i] !== vb[i]) return vb[i] - va[i]
+    }
+    return 0
+}
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+function formatDate(date: string) {
+    const m = date.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/)
+    return m ? `${Number(m[3])} ${MONTHS[Number(m[2]) - 1]} ${m[1]}` : date
+}
+
+const KEEP_UPPER = new Set(['CI', 'UI', 'TV', 'API', 'DLNA', 'AV1', 'VP9'])
+const SMALL_WORDS = new Set(['and', 'of', 'the', 'for', 'to'])
+
+function formatWord(word: string, index: number) {
+    if (!/[A-Z]/.test(word) || word !== word.toUpperCase()) return word
+    const core = word.replace(/[^A-Z0-9.]/g, '')
+    if (KEEP_UPPER.has(core) || /^V\d/.test(core)) return word
+    if (core === 'FLOWNEURO') return word.replace('FLOWNEURO', 'FlowNeuro')
+    const lower = word.toLowerCase()
+    if (index > 0 && SMALL_WORDS.has(lower)) return lower
+    return lower.replace(/[a-z]/, c => c.toUpperCase())
+}
+
+function formatSectionTitle(title: string) {
+    const known: Record<string, string> = {
+        'FEATURES': 'New features',
+        'NEW FEATURES': 'New features',
+        'IMPROVEMENTS': 'Improvements',
+        'FIXES': 'Fixes',
+        'FIXES AND STABILITY': 'Fixes',
+        'VIDEO PLAYER FIXES': 'Player fixes',
+    }
+    const clean = title.replace(/^!+|!+$/g, '').trim()
+    return known[clean.toUpperCase()] ?? clean.split(' ').map(formatWord).join(' ')
+}
+
+function sectionKind(title: string): 'new' | 'improved' | 'fixed' | 'other' {
+    const t = title.toUpperCase()
+    if (t.includes('FEATURE')) return 'new'
+    if (t.includes('FIX')) return 'fixed'
+    if (/IMPROV|PERFORM|ENGINE|UI|STYLE/.test(t)) return 'improved'
+    return 'other'
+}
+
+function summarize(release: Release) {
+    const counts = { new: 0, improved: 0, fixed: 0, other: 0 }
+    let total = 0
+    for (const s of release.sections) {
+        counts[sectionKind(s.title)] += s.items.length
+        total += s.items.length
+    }
+    const label = `${total} ${total === 1 ? 'change' : 'changes'}`
+    if (counts.other === total) {
+        return `${label} across ${release.sections.length} ${release.sections.length === 1 ? 'section' : 'sections'}`
+    }
+    const parts = [
+        counts.new && `${counts.new} new`,
+        counts.improved && `${counts.improved} improved`,
+        counts.fixed && `${counts.fixed} fixed`,
+        counts.other && `${counts.other} other`,
+    ].filter(Boolean)
+    return `${label}: ${parts.join(', ')}`
+}
+
+function highlight(text: string, query: string, keyPrefix: string): React.ReactNode {
+    if (!query) return text
+    const pattern = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi')
+    return text.split(pattern).map((part, i) =>
+        i % 2 === 1
+            ? <mark key={`${keyPrefix}-${i}`} className="rounded-sm bg-[#F7EBD8] dark:bg-[#2B2012] text-inherit px-0.5">{part}</mark>
+            : part
     )
 }
 
-function StatusTag({ children, accent = false }: { children: React.ReactNode; accent?: boolean }) {
+const linkClass = 'font-medium text-text-primary underline underline-offset-4 decoration-text-muted hover:decoration-text-primary'
+
+function renderText(text: string, platform: Platform, query: string, keyPrefix: string): React.ReactNode[] {
+    const nodes: React.ReactNode[] = []
+    const pattern = /(https?:\/\/[^\s"')]+)|#(\d+)\b|@([A-Za-z0-9-]+)/g
+    let last = 0
+    let match: RegExpExecArray | null
+    while ((match = pattern.exec(text))) {
+        const before = match.index > 0 ? text[match.index - 1] : ' '
+        if (!match[1] && !/[\s(]/.test(before)) continue
+        if (match.index > last) nodes.push(highlight(text.slice(last, match.index), query, `${keyPrefix}-t${last}`))
+        const href = match[1]
+            ? match[1]
+            : match[2]
+                ? `https://github.com/${REPOS[platform]}/issues/${match[2]}`
+                : `https://github.com/${match[3]}`
+        nodes.push(
+            <a key={`${keyPrefix}-l${match.index}`} href={href} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                {match[0]}
+            </a>
+        )
+        last = match.index + match[0].length
+    }
+    if (last < text.length) nodes.push(highlight(text.slice(last), query, `${keyPrefix}-t${last}`))
+    return nodes
+}
+
+function ChangeItem({ text, platform, query }: { text: string; platform: Platform; query: string }) {
+    const colon = text.indexOf(':')
+    const hasLabel = colon > 2 && colon < 48 && !/https?$/i.test(text.slice(0, colon))
+    if (!hasLabel) return <li>{renderText(text, platform, query, 'i')}</li>
     return (
-        <span className={`px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase rounded-full border ${accent
-            ? 'text-bg-primary bg-text-primary border-text-primary'
-            : 'text-text-secondary bg-bg-elevated border-border-subtle'
-            }`}>
-            {children}
-        </span>
+        <li>
+            <strong className="font-semibold text-text-primary">{highlight(text.slice(0, colon), query, 'b')}</strong>
+            {renderText(text.slice(colon), platform, query, 'r')}
+        </li>
     )
 }
 
 export function ChangelogPage() {
-    const [changelogs, setChangelogs] = useState<any[]>([])
+    const [releases, setReleases] = useState<Release[]>([])
+    const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
     const [platform, setPlatform] = useState<Platform>('android')
-    const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({})
-
-    const toggleAccordion = (logKey: string, sectionTitle: string) => {
-        const key = `${logKey}-${sectionTitle}`
-        setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }))
-    }
+    const [query, setQuery] = useState('')
+    const [opened, setOpened] = useState<Set<string>>(new Set())
+    const [expanded, setExpanded] = useState<Set<string>>(new Set())
 
     useEffect(() => {
         fetch('/changelogs.json')
             .then(res => res.json())
-            .then(data => {
-                if (Array.isArray(data) && data.length > 0) {
-                    const parsed = data.map(item => ({
-                        ...parseChangelogText(item.content),
-                        platform: (item.platform === 'desktop' ? 'desktop' : 'android') as Platform
-                    }))
-                    const validChangelogs = parsed.filter(c => c.version)
-
-                    // Sort descending by semantic version (newest first)
-                    validChangelogs.sort((a, b) => {
-                        const vA = a.version.replace(/[^0-9.]/g, '').split('.').map(Number);
-                        const vB = b.version.replace(/[^0-9.]/g, '').split('.').map(Number);
-                        for (let i = 0; i < Math.max(vA.length, vB.length); i++) {
-                            const numA = vA[i] || 0;
-                            const numB = vB[i] || 0;
-                            if (numA > numB) return -1;
-                            if (numA < numB) return 1;
-                        }
-                        return 0;
-                    })
-
-                    setChangelogs(validChangelogs)
-                }
+            .then((data: RawEntry[]) => {
+                const parsed = (Array.isArray(data) ? data : [])
+                    .map(parseEntry)
+                    .filter((r): r is Release => r !== null && r.status !== 'PRE-RELEASE')
+                    .sort(compareReleases)
+                setReleases(parsed)
+                setStatus('ready')
             })
-            .catch(() => { })
+            .catch(() => setStatus('error'))
     }, [])
 
-    const visibleLogs = changelogs.filter(log => log.platform === platform)
+    const counts = useMemo(() => ({
+        android: releases.filter(r => r.platform === 'android').length,
+        desktop: releases.filter(r => r.platform === 'desktop').length,
+    }), [releases])
 
-    const tabs: { id: Platform; label: string; icon: typeof Smartphone }[] = [
-        { id: 'android', label: 'Android', icon: Smartphone },
-        { id: 'desktop', label: 'Desktop', icon: Monitor },
-    ]
+    const visible = releases.filter(r => r.platform === platform)
+    const latestKey = visible[0]?.key
+    const q = query.trim()
+    const qLower = q.toLowerCase()
+
+    const toggleOpen = (key: string) => setOpened(prev => {
+        const next = new Set(prev)
+        if (next.has(key)) next.delete(key)
+        else next.add(key)
+        return next
+    })
+
+    const expand = (key: string) => setExpanded(prev => new Set(prev).add(key))
+
+    const results = visible
+        .map(release => {
+            const sections = q
+                ? release.sections
+                    .map(s => ({ ...s, items: s.items.filter(i => i.toLowerCase().includes(qLower)) }))
+                    .filter(s => s.items.length > 0)
+                : release.sections
+            return { release, sections }
+        })
+        .filter(r => !q || r.sections.length > 0)
 
     return (
         <div className="relative min-h-screen bg-bg-primary text-text-primary flex flex-col">
             <Header />
 
-            <main className="flex-1 w-full pt-32 pb-24">
-                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <main className="flex-1 w-full pt-32 md:pt-40 pb-24">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h1 className="text-5xl md:text-7xl font-semibold tracking-[-0.035em] leading-[0.98] mb-5">Changelog</h1>
+                    <p className="text-lg text-text-secondary leading-relaxed max-w-2xl">
+                        Release notes for Flow on Android and desktop. Nightly builds aren't listed here; you can get the latest one{' '}
+                        <a href="https://nightly.link/A-EDev/Flow/workflows/build/main/flow-nightly-apk.zip" target="_blank" rel="noopener noreferrer" className={linkClass}>from GitHub</a>.
+                    </p>
 
-                    {/* Page Header */}
-                    <div className="mb-10">
-                        <p className="kicker mb-4">Release Notes</p>
-                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-                            Changelog
-                        </h1>
-                        <p className="text-lg text-text-secondary max-w-2xl">
-                            Every release, in detail. Development happens in the open —
-                            each entry links back to the issues and contributors behind it.
-                        </p>
+                    <div role="tablist" aria-label="Platform" className="mt-10 flex flex-wrap gap-x-2 border-b border-border-subtle">
+                        {(['android', 'desktop'] as Platform[]).map(p => (
+                            <button
+                                key={p}
+                                type="button"
+                                role="tab"
+                                aria-selected={platform === p}
+                                onClick={() => setPlatform(p)}
+                                className={cn(
+                                    '-mb-px flex items-baseline gap-2 border-b-2 px-3 md:px-4 pt-2 pb-3.5 font-display text-xl md:text-2xl font-semibold tracking-[-0.02em] transition-colors',
+                                    platform === p ? 'border-text-primary text-text-primary' : 'border-transparent text-text-muted hover:text-text-secondary'
+                                )}
+                            >
+                                {p === 'android' ? 'Android' : 'Desktop'}
+                                <span className="font-mono text-[11px] font-medium tracking-[0.1em] text-text-muted">{counts[p]}</span>
+                            </button>
+                        ))}
                     </div>
 
-                    {/* Platform Switcher */}
-                    <div className="flex items-center justify-between gap-4 border-b border-border-subtle pb-6 mb-12">
-                        <div className="inline-flex rounded-full border border-border-subtle p-1">
-                            {tabs.map((tab) => (
-                                <button
-                                    key={tab.id}
-                                    onClick={() => setPlatform(tab.id)}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-colors ${platform === tab.id
-                                        ? 'bg-text-primary text-bg-primary'
-                                        : 'text-text-secondary hover:text-text-primary'
-                                        }`}
-                                    aria-pressed={platform === tab.id}
-                                >
-                                    <tab.icon className="w-4 h-4" strokeWidth={1.75} />
-                                    {tab.label}
-                                </button>
-                            ))}
-                        </div>
-                        <span className="kicker hidden sm:block">
-                            {platform === 'android' ? `${visibleLogs.length} Releases` : 'Rust + Tauri 2'}
-                        </span>
+                    <div className="mt-6 relative w-full sm:w-80">
+                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" aria-hidden="true" />
+                        <input
+                            type="search"
+                            value={query}
+                            onChange={e => setQuery(e.target.value)}
+                            placeholder="Search changes, e.g. lyrics"
+                            aria-label="Search changes"
+                            className="w-full rounded-xl border border-border-subtle bg-bg-card py-2.5 pl-10 pr-3 text-[15px] text-text-primary placeholder:text-text-muted focus:border-text-primary focus:outline-none"
+                        />
                     </div>
 
-                    {/* Entries */}
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={platform}
-                            initial={{ opacity: 0, y: 12 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -8 }}
-                            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                        >
-                            {visibleLogs.length === 0 ? (
-                                platform === 'desktop' ? (
-                                    /* Desktop empty state (until the first public build ships) */
-                                    <div className="rounded-2xl border border-border-subtle bg-bg-secondary px-8 py-16 text-center">
-                                        <Monitor className="w-8 h-8 text-text-muted mx-auto mb-5" strokeWidth={1.5} />
-                                        <h2 className="text-xl font-bold text-text-primary mb-3">
-                                            The desktop story starts here.
-                                        </h2>
-                                        <p className="text-text-secondary max-w-md mx-auto leading-relaxed mb-6">
-                                            Flow for Windows, Linux, and macOS — written in Rust on Tauri 2 —
-                                            is in active development. Its first release notes will land on this page.
-                                        </p>
-                                        <p className="kicker">Windows &middot; Linux &middot; macOS</p>
-                                    </div>
-                                ) : (
-                                    <div className="rounded-2xl border border-border-subtle bg-bg-secondary px-8 py-16 text-center">
-                                        <p className="text-text-secondary">
-                                            Release notes couldn't be loaded. Check the{' '}
-                                            <a href="https://github.com/A-EDev/Flow/releases" target="_blank" rel="noopener noreferrer" className="text-text-primary font-medium hover:underline">
-                                                GitHub releases
-                                            </a>{' '}
-                                            in the meantime.
-                                        </p>
-                                    </div>
-                                )
-                            ) : (
-                                <div className="relative">
-                                    {/* Timeline rail */}
-                                    <div className="absolute left-[7px] top-2 bottom-2 w-px bg-border-subtle hidden md:block" aria-hidden="true" />
+                    <div className="mt-10 grid grid-cols-1 lg:grid-cols-[11rem_minmax(0,1fr)] gap-10 lg:gap-14 items-start">
+                        <nav aria-label="Versions" className="hidden lg:block sticky top-12">
+                            <p className="kicker mb-3 px-3">Versions</p>
+                            <ol className="space-y-0.5">
+                                {visible.map(release => (
+                                    <li key={release.key}>
+                                        <a
+                                            href={`#${release.key}`}
+                                            className="flex items-baseline justify-between gap-2 rounded-lg px-3 py-1.5 text-sm font-medium text-text-secondary hover:bg-bg-secondary hover:text-text-primary transition-colors"
+                                        >
+                                            v{release.version}
+                                            <span className="font-mono text-[11px] text-text-muted">{formatDate(release.date).replace(/ \d{4}$/, '')}</span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ol>
+                        </nav>
 
-                                    <div className="space-y-14">
-                                        {visibleLogs.map((log, idx) => {
-                                            const logKey = `${log.platform}-${log.version}`
-                                            return (
-                                                <div key={logKey} className="relative md:pl-12">
-                                                    {/* Timeline marker */}
-                                                    <div className={`absolute left-0 top-2.5 w-[15px] h-[15px] rounded-full border-2 bg-bg-primary hidden md:block ${idx === 0 ? 'border-accent-primary' : 'border-border-subtle'}`} aria-hidden="true" />
+                        <div className="min-w-0">
+                            {status === 'loading' && <p className="text-text-secondary">Loading release notes…</p>}
 
-                                                    {/* Version Row */}
-                                                    <div className="flex flex-wrap items-center gap-3 mb-4">
-                                                        <span className="text-lg font-bold tracking-tight text-text-primary tabular-nums">
-                                                            v{log.version}
-                                                        </span>
-                                                        <span className="kicker">{log.date}</span>
-                                                        {idx === 0 && <StatusTag accent>Latest</StatusTag>}
-                                                        {log.status?.toUpperCase() === 'PRE-RELEASE' && (
-                                                            <StatusTag>Pre-Release</StatusTag>
-                                                        )}
-                                                    </div>
-
-                                                    {/* Content Panel */}
-                                                    <div className="rounded-2xl border border-border-subtle bg-bg-secondary p-6 md:p-8">
-                                                        <div className="flex flex-col md:flex-row md:items-start justify-between gap-3 mb-6">
-                                                            <h2 className="text-xl font-bold text-text-primary">{log.title}</h2>
-                                                            <p className="text-sm text-text-secondary md:max-w-sm md:text-right">
-                                                                {log.description}
-                                                            </p>
-                                                        </div>
-
-                                                        <div className="flex flex-col">
-                                                            {Object.entries(log.sections).map(([sectionTitle, items]: any) => (
-                                                                <AccordionItem
-                                                                    key={sectionTitle}
-                                                                    title={formatSectionTitle(sectionTitle)}
-                                                                    items={items}
-                                                                    isOpen={openAccordions[`${logKey}-${sectionTitle}`] || false}
-                                                                    onToggle={() => toggleAccordion(logKey, sectionTitle)}
-                                                                />
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )
-                                        })}
-                                    </div>
-                                </div>
+                            {status === 'error' && (
+                                <p className="rounded-2xl border border-border-subtle px-6 py-10 text-center text-text-secondary">
+                                    Release notes couldn't be loaded. See the{' '}
+                                    <a href={`https://github.com/${REPOS[platform]}/releases`} target="_blank" rel="noopener noreferrer" className={linkClass}>releases on GitHub</a>
+                                    {' '}in the meantime.
+                                </p>
                             )}
-                        </motion.div>
-                    </AnimatePresence>
 
+                            {status === 'ready' && visible.length === 0 && (
+                                <p className="rounded-2xl border border-border-subtle px-6 py-10 text-center text-text-secondary">
+                                    No {platform === 'desktop' ? 'desktop' : 'Android'} releases yet.
+                                </p>
+                            )}
+
+                            {status === 'ready' && visible.length > 0 && results.length === 0 && (
+                                <p className="rounded-2xl border border-border-subtle px-6 py-10 text-center text-text-secondary">
+                                    No changes match "{q}".
+                                </p>
+                            )}
+
+                            {results.map(({ release, sections }) => {
+                                const isLatest = release.key === latestKey
+                                const isOpen = Boolean(q) || isLatest || opened.has(release.key)
+                                return (
+                                    <article key={release.key} id={release.key} className="scroll-mt-12 border-t border-border-subtle py-10 first:border-t-0 first:pt-0">
+                                        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
+                                            <h2 className="text-3xl md:text-4xl font-semibold tracking-[-0.03em] text-text-primary">v{release.version}</h2>
+                                            <span className="kicker">{formatDate(release.date)}</span>
+                                            {isLatest && (
+                                                <span className="rounded-md bg-text-primary px-2 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-bg-primary">Latest</span>
+                                            )}
+                                            {release.releaseUrl && (
+                                                <a
+                                                    href={release.releaseUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="ml-auto inline-flex items-center gap-1 text-sm font-semibold text-text-primary underline underline-offset-4 decoration-text-muted hover:decoration-text-primary"
+                                                >
+                                                    Release on GitHub
+                                                    <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+                                                </a>
+                                            )}
+                                        </div>
+                                        <p className="mt-2 text-text-secondary">{summarize(release)}</p>
+
+                                        {isOpen ? (
+                                            <>
+                                                {release.intro && !q && <p className="mt-4 max-w-3xl text-text-secondary leading-relaxed">{release.intro}</p>}
+                                                <div className="mt-6 space-y-7">
+                                                    {sections.map(section => {
+                                                        const sectionKey = `${release.key}-${section.title}`
+                                                        const showAll = Boolean(q) || expanded.has(sectionKey)
+                                                        const items = showAll ? section.items : section.items.slice(0, PREVIEW_ITEMS)
+                                                        return (
+                                                            <div key={section.title}>
+                                                                <h3 className="kicker mb-3 flex gap-2">
+                                                                    {formatSectionTitle(section.title)}
+                                                                    <span>{section.items.length}</span>
+                                                                </h3>
+                                                                <ul className="list-disc space-y-2 pl-5 text-[15px] leading-relaxed text-text-secondary marker:text-text-muted max-w-3xl">
+                                                                    {items.map((item, i) => (
+                                                                        <ChangeItem key={i} text={item} platform={release.platform} query={q} />
+                                                                    ))}
+                                                                </ul>
+                                                                {!showAll && section.items.length > PREVIEW_ITEMS && (
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() => expand(sectionKey)}
+                                                                        className="mt-3 text-sm font-semibold text-text-primary underline underline-offset-4 decoration-text-muted hover:decoration-text-primary"
+                                                                    >
+                                                                        Show all {section.items.length}
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        )
+                                                    })}
+                                                </div>
+                                                {!isLatest && !q && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => toggleOpen(release.key)}
+                                                        className="mt-6 rounded-xl border border-border-subtle px-4 py-2 text-sm font-semibold text-text-primary hover:border-text-primary transition-colors"
+                                                    >
+                                                        Hide release notes
+                                                    </button>
+                                                )}
+                                            </>
+                                        ) : (
+                                            <button
+                                                type="button"
+                                                onClick={() => toggleOpen(release.key)}
+                                                className="mt-4 rounded-xl border border-border-subtle px-4 py-2 text-sm font-semibold text-text-primary hover:border-text-primary transition-colors"
+                                            >
+                                                Show release notes
+                                            </button>
+                                        )}
+                                    </article>
+                                )
+                            })}
+                        </div>
+                    </div>
                 </div>
             </main>
 
-            <FinalCTA />
+            <Footer />
         </div>
     )
 }
