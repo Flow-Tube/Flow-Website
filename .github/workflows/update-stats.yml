@@ -40,13 +40,18 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bash .github/scripts/fetch-changelogs.sh public/changelogs.json
 
+      - name: Fetch Downloads
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash .github/scripts/fetch-downloads.sh public/downloads.json
+
       - name: Commit and Push
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           
-          if [[ -n $(git status -s public/stats.json public/changelogs.json public/contributors.json) ]]; then
-            git add public/stats.json public/changelogs.json public/contributors.json
+          if [[ -n $(git status -s public/stats.json public/changelogs.json public/contributors.json public/downloads.json) ]]; then
+            git add public/stats.json public/changelogs.json public/contributors.json public/downloads.json
             git commit -m "Update stats and changelogs [skip ci]"
             git push
           else

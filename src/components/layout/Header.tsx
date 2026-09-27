@@ -283,9 +283,7 @@ export function Header() {
                         <div className="hidden md:flex items-center justify-self-end gap-2">
                             {themeButton}
                             <Button
-                                href="https://github.com/A-EDev/Flow/releases/latest"
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                to="/download"
                                 variant="primary"
                                 size="sm"
                                 className="px-5 py-2.5"
@@ -374,16 +372,14 @@ export function Header() {
 
                             <div className="p-5 border-t border-border-subtle">
                                 <Button
-                                    href="https://github.com/A-EDev/Flow/releases/latest"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                    to="/download"
                                     variant="primary"
                                     size="md"
                                     className="w-full"
                                     icon={<Download className="w-4 h-4" />}
                                     iconPosition="left"
                                 >
-                                    Download APK
+                                    Download
                                 </Button>
                             </div>
                         </motion.aside>

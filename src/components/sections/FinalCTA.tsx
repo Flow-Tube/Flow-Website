@@ -27,9 +27,7 @@ export function FinalCTA() {
                     <FadeIn delay={0.4}>
                         <div className="flex flex-wrap items-center justify-center gap-4">
                             <Button
-                                href="https://github.com/A-EDev/Flow/releases/latest"
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                to="/download"
                                 variant="primary"
                                 size="lg"
                                 icon={<Download className="w-5 h-5" />}

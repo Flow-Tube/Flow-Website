@@ -34,7 +34,7 @@ const groups: { label: string; questions: Question[] }[] = [
             {
                 id: 'faq-install',
                 question: 'How do I install it?',
-                answer: <>Download the APK from <Ext href="https://github.com/A-EDev/Flow/releases/latest">GitHub Releases</Ext>, or add Flow to <Ext href="https://apt.izzysoft.de/packages/io.github.aedev.flow">IzzyOnDroid</Ext> or <Ext href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/A-EDev/Flow/">Obtainium</Ext> for automatic updates. No store account needed. Flow runs on Android 8.0 and newer, and you can <Ext href="https://github.com/A-EDev/Flow#cert">verify the APK</Ext> before installing.</>,
+                answer: <>The <Page to="/download">Download page</Page> picks the right file for your device. You can also add Flow to <Ext href="https://apt.izzysoft.de/packages/io.github.aedev.flow">IzzyOnDroid</Ext> or <Ext href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/A-EDev/Flow/">Obtainium</Ext> for automatic updates. No store account needed. Flow runs on Android 8.0 and newer, and you can <Ext href="https://github.com/A-EDev/Flow#cert">verify the APK</Ext> before installing.</>,
             },
             {
                 id: 'faq-updates',

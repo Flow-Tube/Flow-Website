@@ -14,10 +14,10 @@ const columns: { title: string; links: FooterLink[] }[] = [
     {
         title: 'Get Flow',
         links: [
-            { label: 'GitHub Releases', href: 'https://github.com/A-EDev/Flow/releases/latest', external: true },
-            { label: 'IzzyOnDroid', href: 'https://apt.izzysoft.de/packages/io.github.aedev.flow', external: true },
-            { label: 'Obtainium', href: 'https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/A-EDev/Flow/', external: true },
-            { label: 'Nightly Build', href: 'https://nightly.link/A-EDev/Flow/workflows/build/main/flow-nightly-apk.zip', external: true },
+            { label: 'Download', href: '/download' },
+            { label: 'GitHub Releases', href: '/download#github-releases' },
+            { label: 'IzzyOnDroid', href: '/download#izzyondroid' },
+            { label: 'Nightly Builds', href: '/download#nightly' },
         ],
     },
     {
@@ -133,9 +133,7 @@ export function Footer() {
                     </p>
 
                     <Button
-                        href="https://github.com/A-EDev/Flow/releases/latest"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        to="/download"
                         variant="primary"
                         size="md"
                         className="mt-8"

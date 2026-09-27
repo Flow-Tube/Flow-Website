@@ -8,6 +8,7 @@ import { DMCA } from '@/pages/DMCA'
 import { About } from '@/pages/About'
 import { Patrons } from '@/pages/Patrons'
 import { HowItWorks } from '@/pages/HowItWorks'
+import { Download } from '@/pages/Download'
 import { ScrollToTop } from '@/components/ScrollToTop'
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/patrons" element={<Patrons />} />
                 <Route path="/how-it-works" element={<HowItWorks />} />
+                <Route path="/download" element={<Download />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </>
