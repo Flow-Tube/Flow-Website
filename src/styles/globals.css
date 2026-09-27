@@ -115,6 +115,45 @@ body {
     }
 }
 
+.legal {
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.legal > * + * {
+    margin-top: 1rem;
+}
+
+.legal strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.legal a {
+    color: var(--text-primary);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--text-muted);
+}
+
+.legal a:hover {
+    text-decoration-color: var(--text-primary);
+}
+
+.legal ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+}
+
+.legal ul li + li {
+    margin-top: 0.5rem;
+}
+
+.legal li::marker {
+    color: var(--text-muted);
+}
+
 ::selection {
     background: var(--text-primary);
     color: var(--bg-primary);

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Github, Heart, Languages } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { useStats } from '@/lib/useStats'
+import { AFFILIATION_NOTICE } from '@/components/layout/LegalPage'
 
 interface FooterLink {
     label: string
@@ -199,7 +200,10 @@ export function Footer() {
                                 {stats?.contributors ? `${stats.contributors} contributors` : 'the community'}
                             </a>
                         </p>
-                        <p className="kicker">GPL-3.0 &middot; &copy; {new Date().getFullYear()} Flow</p>
+                        <p className="kicker">
+                            <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener noreferrer" className="hover:text-text-primary transition-colors">GPL-3.0</a>
+                            {' '}&middot; &copy; {new Date().getFullYear()} Flow
+                        </p>
                     </div>
 
                     <p className="mt-4 text-sm text-text-muted max-w-2xl">
@@ -214,6 +218,7 @@ export function Footer() {
                         </a>
                         .
                     </p>
+                    <p className="mt-2 text-sm text-text-muted max-w-2xl">{AFFILIATION_NOTICE}</p>
                 </div>
 
                 <FooterRings />
