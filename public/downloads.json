@@ -146,9 +146,9 @@
   },
   "nightly": {
     "android": {
-      "created": "2026-04-22T23:13:30Z",
-      "run_url": "https://github.com/A-EDev/Flow/actions/runs/24807497394",
-      "commit": "ff6b95c",
+      "created": "2026-09-06T13:26:34Z",
+      "run_url": "https://github.com/A-EDev/Flow/actions/runs/34036109843",
+      "commit": "d77683c",
       "artifacts": []
     },
     "desktop": {
