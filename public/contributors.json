@@ -237,6 +237,16 @@
       ]
     },
     {
+      "login": "AmyJeanes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2363642?v=4",
+      "html_url": "https://github.com/AmyJeanes",
+      "contributions": 3,
+      "repos": [
+        "android",
+        "desktop"
+      ]
+    },
+    {
       "login": "CunaDev",
       "avatar_url": "https://avatars.githubusercontent.com/u/100499455?v=4",
       "html_url": "https://github.com/CunaDev",
@@ -297,16 +307,6 @@
       "contributions": 3,
       "repos": [
         "android"
-      ]
-    },
-    {
-      "login": "AmyJeanes",
-      "avatar_url": "https://avatars.githubusercontent.com/u/2363642?v=4",
-      "html_url": "https://github.com/AmyJeanes",
-      "contributions": 2,
-      "repos": [
-        "android",
-        "desktop"
       ]
     },
     {
