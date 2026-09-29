@@ -33,7 +33,7 @@
       "login": "my-live-is-a-lie",
       "avatar_url": "https://avatars.githubusercontent.com/u/204233948?v=4",
       "html_url": "https://github.com/my-live-is-a-lie",
-      "contributions": 106,
+      "contributions": 107,
       "repos": [
         "android"
       ]
@@ -87,7 +87,7 @@
       "login": "Kefir2105",
       "avatar_url": "https://avatars.githubusercontent.com/u/103105829?v=4",
       "html_url": "https://github.com/Kefir2105",
-      "contributions": 32,
+      "contributions": 33,
       "repos": [
         "android"
       ]
@@ -96,7 +96,7 @@
       "login": "restlessSangoLeelo",
       "avatar_url": "https://avatars.githubusercontent.com/u/264833262?v=4",
       "html_url": "https://github.com/restlessSangoLeelo",
-      "contributions": 22,
+      "contributions": 23,
       "repos": [
         "android"
       ]
@@ -520,6 +520,15 @@
       "login": "ArthyDeveloper",
       "avatar_url": "https://avatars.githubusercontent.com/u/84215368?v=4",
       "html_url": "https://github.com/ArthyDeveloper",
+      "contributions": 1,
+      "repos": [
+        "android"
+      ]
+    },
+    {
+      "login": "BotHunting",
+      "avatar_url": "https://avatars.githubusercontent.com/u/82310684?v=4",
+      "html_url": "https://github.com/BotHunting",
       "contributions": 1,
       "repos": [
         "android"

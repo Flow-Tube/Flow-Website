@@ -146,10 +146,46 @@
   },
   "nightly": {
     "android": {
-      "created": "2026-09-06T13:26:34Z",
-      "run_url": "https://github.com/A-EDev/Flow/actions/runs/34036109843",
-      "commit": "d77683c",
-      "artifacts": []
+      "created": "2026-09-29T19:55:16Z",
+      "run_url": "https://github.com/A-EDev/Flow/actions/runs/36622632337",
+      "commit": "14a63ff",
+      "artifacts": [
+        {
+          "name": "flow-github-armeabi-v7a-release-apk",
+          "size": 18427048,
+          "url": "https://nightly.link/A-EDev/Flow/actions/runs/36622632337/flow-github-armeabi-v7a-release-apk.zip"
+        },
+        {
+          "name": "flow-github-arm64-release-apk",
+          "size": 19444278,
+          "url": "https://nightly.link/A-EDev/Flow/actions/runs/36622632337/flow-github-arm64-release-apk.zip"
+        },
+        {
+          "name": "flow-foss-universal-release-apk",
+          "size": 26961165,
+          "url": "https://nightly.link/A-EDev/Flow/actions/runs/36622632337/flow-foss-universal-release-apk.zip"
+        },
+        {
+          "name": "flow-foss-armeabi-v7a-release-apk",
+          "size": 17783432,
+          "url": "https://nightly.link/A-EDev/Flow/actions/runs/36622632337/flow-foss-armeabi-v7a-release-apk.zip"
+        },
+        {
+          "name": "flow-foss-arm64-release-apk",
+          "size": 18800662,
+          "url": "https://nightly.link/A-EDev/Flow/actions/runs/36622632337/flow-foss-arm64-release-apk.zip"
+        },
+        {
+          "name": "flow-nightly-apk",
+          "size": 18097422,
+          "url": "https://nightly.link/A-EDev/Flow/actions/runs/36622632337/flow-nightly-apk.zip"
+        },
+        {
+          "name": "flow-github-universal-release-apk",
+          "size": 27604781,
+          "url": "https://nightly.link/A-EDev/Flow/actions/runs/36622632337/flow-github-universal-release-apk.zip"
+        }
+      ]
     },
     "desktop": {
       "created": "2026-09-29T09:46:07Z",
