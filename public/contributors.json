@@ -201,6 +201,16 @@
       ]
     },
     {
+      "login": "AmyJeanes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2363642?v=4",
+      "html_url": "https://github.com/AmyJeanes",
+      "contributions": 5,
+      "repos": [
+        "android",
+        "desktop"
+      ]
+    },
+    {
       "login": "Dyxux",
       "avatar_url": "https://avatars.githubusercontent.com/u/197527666?v=4",
       "html_url": "https://github.com/Dyxux",
@@ -234,16 +244,6 @@
       "contributions": 3,
       "repos": [
         "android"
-      ]
-    },
-    {
-      "login": "AmyJeanes",
-      "avatar_url": "https://avatars.githubusercontent.com/u/2363642?v=4",
-      "html_url": "https://github.com/AmyJeanes",
-      "contributions": 3,
-      "repos": [
-        "android",
-        "desktop"
       ]
     },
     {
