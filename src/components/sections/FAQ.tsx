@@ -39,7 +39,7 @@ const groups: { label: string; questions: Question[] }[] = [
             {
                 id: 'faq-updates',
                 question: 'How do I get updates?',
-                answer: <>The GitHub build checks for updates itself, from Settings. IzzyOnDroid and Obtainium update Flow for you. There's also a <Ext href="https://nightly.link/A-EDev/Flow/workflows/build/main/flow-nightly-apk.zip">nightly build</Ext> if you want new features early.</>,
+                answer: <>The GitHub build checks for updates itself, from Settings. IzzyOnDroid and Obtainium update Flow for you. Want new features early? <Page to="/download#nightly">Flow Nightly</Page> installs next to the stable app and updates itself.</>,
             },
             {
                 id: 'faq-import',

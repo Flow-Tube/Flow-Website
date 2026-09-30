@@ -54,25 +54,39 @@ fi
 
 nightly() {
   local repo="$1" out="$2"
-  local run
-  run="$(gh api "repos/$repo/actions/workflows/build.yml/runs?branch=main&status=success&per_page=1" \
-    --jq '.workflow_runs[0] | {id, created: .created_at, url: .html_url, commit: .head_sha[0:7]}' || echo 'null')"
-  if [ "$run" = "null" ] || [ -z "$run" ]; then
-    echo 'null' > "$out"
-    return
-  fi
-  local id
-  id="$(jq -r .id <<<"$run")"
-  gh api "repos/$repo/actions/runs/$id/artifacts?per_page=100" --jq '[.artifacts[] | select(.expired | not) | {name, size: .size_in_bytes}]' \
-    | jq --argjson run "$run" --arg repo "$repo" '{
-        created: $run.created,
-        run_url: $run.url,
-        commit: $run.commit,
-        artifacts: map(. + {url: ("https://nightly.link/" + $repo + "/actions/runs/" + ($run.id | tostring) + "/" + .name + ".zip")})
-      }' > "$out" || echo 'null' > "$out"
+  echo 'null' > "$out"
+  local runs
+  runs="$(gh api "repos/$repo/actions/workflows/build.yml/runs?branch=main&status=success&per_page=10" \
+    --jq '.workflow_runs | sort_by(.created_at) | reverse | .[] | {id, created: .created_at, url: .html_url, commit: .head_sha[0:7]} | @json' || true)"
+  while read -r run; do
+    [ -z "$run" ] && continue
+    local id
+    id="$(jq -r .id <<<"$run")"
+    gh api "repos/$repo/actions/runs/$id/artifacts?per_page=100" --jq '[.artifacts[] | select(.expired | not) | {name, size: .size_in_bytes}]' > "$out.artifacts" || continue
+    if [ "$(jq length "$out.artifacts")" -gt 0 ]; then
+      jq --argjson run "$run" --arg repo "$repo" '{
+          created: $run.created,
+          run_url: $run.url,
+          commit: $run.commit,
+          artifacts: map(. + {url: ("https://nightly.link/" + $repo + "/actions/runs/" + ($run.id | tostring) + "/" + .name + ".zip")})
+        }' "$out.artifacts" > "$out"
+      rm -f "$out.artifacts"
+      return
+    fi
+  done <<<"$runs"
+  rm -f "$out.artifacts"
 }
 
-nightly "$ANDROID_REPO" "$tmp/nightly-android.json"
+gh api "repos/$ANDROID_REPO/releases/tags/nightly" --jq '
+  [.assets[] | select(.name | test("^flow-nightly-[0-9]+\\.apk$"))][0] as $apk
+  | if $apk == null then null else {
+      run: ($apk.name | capture("flow-nightly-(?<r>[0-9]+)").r | tonumber),
+      created: $apk.updated_at,
+      commit: (try ((.body // "") | capture("Built from (?<c>[0-9a-f]{7,40})").c) catch null),
+      release_url: .html_url,
+      apk: {name: $apk.name, url: $apk.browser_download_url, size: $apk.size},
+      checksums_url: ([.assets[] | select(.name == "checksums.txt") | .browser_download_url][0] // null)
+    } end' > "$tmp/nightly-android.json" || echo 'null' > "$tmp/nightly-android.json"
 nightly "$DESKTOP_REPO" "$tmp/nightly-desktop.json"
 
 jq -n \

@@ -17,14 +17,26 @@ interface AndroidAsset { name: string; url: string; size: number; flavor: Flavor
 interface DesktopAsset { name: string; url: string; size: number; os: DesktopOS; arch: 'x64' | 'arm64'; format: string }
 interface Nightly { created: string; run_url: string; commit: string; artifacts: { name: string; url: string; size: number }[] }
 
+interface AndroidNightly {
+    run: number
+    created: string
+    commit: string | null
+    release_url: string
+    apk: { name: string; url: string; size: number }
+    checksums_url: string | null
+}
+
 interface Downloads {
     android: { version: string; published: string; release_url: string; checksums_url: string | null; assets: AndroidAsset[] } | null
     desktop: { version: string; published: string; release_url: string; assets: DesktopAsset[] } | null
     izzy: { version: string; apk_url: string; page_url: string } | null
-    nightly: { android: Nightly | null; desktop: Nightly | null }
+    nightly: { android: AndroidNightly | null; desktop: Nightly | null }
 }
 
-const FINGERPRINT = '43:22:29:4E:D4:CA:A2:D4:29:41:40:09:58:18:08:0F:FE:8A:CC:1F:BE:3C:DC:76:10:7D:F4:5C:52:86:BE:40'
+const FINGERPRINTS = [
+    { label: 'Stable releases and IzzyOnDroid', value: '43:22:29:4E:D4:CA:A2:D4:29:41:40:09:58:18:08:0F:FE:8A:CC:1F:BE:3C:DC:76:10:7D:F4:5C:52:86:BE:40' },
+    { label: 'Flow Nightly', value: 'E4:22:25:B5:AB:3A:C6:82:36:E5:45:67:EF:0C:48:78:AF:BA:FC:DD:3D:43:8F:BA:BA:34:3E:2D:70:42:5B:F0' },
+]
 
 const TARGETS: { id: Target; label: string }[] = [
     { id: 'android', label: 'Android' },
@@ -152,7 +164,7 @@ export function Download() {
     const [device, setDevice] = useState<Device | null>(null)
     const [target, setTarget] = useState<Target>('android')
     const [arch, setArch] = useState<'x64' | 'arm64'>('x64')
-    const [copied, setCopied] = useState(false)
+    const [copied, setCopied] = useState<string | null>(null)
 
     useEffect(() => {
         fetch('/downloads.json')
@@ -168,13 +180,13 @@ export function Download() {
         })
     }, [])
 
-    const copyFingerprint = async () => {
+    const copyFingerprint = async (value: string) => {
         try {
-            await navigator.clipboard.writeText(FINGERPRINT)
-            setCopied(true)
-            window.setTimeout(() => setCopied(false), 2000)
+            await navigator.clipboard.writeText(value)
+            setCopied(value)
+            window.setTimeout(() => setCopied(current => (current === value ? null : current)), 2000)
         } catch {
-            setCopied(false)
+            setCopied(null)
         }
     }
 
@@ -399,18 +411,26 @@ export function Download() {
                                     </SectionHeader>
                                     <p className="mb-8 flex items-start gap-3 rounded-2xl border border-border-subtle bg-bg-secondary px-5 py-4 text-sm text-text-secondary">
                                         <TriangleAlert className="mt-0.5 w-4 h-4 shrink-0 text-text-primary" aria-hidden="true" />
-                                        Downloads come as a .zip through nightly.link, so no GitHub account is needed. Nightly and stable builds of the same app can't be installed side by side.
+                                        The Android nightly installs next to the stable app as Flow Nightly and updates itself, so you can keep both. Desktop nightlies come as a .zip through nightly.link, so no GitHub account is needed.
                                     </p>
                                     <div className="space-y-10">
                                         {data.nightly.android && (() => {
                                             const n = data.nightly.android
-                                            const universal = n.artifacts.find(a => a.name === 'flow-nightly-apk')
-                                            const foss = n.artifacts.find(a => a.name === 'flow-foss-universal-release-apk')
                                             return (
-                                                <Group title="Android · Nightly" note={`Built ${timeAgo(n.created)} · ${n.commit}`}>
-                                                    {universal && <Row title="GitHub build" detail="Universal" href={universal.url} size={universal.size} />}
-                                                    {foss && <Row title="FOSS build" detail="Universal" href={foss.url} size={foss.size} />}
-                                                </Group>
+                                                <div>
+                                                    <Group title="Android · Flow Nightly" note={`Build ${n.run} · ${timeAgo(n.created)}${n.commit ? ` · ${n.commit}` : ''}`}>
+                                                        <Row title="Flow Nightly" detail="Universal APK · GitHub build · installs next to the stable app" href={n.apk.url} size={n.apk.size} />
+                                                    </Group>
+                                                    <p className="mt-4 text-sm text-text-secondary">
+                                                        <a href={n.release_url} target="_blank" rel="noopener noreferrer" className={linkClass}>Nightly release on GitHub</a>
+                                                        {n.checksums_url && (
+                                                            <>
+                                                                {' · '}
+                                                                <a href={n.checksums_url} className={linkClass}>checksums.txt</a>
+                                                            </>
+                                                        )}
+                                                    </p>
+                                                </div>
                                             )
                                         })()}
                                         {data.nightly.desktop && (() => {
@@ -447,21 +467,28 @@ export function Download() {
                             <section id="verify" className="mt-20 md:mt-28 scroll-mt-12">
                                 <SectionHeader kicker="Verify" title="Check that it's really Flow">
                                     <p>
-                                        Every Android release is signed with the same key. Compare its SHA-256 fingerprint with{' '}
+                                        Stable releases and Flow Nightly are each signed with their own key. Compare the APK's SHA-256 fingerprint with{' '}
                                         <a href="https://github.com/soupslurpr/AppVerifier" target="_blank" rel="noopener noreferrer" className={linkClass}>AppVerifier</a>
                                         {' '}before installing.
                                     </p>
                                 </SectionHeader>
-                                <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-border-subtle bg-bg-card py-3 pl-5 pr-3">
-                                    <code className="font-mono text-[13px] leading-relaxed text-text-primary break-all select-all">{FINGERPRINT}</code>
-                                    <button
-                                        type="button"
-                                        onClick={copyFingerprint}
-                                        className="inline-flex items-center gap-1.5 rounded-lg border border-border-subtle bg-bg-primary px-3 py-2 text-[13px] font-semibold text-text-primary hover:border-text-primary transition-colors"
-                                    >
-                                        {copied ? <Check className="w-3.5 h-3.5" aria-hidden="true" /> : <Copy className="w-3.5 h-3.5" aria-hidden="true" />}
-                                        {copied ? 'Copied' : 'Copy'}
-                                    </button>
+                                <div className="space-y-3">
+                                    {FINGERPRINTS.map(fp => (
+                                        <div key={fp.label} className="rounded-2xl border border-border-subtle bg-bg-card py-3 pl-5 pr-3">
+                                            <p className="kicker mb-1.5">{fp.label}</p>
+                                            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+                                                <code className="font-mono text-[13px] leading-relaxed text-text-primary break-all select-all">{fp.value}</code>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => copyFingerprint(fp.value)}
+                                                    className="inline-flex items-center gap-1.5 rounded-lg border border-border-subtle bg-bg-primary px-3 py-2 text-[13px] font-semibold text-text-primary hover:border-text-primary transition-colors"
+                                                >
+                                                    {copied === fp.value ? <Check className="w-3.5 h-3.5" aria-hidden="true" /> : <Copy className="w-3.5 h-3.5" aria-hidden="true" />}
+                                                    {copied === fp.value ? 'Copied' : 'Copy'}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                                 <p className="mt-4 text-sm text-text-secondary">
                                     Not sure where to start?{' '}

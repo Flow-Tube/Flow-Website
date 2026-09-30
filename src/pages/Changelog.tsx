@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { ArrowUpRight, Search } from 'lucide-react'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
@@ -288,8 +289,8 @@ export function ChangelogPage() {
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <h1 className="text-5xl md:text-7xl font-semibold tracking-[-0.035em] leading-[0.98] mb-5">Changelog</h1>
                     <p className="text-lg text-text-secondary leading-relaxed max-w-2xl">
-                        Release notes for Flow on Android and desktop. Nightly builds aren't listed here; you can get the latest one{' '}
-                        <a href="https://nightly.link/A-EDev/Flow/workflows/build/main/flow-nightly-apk.zip" target="_blank" rel="noopener noreferrer" className={linkClass}>from GitHub</a>.
+                        Release notes for Flow on Android and desktop. Nightly builds aren't listed here; get Flow Nightly from the{' '}
+                        <Link to="/download#nightly" className={linkClass}>Download page</Link>.
                     </p>
 
                     <div role="tablist" aria-label="Platform" className="mt-10 flex flex-wrap gap-x-2 border-b border-border-subtle">
