@@ -2,7 +2,7 @@
   "owner": {
     "avatar_url": "https://avatars.githubusercontent.com/u/98699388?v=4",
     "bio": "AE | Developer. Just a dude building cool things on the internet.",
-    "followers": 190,
+    "followers": 191,
     "html_url": "https://github.com/A-EDev",
     "login": "A-EDev",
     "name": "AE",
@@ -147,6 +147,16 @@
       ]
     },
     {
+      "login": "AmyJeanes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2363642?v=4",
+      "html_url": "https://github.com/AmyJeanes",
+      "contributions": 9,
+      "repos": [
+        "android",
+        "desktop"
+      ]
+    },
+    {
       "login": "saran2020",
       "avatar_url": "https://avatars.githubusercontent.com/u/17165156?v=4",
       "html_url": "https://github.com/saran2020",
@@ -198,16 +208,6 @@
       "contributions": 6,
       "repos": [
         "android"
-      ]
-    },
-    {
-      "login": "AmyJeanes",
-      "avatar_url": "https://avatars.githubusercontent.com/u/2363642?v=4",
-      "html_url": "https://github.com/AmyJeanes",
-      "contributions": 5,
-      "repos": [
-        "android",
-        "desktop"
       ]
     },
     {
