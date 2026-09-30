@@ -51,8 +51,8 @@ export function AppShowcase() {
                     </h2>
                     <p className="text-lg text-text-secondary max-w-2xl leading-relaxed">
                         The same engine, native everywhere. Flow runs on Android and Android TV today,
-                        and desktop builds for Windows, Linux, and macOS, written in Rust
-                        on Tauri 2, are in active development.
+                        and the desktop app for Windows, Linux, and macOS, written in Rust
+                        on Tauri 2, is in beta.
                     </p>
                 </FadeIn>
             </div>
@@ -76,7 +76,7 @@ export function AppShowcase() {
                 </div>
             </div>
 
-            <StripLabel title="Windows &middot; Linux &middot; macOS" note="Rust + Tauri 2 &middot; In Development" />
+            <StripLabel title="Windows &middot; Linux &middot; macOS" note="Rust + Tauri 2 &middot; Beta" />
             <div className="marquee w-full">
                 <div className="marquee-track marquee-track-reverse flex w-max gap-6 md:gap-8" style={{ animationDuration: '70s' }}>
                     {[...desktopScreens, ...desktopScreens].map((screen, i) => (

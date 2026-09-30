@@ -46,4 +46,35 @@ jq -c '.[]' <<<"$SOURCES" | while read -r src; do
   done <<<"$urls"
 done
 
+EXTENSION_REPO="Flow-Tube/Flow-Extension"
+gh api "repos/$EXTENSION_REPO/releases?per_page=100" --paginate \
+  --jq '.[] | select((.draft | not) and (.prerelease | not)) | {tag: .tag_name, url: .html_url, date: .published_at[0:10]}' \
+  | jq -s . > "$tmp/extension-releases.json" || echo '[]' > "$tmp/extension-releases.json"
+
+if gh api "repos/$EXTENSION_REPO/contents/CHANGELOG.md" --jq .content | base64 -d > "$tmp/extension-changelog.md"; then
+  jq -Rs -c --slurpfile releases "$tmp/extension-releases.json" '
+    def clean: gsub("\\*\\*"; "") | gsub("`"; "");
+    def merged:
+      reduce .[] as $l ([];
+        if ($l | test("^\\s+\\S")) and length > 0 and (.[-1] | startswith("- "))
+        then .[:-1] + [.[-1] + " " + ($l | sub("^\\s+"; ""))]
+        else . + [$l] end);
+    split("\n## [")[1:][]
+    | (split("]")[0]) as $version
+    | select($version | test("^[0-9]"))
+    | ($releases[0] | map(select(.tag == ("v" + $version))) | .[0]) as $release
+    | (sub("^[^\n]*\n"; "") | split("\n") | merged
+        | map(if test("^### ") then "\n" + (sub("^### "; "") | ascii_upcase)
+              elif test("^- ") then clean
+              else empty end)
+        | join("\n")) as $body
+    | {
+        content: ("FLOW EXTENSION CHANGE LOG\nVERSION: " + $version + "\nDATE: " + ($release.date // "") + "\nSTATUS: " + (if $release then "RELEASE" else "" end) + "\n" + $body),
+        status: (if $release then "RELEASE" else "" end),
+        platform: "extension",
+        release_url: ($release.url // null)
+      }
+  ' "$tmp/extension-changelog.md" >> "$tmp/entries.jsonl" || true
+fi
+
 jq -s . "$tmp/entries.jsonl" > "$OUT"

@@ -112,5 +112,17 @@
     "status": "PRE-RELEASE",
     "platform": "desktop",
     "release_url": null
+  },
+  {
+    "content": "FLOW EXTENSION CHANGE LOG\nVERSION: 1.0.1\nDATE: 2026-07-13\nSTATUS: RELEASE\n\nFIXED\n- Watch-page buttons now render as a full-width bar directly below the player and above the metadata, instead of crowding and wrapping the like/share actions row.\n- Thumbnail hover overlay no longer flickers: mouseover events that retarget to the overlay's own Shadow-DOM host are handled, and hiding is debounced.",
+    "status": "RELEASE",
+    "platform": "extension",
+    "release_url": "https://github.com/Flow-Tube/Flow-Extension/releases/tag/v1.0.1"
+  },
+  {
+    "content": "FLOW EXTENSION CHANGE LOG\nVERSION: 1.0.0\nDATE: 2026-07-13\nSTATUS: RELEASE\n\nADDED\n- Watch-page button row: Watch in Flow / Download.\n- Hover overlay on video thumbnails across feeds, search, sidebar, playlists, and YouTube Music.\n- Right-click context-menu items for video links and watch pages.\n- Handoff cascade: silent 127.0.0.1 bridge → flow:// deep link → \"Get Flow\" toast.\n- Popup with live connection status and quick toggles; full settings page.\n- Chromium and Firefox builds from a single source.\n- Release packaging and GitHub Actions CI/release pipelines.",
+    "status": "RELEASE",
+    "platform": "extension",
+    "release_url": "https://github.com/Flow-Tube/Flow-Extension/releases/tag/v1.0.0"
   }
 ]

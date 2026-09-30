@@ -26,6 +26,12 @@
       "label": "Website",
       "repo": "Flow-Tube/Flow-Website",
       "url": "https://github.com/Flow-Tube/Flow-Website"
+    },
+    {
+      "id": "extension",
+      "label": "Extension",
+      "repo": "Flow-Tube/Flow-Extension",
+      "url": "https://github.com/Flow-Tube/Flow-Extension"
     }
   ],
   "contributors": [
@@ -172,6 +178,16 @@
       "contributions": 7,
       "repos": [
         "android"
+      ]
+    },
+    {
+      "login": "AmyJeanes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2363642?v=4",
+      "html_url": "https://github.com/AmyJeanes",
+      "contributions": 6,
+      "repos": [
+        "android",
+        "desktop"
       ]
     },
     {

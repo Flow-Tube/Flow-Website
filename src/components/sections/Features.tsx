@@ -68,13 +68,14 @@ const groups: FeatureGroup[] = [
     {
         id: 'everywhere',
         label: 'Everywhere',
-        lead: 'The same Flow on your TV, your home screen, and soon your desktop.',
-        screen: { src: '/screenshots/desktop/Home.webp', alt: 'The Flow desktop app, in development', caption: 'Desktop, in development', width: 1915, height: 1020, desktop: true },
+        lead: 'The same Flow on your TV, your home screen, your computer and your browser.',
+        screen: { src: '/screenshots/desktop/Home.webp', alt: 'The Flow desktop app', caption: 'Desktop beta', width: 1915, height: 1020, desktop: true },
         items: [
             { title: 'Android TV', description: 'A TV interface built for the remote, with the same private feed.' },
             { title: 'Device Sync', description: 'Move your library, history and profile between your devices over local Wi-Fi, paired with a QR code.' },
             { title: 'Home-Screen Widgets', description: 'Now Playing controls, and quick actions for search, downloads, history and recognition.' },
-            { title: 'Desktop, In Development', description: 'Windows, Linux and macOS, written in Rust on Tauri 2.' },
+            { title: 'Desktop Beta', description: 'Windows, macOS and Linux, written in Rust on Tauri 2. Syncs with Flow on your phone.' },
+            { title: 'Browser Extension', description: 'Watch in Flow and Download buttons on YouTube and YouTube Music, in Chromium browsers and Firefox.' },
         ],
     },
 ]

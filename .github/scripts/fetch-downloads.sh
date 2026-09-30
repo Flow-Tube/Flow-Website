@@ -5,6 +5,7 @@ OUT="${1:-public/downloads.json}"
 ANDROID_REPO="A-EDev/Flow"
 DESKTOP_REPO="Flow-Tube/Flow-Desktop"
 IZZY_PACKAGE="io.github.aedev.flow"
+EXTENSION_REPO="Flow-Tube/Flow-Extension"
 
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
@@ -38,6 +39,19 @@ gh api "repos/$DESKTOP_REPO/releases/latest" --jq '{
     format: (.name | capture("\\.(?<f>dmg|exe|AppImage|deb|rpm)$").f)
   }]
 }' > "$tmp/desktop.json" || echo 'null' > "$tmp/desktop.json"
+
+gh api "repos/$EXTENSION_REPO/releases/latest" --jq '{
+  version: (.tag_name | ltrimstr("v")),
+  tag: .tag_name,
+  published: .published_at,
+  release_url: .html_url,
+  assets: [.assets[] | select(.name | endswith(".zip")) | {
+    name,
+    url: .browser_download_url,
+    size,
+    browser: (if (.name | test("firefox")) then "firefox" else "chromium" end)
+  }]
+}' > "$tmp/extension.json" || echo 'null' > "$tmp/extension.json"
 
 if curl -fsSL --retry 3 "https://apt.izzysoft.de/fdroid/api/v1/packages/$IZZY_PACKAGE" -o "$tmp/izzy-raw.json"; then
   jq --arg pkg "$IZZY_PACKAGE" '
@@ -93,11 +107,13 @@ jq -n \
   --slurpfile android "$tmp/android.json" \
   --slurpfile desktop "$tmp/desktop.json" \
   --slurpfile izzy "$tmp/izzy.json" \
+  --slurpfile extension "$tmp/extension.json" \
   --slurpfile nightlyAndroid "$tmp/nightly-android.json" \
   --slurpfile nightlyDesktop "$tmp/nightly-desktop.json" \
   '{
     android: $android[0],
     desktop: $desktop[0],
     izzy: $izzy[0],
+    extension: $extension[0],
     nightly: { android: $nightlyAndroid[0], desktop: $nightlyDesktop[0] }
   }' > "$OUT"

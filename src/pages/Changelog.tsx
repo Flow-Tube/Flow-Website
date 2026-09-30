@@ -5,7 +5,7 @@ import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { cn } from '@/lib/utils'
 
-type Platform = 'android' | 'desktop'
+type Platform = 'android' | 'desktop' | 'extension'
 
 interface RawEntry {
     content: string
@@ -33,6 +33,13 @@ interface Release {
 const REPOS: Record<Platform, string> = {
     android: 'A-EDev/Flow',
     desktop: 'Flow-Tube/Flow-Desktop',
+    extension: 'Flow-Tube/Flow-Extension',
+}
+
+const PLATFORM_LABEL: Record<Platform, string> = {
+    android: 'Android',
+    desktop: 'Desktop',
+    extension: 'Extension',
 }
 
 const PREVIEW_ITEMS = 8
@@ -49,7 +56,7 @@ function isAllCaps(line: string) {
 }
 
 function parseEntry(entry: RawEntry): Release | null {
-    const platform: Platform = entry.platform === 'desktop' ? 'desktop' : 'android'
+    const platform: Platform = entry.platform === 'desktop' || entry.platform === 'extension' ? entry.platform : 'android'
     let version = ''
     let date = ''
     let status = (entry.status || '').trim().toUpperCase()
@@ -59,7 +66,7 @@ function parseEntry(entry: RawEntry): Release | null {
 
     for (const raw of entry.content.split('\n')) {
         const line = replaceEmDashes(raw.trim())
-        if (!line || /^FLOW( DESKTOP)? CHANGE LOG$/i.test(line)) continue
+        if (!line || /^FLOW( DESKTOP| EXTENSION)? CHANGE LOG$/i.test(line)) continue
 
         const field = line.match(/^(VERSION|DATE|STATUS|TITLE|DESCRIPTION):\s*(.*)$/i)
         if (field) {
@@ -154,9 +161,9 @@ function formatSectionTitle(title: string) {
 
 function sectionKind(title: string): 'new' | 'improved' | 'fixed' | 'other' {
     const t = title.toUpperCase()
-    if (t.includes('FEATURE')) return 'new'
+    if (t.includes('FEATURE') || t === 'ADDED') return 'new'
     if (t.includes('FIX')) return 'fixed'
-    if (/IMPROV|PERFORM|ENGINE|UI|STYLE/.test(t)) return 'improved'
+    if (/IMPROV|PERFORM|ENGINE|UI|STYLE|CHANGED/.test(t)) return 'improved'
     return 'other'
 }
 
@@ -254,6 +261,7 @@ export function ChangelogPage() {
     const counts = useMemo(() => ({
         android: releases.filter(r => r.platform === 'android').length,
         desktop: releases.filter(r => r.platform === 'desktop').length,
+        extension: releases.filter(r => r.platform === 'extension').length,
     }), [releases])
 
     const visible = releases.filter(r => r.platform === platform)
@@ -289,12 +297,12 @@ export function ChangelogPage() {
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <h1 className="text-5xl md:text-7xl font-semibold tracking-[-0.035em] leading-[0.98] mb-5">Changelog</h1>
                     <p className="text-lg text-text-secondary leading-relaxed max-w-2xl">
-                        Release notes for Flow on Android and desktop. Nightly builds aren't listed here; get Flow Nightly from the{' '}
+                        Release notes for Flow on Android, desktop and the browser extension. Nightly builds aren't listed here; get Flow Nightly from the{' '}
                         <Link to="/download#nightly" className={linkClass}>Download page</Link>.
                     </p>
 
                     <div role="tablist" aria-label="Platform" className="mt-10 flex flex-wrap gap-x-2 border-b border-border-subtle">
-                        {(['android', 'desktop'] as Platform[]).map(p => (
+                        {(['android', 'desktop', 'extension'] as Platform[]).map(p => (
                             <button
                                 key={p}
                                 type="button"
@@ -306,7 +314,7 @@ export function ChangelogPage() {
                                     platform === p ? 'border-text-primary text-text-primary' : 'border-transparent text-text-muted hover:text-text-secondary'
                                 )}
                             >
-                                {p === 'android' ? 'Android' : 'Desktop'}
+                                {PLATFORM_LABEL[p]}
                                 <span className="font-mono text-[11px] font-medium tracking-[0.1em] text-text-muted">{counts[p]}</span>
                             </button>
                         ))}
@@ -355,7 +363,7 @@ export function ChangelogPage() {
 
                             {status === 'ready' && visible.length === 0 && (
                                 <p className="rounded-2xl border border-border-subtle px-6 py-10 text-center text-text-secondary">
-                                    No {platform === 'desktop' ? 'desktop' : 'Android'} releases yet.
+                                    No {PLATFORM_LABEL[platform].toLowerCase()} releases yet.
                                 </p>
                             )}
 

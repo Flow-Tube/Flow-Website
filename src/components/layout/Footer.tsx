@@ -17,6 +17,7 @@ const columns: { title: string; links: FooterLink[] }[] = [
             { label: 'Download', href: '/download' },
             { label: 'GitHub Releases', href: '/download#github-releases' },
             { label: 'IzzyOnDroid', href: '/download#izzyondroid' },
+            { label: 'Browser Extension', href: '/download#browser-extension' },
             { label: 'Nightly Builds', href: '/download#nightly' },
         ],
     },

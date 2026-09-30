@@ -6,7 +6,7 @@ import { Footer } from '@/components/layout/Footer'
 import { FadeIn } from '@/components/ui/TextReveal'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
-import { detectDevice, type Device } from '@/lib/detectDevice'
+import { detectBrowser, detectDevice, type BrowserFamily, type Device } from '@/lib/detectDevice'
 
 type Flavor = 'github' | 'foss'
 type Abi = 'universal' | 'arm64-v8a' | 'armeabi-v7a'
@@ -26,10 +26,18 @@ interface AndroidNightly {
     checksums_url: string | null
 }
 
+interface ExtensionRelease {
+    version: string
+    published: string
+    release_url: string
+    assets: { name: string; url: string; size: number; browser: 'chromium' | 'firefox' }[]
+}
+
 interface Downloads {
     android: { version: string; published: string; release_url: string; checksums_url: string | null; assets: AndroidAsset[] } | null
     desktop: { version: string; published: string; release_url: string; assets: DesktopAsset[] } | null
     izzy: { version: string; apk_url: string; page_url: string } | null
+    extension?: ExtensionRelease | null
     nightly: { android: AndroidNightly | null; desktop: Nightly | null }
 }
 
@@ -162,6 +170,7 @@ export function Download() {
     const [data, setData] = useState<Downloads | null>(null)
     const [failed, setFailed] = useState(false)
     const [device, setDevice] = useState<Device | null>(null)
+    const [browser, setBrowser] = useState<BrowserFamily>('other')
     const [target, setTarget] = useState<Target>('android')
     const [arch, setArch] = useState<'x64' | 'arm64'>('x64')
     const [copied, setCopied] = useState<string | null>(null)
@@ -172,6 +181,7 @@ export function Download() {
             .then((json: Downloads) => setData(json))
             .catch(() => setFailed(true))
 
+        setBrowser(detectBrowser())
         detectDevice().then(d => {
             setDevice(d)
             if (d.os === 'windows' || d.os === 'macos' || d.os === 'linux') setTarget(d.os)
@@ -302,6 +312,13 @@ export function Download() {
                                         {target === 'linux' && 'Prefer a .deb or .rpm? '}
                                         <a href="#github-releases" className={linkClass}>See every file</a>.
                                     </p>
+                                    {data.extension && (
+                                        <p className="mt-2 text-sm text-text-secondary">
+                                            Watching on YouTube in your browser? The{' '}
+                                            <a href="#browser-extension" className={linkClass}>Flow extension</a>
+                                            {' '}sends any video to Flow in one click.
+                                        </p>
+                                    )}
                                 </div>
                             )}
                         </div>
@@ -386,6 +403,61 @@ export function Download() {
                                     )}
                                 </div>
                             </section>
+
+                            {data.extension && (() => {
+                                const ext = data.extension
+                                const chromium = ext.assets.find(a => a.browser === 'chromium')
+                                const firefox = ext.assets.find(a => a.browser === 'firefox')
+                                const firefoxFirst = browser === 'firefox'
+                                const rows = [
+                                    chromium && <Row key="chromium" title="Chrome, Edge, Brave, Opera, Vivaldi" detail="Chromium build (.zip)" href={chromium.url} size={chromium.size} primary={browser === 'chromium'} />,
+                                    firefox && <Row key="firefox" title="Firefox" detail="Firefox build (.zip)" href={firefox.url} size={firefox.size} primary={browser === 'firefox'} />,
+                                ]
+                                return (
+                                    <section id="browser-extension" className="mt-20 md:mt-28 scroll-mt-12">
+                                        <SectionHeader kicker="Browser extension" title="Send YouTube videos to Flow">
+                                            <p>
+                                                The Flow extension adds Watch in Flow and Download buttons to YouTube and YouTube Music: under the player,
+                                                on video thumbnails and in the right-click menu. It hands the video to the Flow desktop app, so you'll need
+                                                that installed too. It only ever sends the video's ID, and only to Flow on your own computer.
+                                            </p>
+                                            {browser === 'safari' && <p>Safari isn't supported. It works in Chromium browsers and Firefox.</p>}
+                                        </SectionHeader>
+                                        <Group title="Flow extension" note={`v${ext.version} · ${formatDate(ext.published)}`}>
+                                            {firefoxFirst ? [...rows].reverse() : rows}
+                                        </Group>
+                                        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                                            {[
+                                                {
+                                                    id: 'chromium',
+                                                    title: 'Install in Chrome and other Chromium browsers',
+                                                    steps: ['Unzip the download.', 'Open chrome://extensions and turn on Developer mode.', 'Choose Load unpacked and select the unzipped folder.'],
+                                                },
+                                                {
+                                                    id: 'firefox',
+                                                    title: 'Install in Firefox',
+                                                    steps: ['Unzip the download.', 'Open about:debugging and choose This Firefox.', 'Choose Load Temporary Add-on and pick manifest.json in the unzipped folder. Firefox removes it again when it restarts.'],
+                                                },
+                                            ]
+                                                .sort((a, b) => (firefoxFirst ? (a.id === 'firefox' ? -1 : b.id === 'firefox' ? 1 : 0) : 0))
+                                                .map(guide => (
+                                                    <div key={guide.id} className="rounded-2xl border border-border-subtle bg-bg-card p-5">
+                                                        <p className="font-display text-[17px] font-semibold tracking-[-0.01em] text-text-primary mb-3">{guide.title}</p>
+                                                        <ol className="list-decimal space-y-1.5 pl-5 text-sm text-text-secondary marker:text-text-muted">
+                                                            {guide.steps.map(step => <li key={step}>{step}</li>)}
+                                                        </ol>
+                                                    </div>
+                                                ))}
+                                        </div>
+                                        <p className="mt-4 text-sm text-text-secondary">
+                                            For now it installs from GitHub rather than a browser store.{' '}
+                                            <a href={ext.release_url} target="_blank" rel="noopener noreferrer" className={linkClass}>Release on GitHub</a>
+                                            {' · '}
+                                            <Link to="/changelog" className={linkClass}>What's new</Link>
+                                        </p>
+                                    </section>
+                                )
+                            })()}
 
                             {data.izzy && (
                                 <section id="izzyondroid" className="mt-20 md:mt-28 scroll-mt-12">

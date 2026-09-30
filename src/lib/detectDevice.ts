@@ -72,3 +72,13 @@ export async function detectDevice(): Promise<Device> {
     if (os === 'windows' || os === 'linux') return { os, arch: 'x64', archGuessed: true }
     return { os, arch: 'unknown', archGuessed: true }
 }
+
+export type BrowserFamily = 'chromium' | 'firefox' | 'safari' | 'other'
+
+export function detectBrowser(): BrowserFamily {
+    const ua = navigator.userAgent
+    if (/Firefox\//i.test(ua)) return 'firefox'
+    if (/Chrome\/|Chromium\/|CriOS\/|Edg\/|OPR\//i.test(ua)) return 'chromium'
+    if (/Safari\//i.test(ua)) return 'safari'
+    return 'other'
+}

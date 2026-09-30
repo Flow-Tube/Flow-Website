@@ -123,6 +123,17 @@ const sections: LegalSection[] = [
         ),
     },
     {
+        id: 'browser-extension',
+        title: 'The browser extension',
+        content: (
+            <ul>
+                <li>It reads the ID of the YouTube or YouTube Music video you act on, plus a timestamp or playlist if there is one.</li>
+                <li>It sends that only to the Flow desktop app on your own computer, through <strong>127.0.0.1</strong> or a <strong>flow://</strong> link. It contacts no other server and has no analytics.</li>
+                <li>It needs access to youtube.com, m.youtube.com and music.youtube.com to show its buttons, plus the right-click menu and storage for its settings. Access to 127.0.0.1 is optional and only requested if you turn on silent mode.</li>
+            </ul>
+        ),
+    },
+    {
         id: 'this-website',
         title: 'This website',
         content: (
@@ -152,7 +163,7 @@ export function PrivacyPolicy() {
             kicker="Privacy Policy"
             title="Your data"
             accent="stays yours."
-            updated="27 September 2026"
+            updated="30 September 2026"
             intro={<p>Flow has no accounts, no servers of its own and no analytics. What you do in the app stays on your phone. To show you videos and music, the app talks directly to YouTube and a few other services, listed below with exactly what each one receives.</p>}
             sections={sections}
         />

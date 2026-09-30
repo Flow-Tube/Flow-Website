@@ -49,7 +49,12 @@ const groups: { label: string; questions: Question[] }[] = [
             {
                 id: 'faq-tv-desktop',
                 question: 'Does it work on Android TV and desktop?',
-                answer: <>Android TV, yes: it has its own interface built for the remote. The desktop app for Windows, Linux and macOS is in development, written in Rust on Tauri 2.</>,
+                answer: <>Android TV, yes: it has its own interface built for the remote. The desktop app for Windows, macOS and Linux is in beta, written in Rust on Tauri 2, and you can <Page to="/download">download it now</Page>.</>,
+            },
+            {
+                id: 'faq-extension',
+                question: 'Is there a browser extension?',
+                answer: <>Yes. It adds Watch in Flow and Download buttons to YouTube and YouTube Music in Chrome, Edge, Brave, Opera, Vivaldi and Firefox, and hands the video to the Flow desktop app. Get it from the <Page to="/download#browser-extension">Download page</Page>.</>,
             },
         ],
     },

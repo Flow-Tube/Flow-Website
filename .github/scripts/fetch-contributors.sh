@@ -7,7 +7,8 @@ EXCLUDE='["actions-user", "weblate", "github-actions", "dependabot"]'
 REPOS='[
   {"id": "android", "label": "Android app", "repo": "A-EDev/Flow"},
   {"id": "desktop", "label": "Desktop app", "repo": "Flow-Tube/Flow-Desktop"},
-  {"id": "website", "label": "Website", "repo": "Flow-Tube/Flow-Website"}
+  {"id": "website", "label": "Website", "repo": "Flow-Tube/Flow-Website"},
+  {"id": "extension", "label": "Extension", "repo": "Flow-Tube/Flow-Extension"}
 ]'
 
 tmp="$(mktemp -d)"
@@ -49,4 +50,4 @@ jq -s \
       repos: ($repos | map(. + {url: ("https://github.com/" + .repo)})),
       contributors: .
     }
-' "$tmp/android.json" "$tmp/desktop.json" "$tmp/website.json" > "$OUT"
+' "$tmp/android.json" "$tmp/desktop.json" "$tmp/website.json" "$tmp/extension.json" > "$OUT"
