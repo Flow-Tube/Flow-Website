@@ -178,59 +178,59 @@
       "run": 1486
     },
     "desktop": {
-      "created": "2026-10-03T09:05:51Z",
-      "run_url": "https://github.com/Flow-Tube/Flow-Desktop/actions/runs/37111894562",
+      "created": "2026-10-04T09:43:52Z",
+      "run_url": "https://github.com/Flow-Tube/Flow-Desktop/actions/runs/37193087296",
       "commit": "ecbaa8f",
       "artifacts": [
         {
-          "name": "Flow-nightly-linux-arm64-appimage-332",
-          "size": 150072128,
-          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37111894562/Flow-nightly-linux-arm64-appimage-332.zip"
+          "name": "Flow-nightly-windows-arm64-334",
+          "size": 6879603,
+          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37193087296/Flow-nightly-windows-arm64-334.zip"
         },
         {
-          "name": "Flow-nightly-windows-x64-332",
-          "size": 7686130,
-          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37111894562/Flow-nightly-windows-x64-332.zip"
+          "name": "Flow-nightly-linux-x64-appimage-334",
+          "size": 156397898,
+          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37193087296/Flow-nightly-linux-x64-appimage-334.zip"
         },
         {
-          "name": "Flow-nightly-windows-arm64-332",
-          "size": 6880125,
-          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37111894562/Flow-nightly-windows-arm64-332.zip"
+          "name": "Flow-nightly-linux-x64-rpm-334",
+          "size": 12060362,
+          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37193087296/Flow-nightly-linux-x64-rpm-334.zip"
         },
         {
-          "name": "Flow-nightly-linux-x64-appimage-332",
-          "size": 156397780,
-          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37111894562/Flow-nightly-linux-x64-appimage-332.zip"
+          "name": "Flow-nightly-linux-x64-deb-334",
+          "size": 12060738,
+          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37193087296/Flow-nightly-linux-x64-deb-334.zip"
         },
         {
-          "name": "Flow-nightly-macos-arm64-332",
-          "size": 9730827,
-          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37111894562/Flow-nightly-macos-arm64-332.zip"
+          "name": "Flow-nightly-windows-x64-334",
+          "size": 7688251,
+          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37193087296/Flow-nightly-windows-x64-334.zip"
         },
         {
-          "name": "Flow-nightly-linux-x64-deb-332",
-          "size": 12060649,
-          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37111894562/Flow-nightly-linux-x64-deb-332.zip"
+          "name": "Flow-nightly-linux-arm64-rpm-334",
+          "size": 11434271,
+          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37193087296/Flow-nightly-linux-arm64-rpm-334.zip"
         },
         {
-          "name": "Flow-nightly-linux-arm64-rpm-332",
-          "size": 11434127,
-          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37111894562/Flow-nightly-linux-arm64-rpm-332.zip"
+          "name": "Flow-nightly-linux-arm64-appimage-334",
+          "size": 150072139,
+          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37193087296/Flow-nightly-linux-arm64-appimage-334.zip"
         },
         {
-          "name": "Flow-nightly-linux-x64-rpm-332",
-          "size": 12060338,
-          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37111894562/Flow-nightly-linux-x64-rpm-332.zip"
+          "name": "Flow-nightly-linux-arm64-deb-334",
+          "size": 11433954,
+          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37193087296/Flow-nightly-linux-arm64-deb-334.zip"
         },
         {
-          "name": "Flow-nightly-linux-arm64-deb-332",
-          "size": 11433890,
-          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37111894562/Flow-nightly-linux-arm64-deb-332.zip"
+          "name": "Flow-nightly-macos-x64-334",
+          "size": 10837019,
+          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37193087296/Flow-nightly-macos-x64-334.zip"
         },
         {
-          "name": "Flow-nightly-macos-x64-332",
-          "size": 10836920,
-          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37111894562/Flow-nightly-macos-x64-332.zip"
+          "name": "Flow-nightly-macos-arm64-334",
+          "size": 9730864,
+          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/37193087296/Flow-nightly-macos-arm64-334.zip"
         }
       ]
     }
