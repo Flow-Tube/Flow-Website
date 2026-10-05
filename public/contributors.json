@@ -2,7 +2,7 @@
   "owner": {
     "avatar_url": "https://avatars.githubusercontent.com/u/98699388?v=4",
     "bio": "AE | Developer. Just a dude building cool things on the internet.",
-    "followers": 208,
+    "followers": 212,
     "html_url": "https://github.com/A-EDev",
     "login": "A-EDev",
     "name": "AE",
@@ -39,7 +39,7 @@
       "login": "my-live-is-a-lie",
       "avatar_url": "https://avatars.githubusercontent.com/u/204233948?v=4",
       "html_url": "https://github.com/my-live-is-a-lie",
-      "contributions": 109,
+      "contributions": 110,
       "repos": [
         "android"
       ]
@@ -72,19 +72,10 @@
       ]
     },
     {
-      "login": "Matthew3955",
-      "avatar_url": "https://avatars.githubusercontent.com/u/172912719?v=4",
-      "html_url": "https://github.com/Matthew3955",
-      "contributions": 37,
-      "repos": [
-        "android"
-      ]
-    },
-    {
       "login": "MattSolo451",
       "avatar_url": "https://avatars.githubusercontent.com/u/70535762?v=4",
       "html_url": "https://github.com/MattSolo451",
-      "contributions": 37,
+      "contributions": 38,
       "repos": [
         "android"
       ]
@@ -93,7 +84,16 @@
       "login": "Kefir2105",
       "avatar_url": "https://avatars.githubusercontent.com/u/103105829?v=4",
       "html_url": "https://github.com/Kefir2105",
-      "contributions": 36,
+      "contributions": 37,
+      "repos": [
+        "android"
+      ]
+    },
+    {
+      "login": "Matthew3955",
+      "avatar_url": "https://avatars.githubusercontent.com/u/172912719?v=4",
+      "html_url": "https://github.com/Matthew3955",
+      "contributions": 37,
       "repos": [
         "android"
       ]
@@ -129,7 +129,7 @@
       "login": "arifpedia",
       "avatar_url": "https://avatars.githubusercontent.com/u/4081293?v=4",
       "html_url": "https://github.com/arifpedia",
-      "contributions": 12,
+      "contributions": 13,
       "repos": [
         "android"
       ]
