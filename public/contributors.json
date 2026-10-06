@@ -2,7 +2,7 @@
   "owner": {
     "avatar_url": "https://avatars.githubusercontent.com/u/98699388?v=4",
     "bio": "AE | Developer. Just a dude building cool things on the internet.",
-    "followers": 220,
+    "followers": 221,
     "html_url": "https://github.com/A-EDev",
     "login": "A-EDev",
     "name": "AE",
@@ -63,6 +63,15 @@
       ]
     },
     {
+      "login": "MattSolo451",
+      "avatar_url": "https://avatars.githubusercontent.com/u/70535762?v=4",
+      "html_url": "https://github.com/MattSolo451",
+      "contributions": 39,
+      "repos": [
+        "android"
+      ]
+    },
+    {
       "login": "siggi1984",
       "avatar_url": "https://avatars.githubusercontent.com/u/103368536?v=4",
       "html_url": "https://github.com/siggi1984",
@@ -72,19 +81,10 @@
       ]
     },
     {
-      "login": "MattSolo451",
-      "avatar_url": "https://avatars.githubusercontent.com/u/70535762?v=4",
-      "html_url": "https://github.com/MattSolo451",
-      "contributions": 38,
-      "repos": [
-        "android"
-      ]
-    },
-    {
       "login": "Kefir2105",
       "avatar_url": "https://avatars.githubusercontent.com/u/103105829?v=4",
       "html_url": "https://github.com/Kefir2105",
-      "contributions": 37,
+      "contributions": 38,
       "repos": [
         "android"
       ]
@@ -93,7 +93,7 @@
       "login": "Matthew3955",
       "avatar_url": "https://avatars.githubusercontent.com/u/172912719?v=4",
       "html_url": "https://github.com/Matthew3955",
-      "contributions": 37,
+      "contributions": 38,
       "repos": [
         "android"
       ]
@@ -102,7 +102,7 @@
       "login": "restlessSangoLeelo",
       "avatar_url": "https://avatars.githubusercontent.com/u/264833262?v=4",
       "html_url": "https://github.com/restlessSangoLeelo",
-      "contributions": 27,
+      "contributions": 28,
       "repos": [
         "android"
       ]
@@ -589,6 +589,15 @@
       "login": "flytothehighest",
       "avatar_url": "https://avatars.githubusercontent.com/u/137701630?v=4",
       "html_url": "https://github.com/flytothehighest",
+      "contributions": 1,
+      "repos": [
+        "android"
+      ]
+    },
+    {
+      "login": "Gato-Chamuscador",
+      "avatar_url": "https://avatars.githubusercontent.com/u/86534739?v=4",
+      "html_url": "https://github.com/Gato-Chamuscador",
       "contributions": 1,
       "repos": [
         "android"
