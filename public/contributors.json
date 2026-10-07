@@ -2,7 +2,7 @@
   "owner": {
     "avatar_url": "https://avatars.githubusercontent.com/u/98699388?v=4",
     "bio": "AE | Developer. Just a dude building cool things on the internet.",
-    "followers": 225,
+    "followers": 227,
     "html_url": "https://github.com/A-EDev",
     "login": "A-EDev",
     "name": "AE",
@@ -39,7 +39,7 @@
       "login": "my-live-is-a-lie",
       "avatar_url": "https://avatars.githubusercontent.com/u/204233948?v=4",
       "html_url": "https://github.com/my-live-is-a-lie",
-      "contributions": 110,
+      "contributions": 111,
       "repos": [
         "android"
       ]
@@ -63,6 +63,15 @@
       ]
     },
     {
+      "login": "Kefir2105",
+      "avatar_url": "https://avatars.githubusercontent.com/u/103105829?v=4",
+      "html_url": "https://github.com/Kefir2105",
+      "contributions": 39,
+      "repos": [
+        "android"
+      ]
+    },
+    {
       "login": "MattSolo451",
       "avatar_url": "https://avatars.githubusercontent.com/u/70535762?v=4",
       "html_url": "https://github.com/MattSolo451",
@@ -76,15 +85,6 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/103368536?v=4",
       "html_url": "https://github.com/siggi1984",
       "contributions": 39,
-      "repos": [
-        "android"
-      ]
-    },
-    {
-      "login": "Kefir2105",
-      "avatar_url": "https://avatars.githubusercontent.com/u/103105829?v=4",
-      "html_url": "https://github.com/Kefir2105",
-      "contributions": 38,
       "repos": [
         "android"
       ]
@@ -172,18 +172,18 @@
       ]
     },
     {
-      "login": "ninosandzak",
-      "avatar_url": "https://avatars.githubusercontent.com/u/68593004?v=4",
-      "html_url": "https://github.com/ninosandzak",
-      "contributions": 7,
+      "login": "Sup-25498",
+      "avatar_url": "https://avatars.githubusercontent.com/u/298766255?v=4",
+      "html_url": "https://github.com/Sup-25498",
+      "contributions": 8,
       "repos": [
         "android"
       ]
     },
     {
-      "login": "Sup-25498",
-      "avatar_url": "https://avatars.githubusercontent.com/u/298766255?v=4",
-      "html_url": "https://github.com/Sup-25498",
+      "login": "ninosandzak",
+      "avatar_url": "https://avatars.githubusercontent.com/u/68593004?v=4",
+      "html_url": "https://github.com/ninosandzak",
       "contributions": 7,
       "repos": [
         "android"
