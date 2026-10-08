@@ -1,5 +1,8 @@
 <div align="center">
-  <img src="public/flow-icon.svg" width="72" height="72" alt="Flow logo" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://assets.flow-tube.org/v1/banners/flow-tube-dark.svg">
+    <img alt="Flow-Tube. Open-source, privacy-first YouTube and YouTube Music clients for every screen." src="https://assets.flow-tube.org/v1/banners/flow-tube-light.svg" width="100%">
+  </picture>
   <h1>Flow — Website</h1>
   <p>Marketing site, changelog, and patron listing for <a href="https://github.com/A-EDev/Flow">Flow</a>, an open-source YouTube client.</p>
   <p>
