@@ -2,7 +2,7 @@
   "owner": {
     "avatar_url": "https://avatars.githubusercontent.com/u/98699388?v=4",
     "bio": "AE | Developer. Just a dude building cool things on the internet.",
-    "followers": 227,
+    "followers": 228,
     "html_url": "https://github.com/A-EDev",
     "login": "A-EDev",
     "name": "AE",
@@ -244,6 +244,15 @@
       ]
     },
     {
+      "login": "shiaho777",
+      "avatar_url": "https://avatars.githubusercontent.com/u/222622008?v=4",
+      "html_url": "https://github.com/shiaho777",
+      "contributions": 4,
+      "repos": [
+        "android"
+      ]
+    },
+    {
       "login": "ajuckler",
       "avatar_url": "https://avatars.githubusercontent.com/u/6445757?v=4",
       "html_url": "https://github.com/ajuckler",
@@ -445,15 +454,6 @@
       "login": "SaymoNBruh",
       "avatar_url": "https://avatars.githubusercontent.com/u/173509342?v=4",
       "html_url": "https://github.com/SaymoNBruh",
-      "contributions": 2,
-      "repos": [
-        "android"
-      ]
-    },
-    {
-      "login": "shiaho777",
-      "avatar_url": "https://avatars.githubusercontent.com/u/222622008?v=4",
-      "html_url": "https://github.com/shiaho777",
       "contributions": 2,
       "repos": [
         "android"
