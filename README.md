@@ -4,11 +4,11 @@
     <img alt="Flow-Tube. Open-source, privacy-first YouTube and YouTube Music clients for every screen." src="https://assets.flow-tube.org/v1/banners/flow-tube-light.svg" width="100%">
   </picture>
   <h1>Flow — Website</h1>
-  <p>Marketing site, changelog, and patron listing for <a href="https://github.com/A-EDev/Flow">Flow</a>, an open-source YouTube client.</p>
+  <p>Marketing site, changelog, and patron listing for <a href="https://github.com/Flow-Tube/Flow">Flow</a>, an open-source YouTube client.</p>
   <p>
     <a href="https://flow.aedev.me">flow.aedev.me</a>
     &nbsp;·&nbsp;
-    <a href="https://github.com/A-EDev/Flow">Flow (Android)</a>
+    <a href="https://github.com/Flow-Tube/Flow">Flow (Android)</a>
     &nbsp;·&nbsp;
     <a href="https://github.com/flowneuro/flow-desktop">Flow (Desktop)</a>
   </p>
@@ -81,7 +81,7 @@ which fetches the latest numbers and commits them back.
 
 ## Related repositories
 
-- [A-EDev/Flow](https://github.com/A-EDev/Flow) — the Android app
+- [Flow-Tube/Flow](https://github.com/Flow-Tube/Flow) — the Android app
 - [flowneuro/flow-desktop](https://github.com/flowneuro/flow-desktop) — the desktop app (Rust, Tauri 2)
 
 ## License
