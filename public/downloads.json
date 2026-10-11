@@ -167,15 +167,15 @@
   "nightly": {
     "android": {
       "apk": {
-        "name": "flow-nightly-1560.apk",
-        "size": 28341542,
-        "url": "https://github.com/A-EDev/Flow/releases/download/nightly/flow-nightly-1560.apk"
+        "name": "flow-nightly-1561.apk",
+        "size": 28354422,
+        "url": "https://github.com/A-EDev/Flow/releases/download/nightly/flow-nightly-1561.apk"
       },
       "checksums_url": "https://github.com/A-EDev/Flow/releases/download/nightly/checksums.txt",
-      "commit": "8f2c321",
-      "created": "2026-10-10T16:09:13Z",
+      "commit": "5c0f6dd",
+      "created": "2026-10-11T07:25:07Z",
       "release_url": "https://github.com/A-EDev/Flow/releases/tag/nightly",
-      "run": 1560
+      "run": 1561
     },
     "desktop": {
       "created": "2026-10-10T09:46:34Z",
