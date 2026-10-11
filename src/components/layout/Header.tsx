@@ -50,7 +50,7 @@ function useNavGroups(): NavGroup[] {
                 {
                     label: 'GitHub',
                     description: 'Star the source and follow development.',
-                    href: 'https://github.com/A-EDev/Flow',
+                    href: 'https://github.com/Flow-Tube/Flow',
                     external: true,
                     meta: stats ? `${formatCompact(stats.stars)} stars` : undefined,
                 },

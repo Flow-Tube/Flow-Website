@@ -254,7 +254,7 @@ export function Download() {
                             {failed && (
                                 <p className="mt-8 text-text-secondary">
                                     Download links couldn't be loaded. Get Flow from{' '}
-                                    <a href="https://github.com/A-EDev/Flow/releases/latest" target="_blank" rel="noopener noreferrer" className={linkClass}>GitHub Releases</a> instead.
+                                    <a href="https://github.com/Flow-Tube/Flow/releases/latest" target="_blank" rel="noopener noreferrer" className={linkClass}>GitHub Releases</a> instead.
                                 </p>
                             )}
 
@@ -364,7 +364,7 @@ export function Download() {
                                                 )}
                                                 {' · '}
                                                 Get updates automatically with{' '}
-                                                <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/A-EDev/Flow/" target="_blank" rel="noopener noreferrer" className={linkClass}>Obtainium</a>
+                                                <a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/Flow-Tube/Flow/" target="_blank" rel="noopener noreferrer" className={linkClass}>Obtainium</a>
                                             </p>
                                         </>
                                     )}
@@ -571,7 +571,7 @@ export function Download() {
 
                             <p className="mt-16 flex items-center gap-1.5 text-sm text-text-muted">
                                 Looking for older versions? See all{' '}
-                                <a href="https://github.com/A-EDev/Flow/releases" target="_blank" rel="noopener noreferrer" className={linkClass}>Android</a>
+                                <a href="https://github.com/Flow-Tube/Flow/releases" target="_blank" rel="noopener noreferrer" className={linkClass}>Android</a>
                                 {' '}and{' '}
                                 <a href="https://github.com/Flow-Tube/Flow-Desktop/releases" target="_blank" rel="noopener noreferrer" className={linkClass}>desktop</a>
                                 {' '}releases on GitHub

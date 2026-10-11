@@ -5,7 +5,7 @@ OUT="${1:-public/contributors.json}"
 OWNER="A-EDev"
 EXCLUDE='["actions-user", "weblate", "github-actions", "dependabot"]'
 REPOS='[
-  {"id": "android", "label": "Android app", "repo": "A-EDev/Flow"},
+  {"id": "android", "label": "Android app", "repo": "Flow-Tube/Flow"},
   {"id": "desktop", "label": "Desktop app", "repo": "Flow-Tube/Flow-Desktop"},
   {"id": "website", "label": "Website", "repo": "Flow-Tube/Flow-Website"},
   {"id": "extension", "label": "Extension", "repo": "Flow-Tube/Flow-Extension"}

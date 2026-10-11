@@ -6,7 +6,7 @@ import { FadeIn } from '@/components/ui/TextReveal'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 
-const CODE_BASE = 'https://github.com/A-EDev/Flow/blob/main/app/src/main/java/io/github/aedev/flow/'
+const CODE_BASE = 'https://github.com/Flow-Tube/Flow/blob/main/app/src/main/java/io/github/aedev/flow/'
 
 interface Tip {
     x: number
@@ -657,7 +657,7 @@ export function HowItWorks() {
                                 </p>
                             </div>
                             <Button
-                                href="https://github.com/A-EDev/Flow/tree/main/app/src/main/java/io/github/aedev/flow/data/recommendation"
+                                href="https://github.com/Flow-Tube/Flow/tree/main/app/src/main/java/io/github/aedev/flow/data/recommendation"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 variant="primary"

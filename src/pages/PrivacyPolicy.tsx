@@ -119,7 +119,7 @@ const sections: LegalSection[] = [
         id: 'telemetry',
         title: 'Analytics and crash reports',
         content: (
-            <p>Flow contains no analytics, tracking or crash-reporting code. We have no way of knowing how you use the app or whether it crashed. If something goes wrong, you can copy the error details and <a href="https://github.com/A-EDev/Flow/issues/new?template=bug_report.yml" target="_blank" rel="noopener noreferrer">report it on GitHub</a> yourself.</p>
+            <p>Flow contains no analytics, tracking or crash-reporting code. We have no way of knowing how you use the app or whether it crashed. If something goes wrong, you can copy the error details and <a href="https://github.com/Flow-Tube/Flow/issues/new?template=bug_report.yml" target="_blank" rel="noopener noreferrer">report it on GitHub</a> yourself.</p>
         ),
     },
     {
@@ -151,7 +151,7 @@ const sections: LegalSection[] = [
         content: (
             <>
                 <p>When this policy changes, the date at the top changes, and the edit is visible in the website's public repository on GitHub.</p>
-                <p>Questions? Open an issue on <a href="https://github.com/A-EDev/Flow/issues" target="_blank" rel="noopener noreferrer">GitHub</a> or ask on <a href="https://reddit.com/r/flow_official" target="_blank" rel="noopener noreferrer">r/Flow_Official</a>.</p>
+                <p>Questions? Open an issue on <a href="https://github.com/Flow-Tube/Flow/issues" target="_blank" rel="noopener noreferrer">GitHub</a> or ask on <a href="https://reddit.com/r/flow_official" target="_blank" rel="noopener noreferrer">r/Flow_Official</a>.</p>
             </>
         ),
     },
