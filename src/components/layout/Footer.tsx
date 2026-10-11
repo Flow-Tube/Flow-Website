@@ -34,9 +34,9 @@ const columns: { title: string; links: FooterLink[] }[] = [
         title: 'Get Help',
         links: [
             { label: 'r/Flow_Official', href: 'https://reddit.com/r/flow_official', external: true },
-            { label: 'Report an Issue', href: 'https://github.com/A-EDev/Flow/issues', external: true },
-            { label: 'Verify Your APK', href: 'https://github.com/A-EDev/Flow#cert', external: true },
-            { label: 'Security', href: 'https://github.com/A-EDev/Flow/security/policy', external: true },
+            { label: 'Report an Issue', href: 'https://github.com/Flow-Tube/Flow/issues', external: true },
+            { label: 'Verify Your APK', href: 'https://github.com/Flow-Tube/Flow#cert', external: true },
+            { label: 'Security', href: 'https://github.com/Flow-Tube/Flow/security/policy', external: true },
         ],
     },
 ]
@@ -66,7 +66,7 @@ function PatreonIcon({ className }: { className?: string }) {
 }
 
 const socials = [
-    { label: 'GitHub', href: 'https://github.com/A-EDev/Flow', icon: Github },
+    { label: 'GitHub', href: 'https://github.com/Flow-Tube/Flow', icon: Github },
     { label: 'Reddit', href: 'https://reddit.com/r/flow_official', icon: RedditIcon },
     { label: 'Patreon', href: 'https://patreon.com/A_EDev', icon: PatreonIcon },
     { label: 'Translate on Weblate', href: 'https://hosted.weblate.org/engage/flow/', icon: Languages },
@@ -191,7 +191,7 @@ export function Footer() {
                             </a>
                             and
                             <a
-                                href="https://github.com/A-EDev/Flow/graphs/contributors"
+                                href="https://github.com/Flow-Tube/Flow/graphs/contributors"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="underline decoration-[1.5px] underline-offset-4 decoration-text-muted hover:decoration-text-primary"

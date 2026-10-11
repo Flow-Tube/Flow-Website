@@ -34,7 +34,7 @@ const groups: { label: string; questions: Question[] }[] = [
             {
                 id: 'faq-install',
                 question: 'How do I install it?',
-                answer: <>The <Page to="/download">Download page</Page> picks the right file for your device. You can also add Flow to <Ext href="https://apt.izzysoft.de/packages/io.github.aedev.flow">IzzyOnDroid</Ext> or <Ext href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/A-EDev/Flow/">Obtainium</Ext> for automatic updates. No store account needed. Flow runs on Android 8.0 and newer, and you can <Ext href="https://github.com/A-EDev/Flow#cert">verify the APK</Ext> before installing.</>,
+                answer: <>The <Page to="/download">Download page</Page> picks the right file for your device. You can also add Flow to <Ext href="https://apt.izzysoft.de/packages/io.github.aedev.flow">IzzyOnDroid</Ext> or <Ext href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/Flow-Tube/Flow/">Obtainium</Ext> for automatic updates. No store account needed. Flow runs on Android 8.0 and newer, and you can <Ext href="https://github.com/Flow-Tube/Flow#cert">verify the APK</Ext> before installing.</>,
             },
             {
                 id: 'faq-updates',
@@ -94,7 +94,7 @@ const groups: { label: string; questions: Question[] }[] = [
             {
                 id: 'faq-help',
                 question: 'How can I help?',
-                answer: <>Report bugs, suggest features, <Ext href="https://hosted.weblate.org/engage/flow/">translate Flow</Ext> or send code on <Ext href="https://github.com/A-EDev/Flow">GitHub</Ext>. If code isn't your thing, starring the repo and telling a friend helps more than you'd think.</>,
+                answer: <>Report bugs, suggest features, <Ext href="https://hosted.weblate.org/engage/flow/">translate Flow</Ext> or send code on <Ext href="https://github.com/Flow-Tube/Flow">GitHub</Ext>. If code isn't your thing, starring the repo and telling a friend helps more than you'd think.</>,
             },
         ],
     },
@@ -141,7 +141,7 @@ export function FAQ() {
                                 Didn't find yours? Ask on{' '}
                                 <Ext href="https://reddit.com/r/flow_official">r/Flow_Official</Ext>
                                 {' '}or{' '}
-                                <Ext href="https://github.com/A-EDev/Flow/issues">open an issue</Ext>.
+                                <Ext href="https://github.com/Flow-Tube/Flow/issues">open an issue</Ext>.
                             </p>
                         </div>
                     </FadeIn>

@@ -37,7 +37,7 @@ export function FinalCTA() {
                             </Button>
 
                             <Button
-                                href="https://github.com/A-EDev/Flow"
+                                href="https://github.com/Flow-Tube/Flow"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 variant="outline"

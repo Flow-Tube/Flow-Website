@@ -3,7 +3,7 @@ set -euo pipefail
 
 OUT="${1:-public/changelogs.json}"
 SOURCES='[
-  {"platform": "android", "repo": "A-EDev/Flow", "path": "app/src/main/assets/changelog"},
+  {"platform": "android", "repo": "Flow-Tube/Flow", "path": "app/src/main/assets/changelog"},
   {"platform": "desktop", "repo": "Flow-Tube/Flow-Desktop", "path": "changelog"}
 ]'
 

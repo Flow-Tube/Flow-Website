@@ -22,14 +22,14 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          STARS=$(gh api repos/A-EDev/Flow --jq .stargazers_count)
-          FORKS=$(gh api repos/A-EDev/Flow --jq .forks_count)
-          ISSUES=$(gh api repos/A-EDev/Flow --jq .open_issues_count)
-          WATCHERS=$(gh api repos/A-EDev/Flow --jq .subscribers_count)
+          STARS=$(gh api repos/Flow-Tube/Flow --jq .stargazers_count)
+          FORKS=$(gh api repos/Flow-Tube/Flow --jq .forks_count)
+          ISSUES=$(gh api repos/Flow-Tube/Flow --jq .open_issues_count)
+          WATCHERS=$(gh api repos/Flow-Tube/Flow --jq .subscribers_count)
           CONTRIBUTORS=$(jq '.contributors | length' public/contributors.json)
           
           # Count downloads from releases
-          DOWNLOADS=$(gh api repos/A-EDev/Flow/releases --paginate --jq '.[].assets[].download_count' | awk '{s+=$1} END {print s}')
+          DOWNLOADS=$(gh api repos/Flow-Tube/Flow/releases --paginate --jq '.[].assets[].download_count' | awk '{s+=$1} END {print s}')
           DOWNLOADS=${DOWNLOADS:-0}
           
           # Create JSON content

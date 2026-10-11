@@ -273,7 +273,7 @@ export function About() {
                             </div>
                             <div className="flex flex-wrap gap-3">
                                 <Button
-                                    href="https://github.com/A-EDev/Flow/issues"
+                                    href="https://github.com/Flow-Tube/Flow/issues"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     variant="primary"

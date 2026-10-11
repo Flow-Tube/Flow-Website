@@ -6,47 +6,47 @@
         "flavor": "github",
         "name": "flow-arm64-v8a.apk",
         "size": 17613193,
-        "url": "https://github.com/A-EDev/Flow/releases/download/v2.2.1/flow-arm64-v8a.apk"
+        "url": "https://github.com/Flow-Tube/Flow/releases/download/v2.2.1/flow-arm64-v8a.apk"
       },
       {
         "abi": "armeabi-v7a",
         "flavor": "github",
         "name": "flow-armeabi-v7a.apk",
         "size": 16595959,
-        "url": "https://github.com/A-EDev/Flow/releases/download/v2.2.1/flow-armeabi-v7a.apk"
+        "url": "https://github.com/Flow-Tube/Flow/releases/download/v2.2.1/flow-armeabi-v7a.apk"
       },
       {
         "abi": "arm64-v8a",
         "flavor": "foss",
         "name": "flow-foss-arm64-v8a.apk",
         "size": 17021803,
-        "url": "https://github.com/A-EDev/Flow/releases/download/v2.2.1/flow-foss-arm64-v8a.apk"
+        "url": "https://github.com/Flow-Tube/Flow/releases/download/v2.2.1/flow-foss-arm64-v8a.apk"
       },
       {
         "abi": "armeabi-v7a",
         "flavor": "foss",
         "name": "flow-foss-armeabi-v7a.apk",
         "size": 16004569,
-        "url": "https://github.com/A-EDev/Flow/releases/download/v2.2.1/flow-foss-armeabi-v7a.apk"
+        "url": "https://github.com/Flow-Tube/Flow/releases/download/v2.2.1/flow-foss-armeabi-v7a.apk"
       },
       {
         "abi": "universal",
         "flavor": "foss",
         "name": "flow-foss.apk",
         "size": 25182306,
-        "url": "https://github.com/A-EDev/Flow/releases/download/v2.2.1/flow-foss.apk"
+        "url": "https://github.com/Flow-Tube/Flow/releases/download/v2.2.1/flow-foss.apk"
       },
       {
         "abi": "universal",
         "flavor": "github",
         "name": "flow.apk",
         "size": 25773696,
-        "url": "https://github.com/A-EDev/Flow/releases/download/v2.2.1/flow.apk"
+        "url": "https://github.com/Flow-Tube/Flow/releases/download/v2.2.1/flow.apk"
       }
     ],
-    "checksums_url": "https://github.com/A-EDev/Flow/releases/download/v2.2.1/checksums.txt",
+    "checksums_url": "https://github.com/Flow-Tube/Flow/releases/download/v2.2.1/checksums.txt",
     "published": "2026-08-27T22:34:36Z",
-    "release_url": "https://github.com/A-EDev/Flow/releases/tag/v2.2.1",
+    "release_url": "https://github.com/Flow-Tube/Flow/releases/tag/v2.2.1",
     "tag": "v2.2.1",
     "version": "2.2.1"
   },
@@ -169,12 +169,12 @@
       "apk": {
         "name": "flow-nightly-1561.apk",
         "size": 28354422,
-        "url": "https://github.com/A-EDev/Flow/releases/download/nightly/flow-nightly-1561.apk"
+        "url": "https://github.com/Flow-Tube/Flow/releases/download/nightly/flow-nightly-1561.apk"
       },
-      "checksums_url": "https://github.com/A-EDev/Flow/releases/download/nightly/checksums.txt",
+      "checksums_url": "https://github.com/Flow-Tube/Flow/releases/download/nightly/checksums.txt",
       "commit": "5c0f6dd",
       "created": "2026-10-11T07:25:07Z",
-      "release_url": "https://github.com/A-EDev/Flow/releases/tag/nightly",
+      "release_url": "https://github.com/Flow-Tube/Flow/releases/tag/nightly",
       "run": 1561
     },
     "desktop": {

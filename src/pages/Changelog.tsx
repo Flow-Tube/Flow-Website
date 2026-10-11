@@ -31,7 +31,7 @@ interface Release {
 }
 
 const REPOS: Record<Platform, string> = {
-    android: 'A-EDev/Flow',
+    android: 'Flow-Tube/Flow',
     desktop: 'Flow-Tube/Flow-Desktop',
     extension: 'Flow-Tube/Flow-Extension',
 }
