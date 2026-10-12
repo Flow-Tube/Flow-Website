@@ -2,7 +2,7 @@
   "owner": {
     "avatar_url": "https://avatars.githubusercontent.com/u/98699388?v=4",
     "bio": "AE | Developer. Just a dude building cool things on the internet.",
-    "followers": 228,
+    "followers": 229,
     "html_url": "https://github.com/A-EDev",
     "login": "A-EDev",
     "name": "AE",
@@ -126,22 +126,22 @@
       ]
     },
     {
+      "login": "AmyJeanes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2363642?v=4",
+      "html_url": "https://github.com/AmyJeanes",
+      "contributions": 13,
+      "repos": [
+        "android",
+        "desktop"
+      ]
+    },
+    {
       "login": "arifpedia",
       "avatar_url": "https://avatars.githubusercontent.com/u/4081293?v=4",
       "html_url": "https://github.com/arifpedia",
       "contributions": 13,
       "repos": [
         "android"
-      ]
-    },
-    {
-      "login": "AmyJeanes",
-      "avatar_url": "https://avatars.githubusercontent.com/u/2363642?v=4",
-      "html_url": "https://github.com/AmyJeanes",
-      "contributions": 12,
-      "repos": [
-        "android",
-        "desktop"
       ]
     },
     {
@@ -163,18 +163,18 @@
       ]
     },
     {
-      "login": "saran2020",
-      "avatar_url": "https://avatars.githubusercontent.com/u/17165156?v=4",
-      "html_url": "https://github.com/saran2020",
-      "contributions": 8,
+      "login": "Sup-25498",
+      "avatar_url": "https://avatars.githubusercontent.com/u/298766255?v=4",
+      "html_url": "https://github.com/Sup-25498",
+      "contributions": 9,
       "repos": [
         "android"
       ]
     },
     {
-      "login": "Sup-25498",
-      "avatar_url": "https://avatars.githubusercontent.com/u/298766255?v=4",
-      "html_url": "https://github.com/Sup-25498",
+      "login": "saran2020",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17165156?v=4",
+      "html_url": "https://github.com/saran2020",
       "contributions": 8,
       "repos": [
         "android"
