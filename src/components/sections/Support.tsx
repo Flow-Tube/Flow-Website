@@ -13,10 +13,10 @@ const cryptoAddresses = [
 ]
 
 const timeLinks = [
-    { title: 'Report a bug', description: 'Opens the bug report form on GitHub.', href: 'https://github.com/A-EDev/Flow/issues/new?template=bug_report.yml' },
-    { title: 'Suggest a feature', description: 'Opens the feature request form.', href: 'https://github.com/A-EDev/Flow/issues/new?template=feature_request.yml' },
+    { title: 'Report a bug', description: 'Opens the bug report form on GitHub.', href: 'https://github.com/Flow-Tube/Flow/issues/new?template=bug_report.yml' },
+    { title: 'Suggest a feature', description: 'Opens the feature request form.', href: 'https://github.com/Flow-Tube/Flow/issues/new?template=feature_request.yml' },
     { title: 'Translate Flow', description: 'Help Flow speak your language on Weblate.', href: 'https://hosted.weblate.org/engage/flow/' },
-    { title: 'Contribute code', description: 'Read the contributing guide and send a pull request.', href: 'https://github.com/A-EDev/Flow/blob/main/CONTRIBUTING.md' },
+    { title: 'Contribute code', description: 'Read the contributing guide and send a pull request.', href: 'https://github.com/Flow-Tube/Flow/blob/main/CONTRIBUTING.md' },
 ]
 
 function useCommunityCounts() {

@@ -29,7 +29,7 @@ const sections: LegalSection[] = [
         id: 'source-code',
         title: 'Flow\'s source code',
         content: (
-            <p>Flow's code is public on <a href="https://github.com/A-EDev/Flow" target="_blank" rel="noopener noreferrer">GitHub</a> under GPL-3.0. If you believe any part of it infringes your rights, open an issue there and we'll look into it.</p>
+            <p>Flow's code is public on <a href="https://github.com/Flow-Tube/Flow" target="_blank" rel="noopener noreferrer">GitHub</a> under GPL-3.0. If you believe any part of it infringes your rights, open an issue there and we'll look into it.</p>
         ),
     },
     {
@@ -43,7 +43,7 @@ const sections: LegalSection[] = [
         id: 'contact',
         title: 'Contact',
         content: (
-            <p>Open an issue on <a href="https://github.com/A-EDev/Flow/issues" target="_blank" rel="noopener noreferrer">GitHub</a>, or post on <a href="https://reddit.com/r/flow_official" target="_blank" rel="noopener noreferrer">r/Flow_Official</a>. For anything you'd rather not post publicly, <a href="https://www.reddit.com/message/compose?to=/r/flow_official" target="_blank" rel="noopener noreferrer">message the subreddit's moderators</a>.</p>
+            <p>Open an issue on <a href="https://github.com/Flow-Tube/Flow/issues" target="_blank" rel="noopener noreferrer">GitHub</a>, or post on <a href="https://reddit.com/r/flow_official" target="_blank" rel="noopener noreferrer">r/Flow_Official</a>. For anything you'd rather not post publicly, <a href="https://www.reddit.com/message/compose?to=/r/flow_official" target="_blank" rel="noopener noreferrer">message the subreddit's moderators</a>.</p>
         ),
     },
 ]

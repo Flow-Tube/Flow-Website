@@ -2,7 +2,7 @@
 set -euo pipefail
 
 OUT="${1:-public/downloads.json}"
-ANDROID_REPO="A-EDev/Flow"
+ANDROID_REPO="Flow-Tube/Flow"
 DESKTOP_REPO="Flow-Tube/Flow-Desktop"
 IZZY_PACKAGE="io.github.aedev.flow"
 EXTENSION_REPO="Flow-Tube/Flow-Extension"
