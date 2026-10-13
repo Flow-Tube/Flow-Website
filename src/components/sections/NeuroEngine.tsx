@@ -57,7 +57,7 @@ export function NeuroEngine() {
                         <figure className="w-[min(72vw,300px)]">
                             <div className="rounded-[36px] bg-[#1a1716] p-[7px] border border-border-subtle shadow-[0_30px_60px_-30px_rgba(0,0,0,0.45)]">
                                 <img
-                                    src="/screenshots/YourTaste.jpg"
+                                    src="/screenshots/YourTaste.webp"
                                     alt="The Your taste screen in Flow: The Explorer persona, profile maturity, and the taste shape chart comparing the whole profile with right now"
                                     width={575}
                                     height={1237}

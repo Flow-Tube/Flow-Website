@@ -3,7 +3,7 @@ import { FadeIn } from '@/components/ui/TextReveal'
 const mobileScreens = [
     { src: '/screenshots/Shorts.webp', label: 'Shorts' },
     { src: '/screenshots/Music.webp', label: 'Music' },
-    { src: '/screenshots/YourTaste.jpg', label: 'Your Taste' },
+    { src: '/screenshots/YourTaste.webp', label: 'Your Taste' },
     { src: '/screenshots/Library.webp', label: 'Library' },
     { src: '/screenshots/Playlist.webp', label: 'Playlist' },
     { src: '/screenshots/Artist.webp', label: 'Artist' },
@@ -13,6 +13,7 @@ const mobileScreens = [
     { src: '/screenshots/Home.webp', label: 'Home Feed' },
     { src: '/screenshots/VideoPlayer.webp', label: 'Video Player' },
     { src: '/screenshots/MusicPlayer.webp', label: 'Music Player' },
+    { src: '/screenshots/Lyrics.webp', label: 'Lyrics' },
 ]
 
 const desktopScreens = [
