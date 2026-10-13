@@ -2,11 +2,11 @@
   "owner": {
     "avatar_url": "https://avatars.githubusercontent.com/u/98699388?v=4",
     "bio": "AE | Developer. Just a dude building cool things on the internet.",
-    "followers": 228,
+    "followers": 229,
     "html_url": "https://github.com/A-EDev",
     "login": "A-EDev",
     "name": "AE",
-    "public_repos": 13
+    "public_repos": 12
   },
   "repos": [
     {
@@ -102,7 +102,7 @@
       "login": "restlessSangoLeelo",
       "avatar_url": "https://avatars.githubusercontent.com/u/264833262?v=4",
       "html_url": "https://github.com/restlessSangoLeelo",
-      "contributions": 29,
+      "contributions": 30,
       "repos": [
         "android"
       ]
@@ -114,6 +114,16 @@
       "contributions": 19,
       "repos": [
         "android"
+      ]
+    },
+    {
+      "login": "AmyJeanes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2363642?v=4",
+      "html_url": "https://github.com/AmyJeanes",
+      "contributions": 14,
+      "repos": [
+        "android",
+        "desktop"
       ]
     },
     {
@@ -135,16 +145,6 @@
       ]
     },
     {
-      "login": "AmyJeanes",
-      "avatar_url": "https://avatars.githubusercontent.com/u/2363642?v=4",
-      "html_url": "https://github.com/AmyJeanes",
-      "contributions": 12,
-      "repos": [
-        "android",
-        "desktop"
-      ]
-    },
-    {
       "login": "whistlingwoods",
       "avatar_url": "https://avatars.githubusercontent.com/u/72640314?v=4",
       "html_url": "https://github.com/whistlingwoods",
@@ -163,18 +163,18 @@
       ]
     },
     {
-      "login": "saran2020",
-      "avatar_url": "https://avatars.githubusercontent.com/u/17165156?v=4",
-      "html_url": "https://github.com/saran2020",
-      "contributions": 8,
+      "login": "Sup-25498",
+      "avatar_url": "https://avatars.githubusercontent.com/u/298766255?v=4",
+      "html_url": "https://github.com/Sup-25498",
+      "contributions": 9,
       "repos": [
         "android"
       ]
     },
     {
-      "login": "Sup-25498",
-      "avatar_url": "https://avatars.githubusercontent.com/u/298766255?v=4",
-      "html_url": "https://github.com/Sup-25498",
+      "login": "saran2020",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17165156?v=4",
+      "html_url": "https://github.com/saran2020",
       "contributions": 8,
       "repos": [
         "android"
@@ -221,6 +221,15 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/197527666?v=4",
       "html_url": "https://github.com/Dyxux",
       "contributions": 5,
+      "repos": [
+        "android"
+      ]
+    },
+    {
+      "login": "DiegoLpVn",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32961620?v=4",
+      "html_url": "https://github.com/DiegoLpVn",
+      "contributions": 4,
       "repos": [
         "android"
       ]
@@ -274,15 +283,6 @@
       "login": "CunaOcalCat",
       "avatar_url": "https://avatars.githubusercontent.com/u/100499455?v=4",
       "html_url": "https://github.com/CunaOcalCat",
-      "contributions": 3,
-      "repos": [
-        "android"
-      ]
-    },
-    {
-      "login": "DiegoLpVn",
-      "avatar_url": "https://avatars.githubusercontent.com/u/32961620?v=4",
-      "html_url": "https://github.com/DiegoLpVn",
       "contributions": 3,
       "repos": [
         "android"
