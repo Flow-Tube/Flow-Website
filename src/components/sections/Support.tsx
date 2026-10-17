@@ -4,6 +4,7 @@ import { ArrowRight, ArrowUpRight, Check, Copy } from 'lucide-react'
 import { Section } from '@/components/layout/Section'
 import { FadeIn } from '@/components/ui/TextReveal'
 import { Button } from '@/components/ui/Button'
+import { OPEN_COLLECTIVE_URL, OpenCollectiveIcon, PATREON_URL, PatreonIcon } from '@/components/ui/BrandIcons'
 import { cn } from '@/lib/utils'
 
 const cryptoAddresses = [
@@ -103,21 +104,37 @@ export function Support() {
                 <FadeIn delay={0.1} className="lg:col-span-7 flex flex-col gap-4">
                     <div className="rounded-2xl border-2 border-text-primary bg-bg-primary p-6 md:p-8">
                         <p className="kicker mb-3">Give money</p>
-                        <h3 className="text-2xl font-semibold tracking-[-0.02em] text-text-primary mb-2">Support on Patreon</h3>
+                        <h3 className="text-2xl font-semibold tracking-[-0.02em] text-text-primary mb-2">Donate on Open Collective</h3>
                         <p className="text-text-secondary leading-relaxed">
-                            Monthly from $3, or a one-time tip in the shop. Card, Apple Pay or PayPal.
+                            Give once or every month. Every donation and expense is public, so you can see where the money goes.
                         </p>
-                        <Button
-                            href="https://patreon.com/A_EDev"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            variant="primary"
-                            size="md"
-                            className="mt-5"
-                            icon={<ArrowUpRight className="w-4 h-4" />}
-                        >
-                            Support on Patreon
-                        </Button>
+                        <div className="mt-5 flex flex-wrap items-center gap-3">
+                            <Button
+                                href={OPEN_COLLECTIVE_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                variant="primary"
+                                size="md"
+                                icon={<OpenCollectiveIcon className="w-4 h-4" />}
+                                iconPosition="left"
+                            >
+                                Donate on Open Collective
+                            </Button>
+                            <Button
+                                href={PATREON_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                variant="outline"
+                                size="md"
+                                icon={<PatreonIcon className="w-4 h-4" />}
+                                iconPosition="left"
+                            >
+                                Patreon
+                            </Button>
+                        </div>
+                        <p className="mt-3 text-sm text-text-secondary">
+                            On Patreon: monthly from $3, or a one-time tip in the shop.
+                        </p>
 
                         <div className="mt-7 pt-6 border-t border-border-subtle">
                             <p className="kicker mb-3">Or send crypto</p>

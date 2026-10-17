@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { Heart, ArrowUpRight, ArrowRight } from 'lucide-react'
+import { Heart, ArrowRight } from 'lucide-react'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { FadeIn } from '@/components/ui/TextReveal'
 import { Button } from '@/components/ui/Button'
+import { OPEN_COLLECTIVE_URL, OpenCollectiveIcon, PATREON_URL, PatreonIcon } from '@/components/ui/BrandIcons'
 import { cn } from '@/lib/utils'
 
 interface Patron {
@@ -203,7 +204,7 @@ export function Patrons() {
                     </div>
 
                     <FadeIn delay={0.1}>
-                        <div className="mt-8 rounded-2xl border-2 border-text-primary p-8 md:p-12 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
+                        <div className="mt-8 rounded-2xl border-2 border-text-primary p-8 md:p-12 flex flex-col gap-8">
                             <div>
                                 <p className="kicker mb-4">Join them</p>
                                 <h2 className="text-3xl md:text-4xl font-semibold tracking-[-0.03em] leading-tight text-text-primary mb-3">
@@ -211,22 +212,34 @@ export function Patrons() {
                                     <span className="whitespace-nowrap font-serif italic font-normal tracking-[-0.01em] text-text-muted">this page?</span>
                                 </h2>
                                 <p className="text-text-secondary max-w-xl leading-relaxed">
-                                    Recurring tiers start at $3/month and one-time store purchases count too.
-                                    Every bit keeps Flow ad-free, private, and moving.
+                                    Donate on Open Collective, where every donation and expense is public, or join a Patreon tier
+                                    from $3 a month to be listed here. Every bit keeps Flow ad-free, private, and moving.
                                 </p>
                             </div>
                             <div className="flex flex-wrap gap-3">
                                 <Button
-                                    href="https://patreon.com/A_EDev"
+                                    href={OPEN_COLLECTIVE_URL}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     variant="primary"
                                     size="md"
-                                    icon={<ArrowUpRight className="w-4 h-4" />}
+                                    icon={<OpenCollectiveIcon className="w-4 h-4" />}
+                                    iconPosition="left"
                                 >
-                                    Support on Patreon
+                                    Donate on Open Collective
                                 </Button>
-                                <Button to="/#support" variant="outline" size="md" icon={<ArrowRight className="w-4 h-4" />}>
+                                <Button
+                                    href={PATREON_URL}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    variant="outline"
+                                    size="md"
+                                    icon={<PatreonIcon className="w-4 h-4" />}
+                                    iconPosition="left"
+                                >
+                                    Join on Patreon
+                                </Button>
+                                <Button to="/#support" variant="ghost" size="md" icon={<ArrowRight className="w-4 h-4" />}>
                                     Other ways to help
                                 </Button>
                             </div>

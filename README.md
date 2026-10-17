@@ -6,7 +6,7 @@
   <h1>Flow — Website</h1>
   <p>Marketing site, changelog, and patron listing for <a href="https://github.com/Flow-Tube/Flow">Flow</a>, an open-source YouTube client.</p>
   <p>
-    <a href="https://flow.aedev.me">flow.aedev.me</a>
+    <a href="https://flow-tube.org">flow-tube.org</a>
     &nbsp;·&nbsp;
     <a href="https://github.com/Flow-Tube/Flow">Flow (Android)</a>
     &nbsp;·&nbsp;

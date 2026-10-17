@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://flow.aedev.me/sitemap.xml
+Sitemap: https://flow-tube.org/sitemap.xml

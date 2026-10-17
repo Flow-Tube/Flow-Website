@@ -3,6 +3,7 @@ import { ArrowRight, Github, Heart, Languages } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { useStats } from '@/lib/useStats'
 import { AFFILIATION_NOTICE } from '@/components/layout/LegalPage'
+import { OPEN_COLLECTIVE_URL, OpenCollectiveIcon, PATREON_URL, PatreonIcon } from '@/components/ui/BrandIcons'
 
 interface FooterLink {
     label: string
@@ -56,19 +57,11 @@ function RedditIcon({ className }: { className?: string }) {
     )
 }
 
-function PatreonIcon({ className }: { className?: string }) {
-    return (
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
-            <circle cx="15" cy="9.5" r="6.5" />
-            <rect x="2.5" y="3" width="3.5" height="18" rx="0.5" />
-        </svg>
-    )
-}
-
 const socials = [
     { label: 'GitHub', href: 'https://github.com/Flow-Tube/Flow', icon: Github },
     { label: 'Reddit', href: 'https://reddit.com/r/flow_official', icon: RedditIcon },
-    { label: 'Patreon', href: 'https://patreon.com/A_EDev', icon: PatreonIcon },
+    { label: 'Open Collective', href: OPEN_COLLECTIVE_URL, icon: OpenCollectiveIcon },
+    { label: 'Patreon', href: PATREON_URL, icon: PatreonIcon },
     { label: 'Translate on Weblate', href: 'https://hosted.weblate.org/engage/flow/', icon: Languages },
 ]
 
