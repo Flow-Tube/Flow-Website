@@ -139,9 +139,9 @@
     "version": "0.1.0-beta2"
   },
   "izzy": {
-    "version": "2.2.1",
-    "version_code": "18",
-    "apk_url": "https://apt.izzysoft.de/fdroid/repo/io.github.aedev.flow_18.apk",
+    "version": "3.0.0",
+    "version_code": "19",
+    "apk_url": "https://apt.izzysoft.de/fdroid/repo/io.github.aedev.flow_19.apk",
     "page_url": "https://apt.izzysoft.de/packages/io.github.aedev.flow"
   },
   "extension": {
@@ -167,15 +167,15 @@
   "nightly": {
     "android": {
       "apk": {
-        "name": "flow-nightly-1641.apk",
-        "size": 28995677,
-        "url": "https://github.com/Flow-Tube/Flow/releases/download/nightly/flow-nightly-1641.apk"
+        "name": "flow-nightly-1646.apk",
+        "size": 29003201,
+        "url": "https://github.com/Flow-Tube/Flow/releases/download/nightly/flow-nightly-1646.apk"
       },
       "checksums_url": "https://github.com/Flow-Tube/Flow/releases/download/nightly/checksums.txt",
-      "commit": "9b59272",
-      "created": "2026-10-17T23:00:00Z",
+      "commit": "f228da3",
+      "created": "2026-10-18T18:48:15Z",
       "release_url": "https://github.com/Flow-Tube/Flow/releases/tag/nightly",
-      "run": 1641
+      "run": 1646
     },
     "desktop": {
       "created": "2026-10-18T07:58:27Z",
