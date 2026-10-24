@@ -2,7 +2,7 @@
   "owner": {
     "avatar_url": "https://avatars.githubusercontent.com/u/98699388?v=4",
     "bio": "AE | Developer. Just a dude building cool things on the internet.",
-    "followers": 249,
+    "followers": 250,
     "html_url": "https://github.com/A-EDev",
     "login": "A-EDev",
     "name": "AE",
@@ -111,7 +111,7 @@
       "login": "Chiehx0220",
       "avatar_url": "https://avatars.githubusercontent.com/u/37178500?v=4",
       "html_url": "https://github.com/Chiehx0220",
-      "contributions": 25,
+      "contributions": 26,
       "repos": [
         "android"
       ]
@@ -136,19 +136,19 @@
       ]
     },
     {
-      "login": "arifpedia",
-      "avatar_url": "https://avatars.githubusercontent.com/u/4081293?v=4",
-      "html_url": "https://github.com/arifpedia",
-      "contributions": 13,
+      "login": "whistlingwoods",
+      "avatar_url": "https://avatars.githubusercontent.com/u/72640314?v=4",
+      "html_url": "https://github.com/whistlingwoods",
+      "contributions": 16,
       "repos": [
         "android"
       ]
     },
     {
-      "login": "whistlingwoods",
-      "avatar_url": "https://avatars.githubusercontent.com/u/72640314?v=4",
-      "html_url": "https://github.com/whistlingwoods",
-      "contributions": 12,
+      "login": "arifpedia",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4081293?v=4",
+      "html_url": "https://github.com/arifpedia",
+      "contributions": 13,
       "repos": [
         "android"
       ]
@@ -325,6 +325,15 @@
       ]
     },
     {
+      "login": "stardust248397",
+      "avatar_url": "https://avatars.githubusercontent.com/u/262563671?v=4",
+      "html_url": "https://github.com/stardust248397",
+      "contributions": 3,
+      "repos": [
+        "android"
+      ]
+    },
+    {
       "login": "TFQ0",
       "avatar_url": "https://avatars.githubusercontent.com/u/153442159?v=4",
       "html_url": "https://github.com/TFQ0",
@@ -475,15 +484,6 @@
       "contributions": 2,
       "repos": [
         "desktop"
-      ]
-    },
-    {
-      "login": "stardust248397",
-      "avatar_url": "https://avatars.githubusercontent.com/u/262563671?v=4",
-      "html_url": "https://github.com/stardust248397",
-      "contributions": 2,
-      "repos": [
-        "android"
       ]
     },
     {
