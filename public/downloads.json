@@ -233,11 +233,6 @@
           "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/41215108135/Flow-nightly-linux-x64-appimage-1082.zip"
         },
         {
-          "name": "flatpak-sources-1082",
-          "size": 133601,
-          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/41215108135/flatpak-sources-1082.zip"
-        },
-        {
           "name": "Flow-nightly-macos-x64-1082",
           "size": 19217971,
           "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/41215108135/Flow-nightly-macos-x64-1082.zip"
