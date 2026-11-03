@@ -167,15 +167,15 @@
   "nightly": {
     "android": {
       "apk": {
-        "name": "flow-nightly-1899.apk",
-        "size": 34645154,
-        "url": "https://github.com/Flow-Tube/Flow/releases/download/nightly/flow-nightly-1899.apk"
+        "name": "flow-nightly-1914.apk",
+        "size": 34668946,
+        "url": "https://github.com/Flow-Tube/Flow/releases/download/nightly/flow-nightly-1914.apk"
       },
       "checksums_url": "https://github.com/Flow-Tube/Flow/releases/download/nightly/checksums.txt",
-      "commit": "3130cf1",
-      "created": "2026-11-03T14:05:18Z",
+      "commit": "52d4b63",
+      "created": "2026-11-03T21:25:56Z",
       "release_url": "https://github.com/Flow-Tube/Flow/releases/tag/nightly",
-      "run": 1899
+      "run": 1914
     },
     "desktop": {
       "created": "2026-11-02T19:51:34Z",
@@ -231,11 +231,6 @@
           "name": "Flow-nightly-windows-x64-1174",
           "size": 13456865,
           "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/41513827548/Flow-nightly-windows-x64-1174.zip"
-        },
-        {
-          "name": "flatpak-sources-1174",
-          "size": 133803,
-          "url": "https://nightly.link/Flow-Tube/Flow-Desktop/actions/runs/41513827548/flatpak-sources-1174.zip"
         },
         {
           "name": "Flow-nightly-linux-arm64-appimage-1174",
