@@ -120,7 +120,7 @@
       "login": "AmyJeanes",
       "avatar_url": "https://avatars.githubusercontent.com/u/2363642?v=4",
       "html_url": "https://github.com/AmyJeanes",
-      "contributions": 23,
+      "contributions": 26,
       "repos": [
         "android",
         "desktop"
@@ -187,6 +187,15 @@
       "contributions": 8,
       "repos": [
         "android"
+      ]
+    },
+    {
+      "login": "Captain-Vikram",
+      "avatar_url": "https://avatars.githubusercontent.com/u/143620162?v=4",
+      "html_url": "https://github.com/Captain-Vikram",
+      "contributions": 7,
+      "repos": [
+        "desktop"
       ]
     },
     {
@@ -349,15 +358,6 @@
       "contributions": 3,
       "repos": [
         "android"
-      ]
-    },
-    {
-      "login": "Captain-Vikram",
-      "avatar_url": "https://avatars.githubusercontent.com/u/143620162?v=4",
-      "html_url": "https://github.com/Captain-Vikram",
-      "contributions": 2,
-      "repos": [
-        "desktop"
       ]
     },
     {
