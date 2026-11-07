@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { dataUrl } from '@/lib/data'
 
 export interface Stats {
     stars: number
@@ -7,11 +8,12 @@ export interface Stats {
 }
 
 let cache: Stats | null = null
+let failed = false
 let pending: Promise<Stats | null> | null = null
 
 function load(): Promise<Stats | null> {
     if (!pending) {
-        pending = fetch('/stats.json')
+        pending = fetch(dataUrl('stats.json'))
             .then(res => res.json())
             .then(data => {
                 cache = {
@@ -21,22 +23,29 @@ function load(): Promise<Stats | null> {
                 }
                 return cache
             })
-            .catch(() => null)
+            .catch(() => {
+                failed = true
+                return null
+            })
     }
     return pending
 }
 
-export function useStats() {
-    const [stats, setStats] = useState<Stats | null>(cache)
+export function useStatsState() {
+    const [state, setState] = useState({ stats: cache, failed })
 
     useEffect(() => {
-        if (cache) return
+        if (cache || failed) return
         let active = true
-        load().then(s => { if (active && s) setStats(s) })
+        load().then(stats => { if (active) setState({ stats, failed: !stats }) })
         return () => { active = false }
     }, [])
 
-    return stats
+    return state
+}
+
+export function useStats() {
+    return useStatsState().stats
 }
 
 export function formatCompact(n: number) {

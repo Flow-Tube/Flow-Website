@@ -6,6 +6,7 @@ import { FadeIn } from '@/components/ui/TextReveal'
 import { Button } from '@/components/ui/Button'
 import { OPEN_COLLECTIVE_URL, OpenCollectiveIcon, PATREON_URL, PatreonIcon } from '@/components/ui/BrandIcons'
 import { cn } from '@/lib/utils'
+import { dataUrl } from '@/lib/data'
 
 const cryptoAddresses = [
     { label: 'Bitcoin', address: 'bc1qgmkkxxvzvsymtpfazqfl93jw6k4jgy0xmrtnv8' },
@@ -33,7 +34,7 @@ function useCommunityCounts() {
                 if (active) setCounts(c => ({ ...c, supporters: names.size }))
             })
             .catch(() => { })
-        fetch('/contributors.json')
+        fetch(dataUrl('contributors.json'))
             .then(res => res.json())
             .then(data => {
                 if (active && Array.isArray(data?.contributors)) setCounts(c => ({ ...c, contributors: data.contributors.length }))

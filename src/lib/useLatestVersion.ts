@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { dataUrl } from '@/lib/data'
 
 let cache: string | null = null
 let pending: Promise<string | null> | null = null
@@ -20,7 +21,7 @@ function isPreRelease(entry: { content: string; status?: string }) {
 
 function load(): Promise<string | null> {
     if (!pending) {
-        pending = fetch('/changelogs.json')
+        pending = fetch(dataUrl('changelogs.json'))
             .then(res => res.json())
             .then((entries: { content: string; platform?: string; status?: string }[]) => {
                 const versions = entries

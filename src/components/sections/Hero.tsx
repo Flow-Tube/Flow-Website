@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Heart } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
-import { useStats, formatCompact } from '@/lib/useStats'
+import { useStatsState, formatCompact } from '@/lib/useStats'
 import { useLatestVersion } from '@/lib/useLatestVersion'
 
 const ease = [0.16, 1, 0.3, 1] as const
@@ -13,7 +13,7 @@ const heroScreens = [
 ]
 
 export function Hero() {
-    const stats = useStats()
+    const { stats, failed: statsFailed } = useStatsState()
     const latestVersion = useLatestVersion()
     const reduceMotion = useReducedMotion()
 
@@ -66,18 +66,20 @@ export function Hero() {
                     </Button>
                 </motion.div>
 
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.34, duration: 0.7, ease }}
-                    className="kicker mt-6 flex flex-wrap justify-center gap-x-5 gap-y-1"
-                >
-                    {proof.map(item => (
-                        <span key={item.label}>
-                            <span className="text-text-primary tabular-nums">{item.value}</span> {item.label}
-                        </span>
-                    ))}
-                </motion.p>
+                {!statsFailed && (
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.34, duration: 0.7, ease }}
+                        className="kicker mt-6 flex flex-wrap justify-center gap-x-5 gap-y-1"
+                    >
+                        {proof.map(item => (
+                            <span key={item.label}>
+                                <span className="text-text-primary tabular-nums">{item.value}</span> {item.label}
+                            </span>
+                        ))}
+                    </motion.p>
+                )}
             </div>
 
             <motion.div
