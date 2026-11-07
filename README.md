@@ -62,22 +62,27 @@ public/             Static assets, content JSON, sitemap, robots
 
 ## Content
 
-A few pages read their content from static JSON in `public/` instead of hardcoded
-markup, so routine updates don't require touching component code.
+Live data (stats, downloads, changelogs and contributors) is fetched in the browser from
+[`assets.flow-tube.org/data/v1/`](https://assets.flow-tube.org/data/v1/index.json), so it stays
+fresh without rebuilding the site. The feeds are built hourly in
+[Flow-Tube/Brand](https://github.com/Flow-Tube/Brand#data-feeds). Set `VITE_DATA_URL` to read them
+from somewhere else.
 
 | File | Used by | Purpose |
 | --- | --- | --- |
-| [`public/changelogs.json`](public/changelogs.json) | `/changelog` | Per-version release notes, one entry per platform build. |
-| [`public/patrons.json`](public/patrons.json) | `/patrons` | Supporters, grouped by tier. See the file's `_note` field for the exact format. |
-| [`public/stats.json`](public/stats.json) | Header | Star and download counts (see below). |
+| `changelogs.json` | `/changelog`, Hero | Per-version release notes, one entry per platform build. |
+| `contributors.json` | `/about`, Support | Project owner and contributors. |
+| `downloads.json` | `/download` | Latest releases, IzzyOnDroid and nightlies. |
+| `stats.json` | Hero, Header, Footer | Star, download and contributor counts. |
 
-## GitHub stats
+Patrons are the exception: [`public/patrons.json`](public/patrons.json) is edited by hand and
+powers `/patrons`. See the file's `_note` field for the exact format.
 
-Star and download counts are read from [`public/stats.json`](public/stats.json)
-rather than the GitHub API, so no requests are made from the browser. The file
-is refreshed hourly by the workflow in
-[`.github/workflows/update-stats.yml`](.github/workflows/update-stats.yml),
-which fetches the latest numbers and commits them back.
+## Hosting
+
+The site is hosted on [Cloudflare Pages](https://pages.cloudflare.com), which builds `main` with
+`npm run build` and serves `dist/`. Cache headers live in [`public/_headers`](public/_headers).
+Unknown paths fall back to `index.html`, so React Router handles them.
 
 ## Related repositories
 

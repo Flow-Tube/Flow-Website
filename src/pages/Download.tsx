@@ -7,6 +7,7 @@ import { FadeIn } from '@/components/ui/TextReveal'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 import { detectBrowser, detectDevice, type BrowserFamily, type Device } from '@/lib/detectDevice'
+import { dataUrl } from '@/lib/data'
 
 type Flavor = 'github' | 'foss'
 type Abi = 'universal' | 'arm64-v8a' | 'armeabi-v7a'
@@ -176,7 +177,7 @@ export function Download() {
     const [copied, setCopied] = useState<string | null>(null)
 
     useEffect(() => {
-        fetch('/downloads.json')
+        fetch(dataUrl('downloads.json'))
             .then(res => res.json())
             .then((json: Downloads) => setData(json))
             .catch(() => setFailed(true))

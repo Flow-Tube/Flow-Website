@@ -5,6 +5,7 @@ import { Footer } from '@/components/layout/Footer'
 import { FadeIn } from '@/components/ui/TextReveal'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
+import { dataUrl } from '@/lib/data'
 
 interface Owner {
     login: string
@@ -57,7 +58,7 @@ export function About() {
     const [filter, setFilter] = useState('all')
 
     useEffect(() => {
-        fetch('/contributors.json')
+        fetch(dataUrl('contributors.json'))
             .then(res => res.json())
             .then((json: ContributorsData) => {
                 if (json && Array.isArray(json.contributors)) setData(json)
@@ -175,7 +176,7 @@ export function About() {
                                 <div className="md:col-span-8 flex flex-col gap-6">
                                     <p className="text-text-secondary leading-relaxed max-w-xl">
                                         Code, translations and fixes from across the Android app, the desktop app and this website.
-                                        Every face below links to their GitHub profile.
+                                        {(!loaded || contributors.length > 0) && ' Every face below links to their GitHub profile.'}
                                     </p>
                                     {repos.length > 0 && (
                                         <div className="inline-flex flex-wrap self-start gap-1 rounded-xl border border-border-subtle p-1" role="group" aria-label="Filter by project">

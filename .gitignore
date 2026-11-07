@@ -24,7 +24,7 @@ dist-ssr
 *.sw?
 assets
 app.md
-maintenance-mode.json
+maintenance/
 doc.md
 sync-doc.md
 .claude/settings.local.json

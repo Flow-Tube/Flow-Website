@@ -4,6 +4,7 @@ import { ArrowUpRight, Search } from 'lucide-react'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { cn } from '@/lib/utils'
+import { dataUrl } from '@/lib/data'
 
 type Platform = 'android' | 'desktop' | 'extension'
 
@@ -245,7 +246,7 @@ export function ChangelogPage() {
     const [expanded, setExpanded] = useState<Set<string>>(new Set())
 
     useEffect(() => {
-        fetch('/changelogs.json')
+        fetch(dataUrl('changelogs.json'))
             .then(res => res.json())
             .then((data: RawEntry[]) => {
                 const parsed = (Array.isArray(data) ? data : [])
