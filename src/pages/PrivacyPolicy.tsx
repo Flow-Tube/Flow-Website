@@ -138,7 +138,8 @@ const sections: LegalSection[] = [
         title: 'This website',
         content: (
             <ul>
-                <li>It's hosted on <strong>Vercel</strong>, which keeps standard server logs, such as your IP address and the pages you request.</li>
+                <li>It's hosted on <strong>Cloudflare Pages</strong>, so Cloudflare handles your requests and sees your IP address and the pages you request.</li>
+                <li>Live numbers, download links, release notes and the contributor list load from <strong>assets.flow-tube.org</strong>, which is hosted on <strong>GitHub Pages</strong>, so GitHub sees your IP address when these pages load them.</li>
                 <li>Its fonts are served from this site. Nothing loads from Google.</li>
                 <li>The <Link to="/about">About</Link> page loads contributor pictures from <strong>GitHub</strong>, so GitHub sees your IP address when you open it.</li>
                 <li>Your light or dark mode choice is saved in your browser. There are no cookies, analytics or trackers.</li>
@@ -163,7 +164,7 @@ export function PrivacyPolicy() {
             kicker="Privacy Policy"
             title="Your data"
             accent="stays yours."
-            updated="30 September 2026"
+            updated="7 November 2026"
             intro={<p>Flow has no accounts, no servers of its own and no analytics. What you do in the app stays on your phone. To show you videos and music, the app talks directly to YouTube and a few other services, listed below with exactly what each one receives.</p>}
             sections={sections}
         />
